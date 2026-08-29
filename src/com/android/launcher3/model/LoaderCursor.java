@@ -196,6 +196,10 @@ public class LoaderCursor extends CursorWrapper {
         return result;
     }
 
+    public String getRawIntent() {
+        return getString(mIntentIndex);
+    }
+
     public Intent parseIntent() {
         String intentDescription = getString(mIntentIndex);
         try {
@@ -574,7 +578,8 @@ public class LoaderCursor extends CursorWrapper {
             loadedItems.put(info.id, info);
             if ((info.itemType == ITEM_TYPE_APP_PAIR
                     || info.itemType == ITEM_TYPE_DEEP_SHORTCUT
-                    || info.itemType == ITEM_TYPE_APPLICATION)
+                    || info.itemType == ITEM_TYPE_APPLICATION
+                    || info.itemType == Favorites.ITEM_TYPE_FOLDER)
                     && info.container != CONTAINER_DESKTOP
                     && info.container != CONTAINER_HOTSEAT) {
                 findOrMakeFolder(info.container, loadedItems).add(info);

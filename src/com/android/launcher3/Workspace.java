@@ -2276,6 +2276,7 @@ public class Workspace<T extends View & PageIndicator> extends PagedView<T>
         }
 
         boolean aboveShortcut = Folder.willAccept(dropOverView.getTag())
+                && !(dropOverView instanceof FolderIcon)
                 && ((ItemInfo) dropOverView.getTag()).container != CONTAINER_HOTSEAT_PREDICTION;
         boolean willBecomeShortcut = FolderInfo.willAcceptItemType(info.itemType);
 
@@ -2324,7 +2325,7 @@ public class Workspace<T extends View & PageIndicator> extends PagedView<T>
         mCreateUserFolderOnDrop = false;
         final int screenId = getCellLayoutId(target);
 
-        boolean aboveShortcut = Folder.willAccept(v.getTag());
+        boolean aboveShortcut = Folder.willAccept(v.getTag()) && !(v instanceof FolderIcon);
         boolean willBecomeShortcut = Folder.willAccept(newView.getTag());
 
         if (aboveShortcut && willBecomeShortcut) {
@@ -3287,6 +3288,70 @@ public class Workspace<T extends View & PageIndicator> extends PagedView<T>
         } else {
             // This is for other drag/drop cases, like dragging from All Apps
             mLauncher.getStateManager().goToState(NORMAL, SPRING_LOADED_EXIT_DELAY);
+
+            if (info instanceof com.neoapps.neolauncher.groups.category.DrawerFolderInfo dfi) {
+                com.android.launcher3.model.data.FolderInfo desktopFolder = new com.android.launcher3.model.data.FolderInfo();
+                desktopFolder.setTitle(dfi.title, mLauncher.getModelWriter());
+                desktopFolder.options = dfi.options;
+                desktopFolder.coverComponentUri = dfi.coverComponentUri;
+                desktopFolder.linkedDrawerFolderId = String.valueOf(dfi.getDrawerFolder().getId().value());
+
+                if (touchXY != null) {
+                    mTargetCell = cellLayout.performReorder((int) mDragViewVisualCenter[0],
+                            (int) mDragViewVisualCenter[1], 1, 1, 1, 1,
+                            null, mTargetCell, null, CellLayout.MODE_ON_DROP_EXTERNAL);
+                } else {
+                    cellLayout.findCellForSpan(mTargetCell, 1, 1);
+                }
+
+                mLauncher.getModelWriter().addItemToDatabase(desktopFolder, container, screenId,
+                        mTargetCell[0], mTargetCell[1]);
+
+                for (ItemInfo child : dfi.getContents()) {
+                    if (child instanceof WorkspaceItemInfo wii) {
+                        WorkspaceItemInfo childCopy = wii.clone();
+                        childCopy.container = desktopFolder.id;
+                        desktopFolder.add(childCopy);
+                        mLauncher.getModelWriter().addItemToDatabase(childCopy, desktopFolder.id, 0, childCopy.cellX, childCopy.cellY);
+                    }
+                }
+
+                if (desktopFolder.getContents().isEmpty() && dfi.getDrawerFolder() instanceof com.neoapps.neolauncher.groups.category.DrawerFolders.CustomFolder cf) {
+                    java.util.Set<com.android.launcher3.util.ComponentKey> keys = cf.getContents().getValue();
+                    if (keys != null) {
+                        com.android.launcher3.allapps.AllAppsStore appsStore = mLauncher.getAppsView() != null ? mLauncher.getAppsView().getAppsStore() : null;
+                        for (com.android.launcher3.util.ComponentKey compKey : keys) {
+                            com.android.launcher3.model.data.AppInfo appInfo = appsStore != null ? appsStore.getApp(compKey) : null;
+                            if (appInfo != null) {
+                                WorkspaceItemInfo wii = appInfo.makeWorkspaceItem(mLauncher);
+                                wii.container = desktopFolder.id;
+                                desktopFolder.add(wii);
+                                mLauncher.getModelWriter().addItemToDatabase(wii, desktopFolder.id, 0, wii.cellX, wii.cellY);
+                            }
+                        }
+                    }
+                }
+
+                com.neoapps.neolauncher.folder.FolderSortUtil.sortFolder(desktopFolder, mLauncher, mLauncher.getModelWriter());
+                desktopFolder.onIconChanged();
+
+                View folderView = mLauncher.getItemInflater().inflateItem(desktopFolder, cellLayout, container);
+                if (folderView instanceof com.android.launcher3.folder.FolderIcon fi) {
+                    fi.onItemsChanged(false);
+                }
+                addInScreen(folderView, container, screenId, mTargetCell[0], mTargetCell[1],
+                        desktopFolder.spanX, desktopFolder.spanY);
+                cellLayout.onDropChild(folderView);
+                cellLayout.getShortcutsAndWidgets().measureChild(folderView);
+
+                if (d.dragView != null) {
+                    setFinalTransitionTransform();
+                    mLauncher.getDragLayer().animateViewIntoPosition(d.dragView, folderView, this);
+                    resetTransitionTransform();
+                }
+                return;
+            }
+
             // TODO(b/414409465) We could just create a new info making a copy with all the new
             //  needed values instead of choosing on each case what to modify.
             View view = mLauncher.getItemInflater().inflateItem(info, cellLayout, container);

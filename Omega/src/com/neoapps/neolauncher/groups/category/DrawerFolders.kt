@@ -19,6 +19,7 @@
 package com.neoapps.neolauncher.groups.category
 
 import android.content.Context
+import com.android.launcher3.Launcher
 import com.android.launcher3.R
 import com.android.launcher3.allapps.AlphabeticalAppsList
 import com.android.launcher3.model.ModelWriter
@@ -41,7 +42,23 @@ class DrawerFolders(val manager: AppGroupsManager) :
     }
 
     override fun onGroupsChanged(changeCallback: PreferencesChangeCallback) {
+        loadGroups()
         changeCallback.reloadGrid()
+        try {
+            val groups = getGroups(isFolder = true)
+            for (group in groups) {
+                if (group is CustomFolder) {
+                    com.neoapps.neolauncher.groups.DrawerFolderSyncUtil.syncDrawerFolderToWorkspace(
+                        context = context,
+                        folderId = group.id.value(),
+                        newTitle = group.title,
+                        newComponentKeys = group.contents.value ?: emptySet()
+                    )
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     override fun getGroupCreator(type: String): GroupCreator<Folder> {
@@ -138,9 +155,34 @@ class DrawerFolders(val manager: AppGroupsManager) :
             modelWriter: ModelWriter,
         ) = super
             .toFolderInfo(getAppInfo, modelWriter).apply {
-                this@CustomFolder.contents.value?.mapNotNullTo(getContents()) { key ->
-                    getAppInfo(key)?.makeWorkspaceItem(context)
-                }?.sortWith(comparator)
+                val launcher = Launcher.ACTIVITY_TRACKER.getCreatedContext<Launcher>() ?: (context as? Launcher)
+                val appStore = launcher?.appsView?.appsStore
+                this@CustomFolder.contents.value?.forEach { key ->
+                    val appInfo = getAppInfo(key)
+                        ?: appStore?.getApp(key)
+                        ?: appStore?.apps?.firstOrNull { it.toComponentKey() == key }
+                    val wii: com.android.launcher3.model.data.WorkspaceItemInfo
+                    if (appInfo != null) {
+                        wii = appInfo.makeWorkspaceItem(context)
+                    } else {
+                        val intent = android.content.Intent(android.content.Intent.ACTION_MAIN)
+                            .addCategory(android.content.Intent.CATEGORY_LAUNCHER)
+                            .setComponent(key.componentName)
+                            .setFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK or android.content.Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
+                        wii = com.android.launcher3.model.data.WorkspaceItemInfo()
+                        wii.intent = intent
+                        wii.user = key.user
+                        wii.itemType = com.android.launcher3.LauncherSettings.Favorites.ITEM_TYPE_APPLICATION
+                        val pm = context.packageManager
+                        val activityInfo = pm.resolveActivity(intent, 0)?.activityInfo
+                        if (activityInfo != null) {
+                            wii.title = activityInfo.loadLabel(pm)
+                        }
+                    }
+                    wii.container = id
+                    contents.add(wii)
+                }
+                contents.sortWith(comparator)
             }
     }
 

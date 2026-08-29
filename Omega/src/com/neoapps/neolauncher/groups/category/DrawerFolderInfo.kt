@@ -28,15 +28,19 @@ import com.neoapps.neolauncher.groups.ui.EditGroupBottomSheet
 import com.neoapps.neolauncher.preferences.NeoPrefs
 import com.neoapps.neolauncher.util.prefs
 
-class DrawerFolderInfo(private val drawerFolder: DrawerFolders.Folder) : FolderInfo() {
+class DrawerFolderInfo(val drawerFolder: DrawerFolders.Folder) : FolderInfo() {
 
     private var changed = false
     lateinit var appsStore: AllAppsStore
 
+    init {
+        id = drawerFolder.id.value().toInt()
+        linkedDrawerFolderId = drawerFolder.id.value().toString()
+    }
+
     override fun setTitle(title: CharSequence?, modelWriter: ModelWriter?) {
         super.setTitle(title, modelWriter)
-        changed = true
-        drawerFolder.title = title.toString()
+        drawerFolder.title = title?.toString() ?: ""
     }
 
     override fun onIconChanged() {
@@ -46,10 +50,31 @@ class DrawerFolderInfo(private val drawerFolder: DrawerFolders.Folder) : FolderI
         }
     }
 
+    fun syncToDrawerFolderAndWorkspace() {
+        try {
+            val newKeys = contents.filterIsInstance<com.android.launcher3.model.data.WorkspaceItemInfo>().mapNotNull { item ->
+                item.targetComponent?.let { com.android.launcher3.util.ComponentKey(it, item.user) }
+                    ?: item.intent?.component?.let { com.android.launcher3.util.ComponentKey(it, item.user) }
+            }.toMutableSet()
+            if (newKeys.isNotEmpty() || changed) {
+                (drawerFolder as? DrawerFolders.CustomFolder)?.contents?.value = newKeys
+                drawerFolder.context.prefs.drawerFolders.saveToJson()
+                com.neoapps.neolauncher.groups.DrawerFolderSyncUtil.syncDrawerFolderToWorkspace(
+                    context = drawerFolder.context,
+                    folderId = drawerFolder.id.value(),
+                    newTitle = drawerFolder.title,
+                    newComponentKeys = newKeys
+                )
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
     fun onCloseComplete() {
         if (changed) {
             changed = false
-            drawerFolder.context.prefs.drawerFolders.saveToJson()
+            syncToDrawerFolderAndWorkspace()
         }
     }
 

@@ -476,11 +476,24 @@ class WorkspaceItemProcessor(
         collection.title = c.getString(c.mTitleIndex)
         collection.spanX = 1
         collection.spanY = 1
+        collection.rank = c.rank
         if (collection is FolderInfo) {
             collection.options = c.options
-        } else {
-            // An app pair may be inside another folder, so it needs to preserve rank information.
-            collection.rank = c.rank
+            collection.coverComponentUri = c.rawIntent
+            val linkedId = c.appWidgetProvider?.takeIf { it.isNotBlank() }
+            collection.linkedDrawerFolderId = linkedId
+            if (linkedId != null) {
+                try {
+                    val matchingFolder = com.neoapps.neolauncher.preferences.NeoPrefs.getInstance().drawerFolders
+                        .getGroups(isFolder = true)
+                        .find { it.id.value().toString() == linkedId }
+                    if (matchingFolder != null && !matchingFolder.title.isNullOrBlank()) {
+                        collection.title = matchingFolder.title
+                    }
+                } catch (e: Exception) {
+                    // ignore
+                }
+            }
         }
 
         c.markRestored()

@@ -26,6 +26,12 @@ class PreferencesChangeCallback(val launcher: NeoLauncher) {
 
     fun reloadGrid() {
         launcher.appComponent.idp.onPreferencesChanged()
+        try {
+            launcher.appsView?.appsStore?.notifyUpdate()
+            launcher.appsView?.reloadTabs()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     fun reloadModel() {
