@@ -50,7 +50,7 @@ abstract class AbstractSearchProvider(val context: Context) {
             throw RuntimeException("Voice search supported but not implemented")
         else null
     open val assistantIcon: Drawable?
-        get() = if (supportsVoiceSearch)
+        get() = if (supportsAssistant)
             throw RuntimeException("Assistant supported but not implemented")
         else null
 }

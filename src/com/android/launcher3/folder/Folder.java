@@ -855,6 +855,9 @@ public class Folder extends AbstractFloatingView implements ClipPathView, DragSo
      * is played.
      */
     private void animateOpen(List<ItemInfo> items, int pageNo) {
+        if (items == null || items.isEmpty()) {
+            return;
+        }
         boolean isFullScreenFolder = prefs.getDesktopFolderFullScreen().getValue();
         if (!isFullScreenFolder && !shouldAnimateOpen(items)) {
             return;
