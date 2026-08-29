@@ -44,7 +44,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 #### 4. Kotlin 2.5 Future-Proofing & Compiler Compliance
 - **Data Class Copy Visibility (`KT-11914`)**:
   - Configured `-Xconsistent-data-class-copy-visibility` across all subprojects via root `build.gradle.kts`.
-  - Added `@ConsistentCopyVisibility` annotations to data classes with internal/private constructors (`CacheLookupFlag`, `SpringConfig`, `FlingConfig`, and `StringCache`).
+  - Added `@ConsistentCopyVisibility` annotations where applicable to enforce strict data class copy encapsulation.
 
 ### Changed
 
@@ -58,10 +58,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - `UserCache.kt`: System user profile change broadcast receiver.
     - `WidgetSizeHandler.kt`: AppWidget `OPTION_APPWIDGET_SIZES` list extraction.
     - `DrawerTabs.kt` and `ParcelableFlyoutMessage.kt`: `ParcelCompat.readParcelable(...)` migrations.
+- **Modern Location Providers (API 31+)**:
+  - Modernized `OWMWeatherProvider.kt` to use `LocationManager.FUSED_PROVIDER` on Android 12+ (API 31+) with resilient fallback handling.
 - **Modern Window Insets & Navigation**:
   - Refactored `SleepTimeoutActivity.kt` to use `WindowInsetsControllerCompat` and `WindowInsetsCompat.Type.navigationBars()` instead of deprecated `View.SYSTEM_UI_FLAG_HIDE_NAVIGATION`.
-- **Signature Verification**:
-  - Updated package signature extraction in `OmegaUtils.kt` to use `PackageManager.GET_SIGNING_CERTIFICATES` for API 28+ with clean deprecation suppression for legacy fallbacks.
+- **Colors, Insets & Services**:
+  - Migrated `PreloadIconDelegate.kt` to `context.getColor(...)` instead of deprecated `resources.getColor(...)`.
+  - Converted `MagnetizedObject.kt` to `context.getSystemService(Vibrator::class.java)`.
+  - Updated `DbEntry.kt` to use `Intent.toUri(0)` instead of `Intent.toURI()`.
+  - Replaced deprecated `setBackgroundDrawable(...)` in `DismissView.kt` with `background = gradientDrawable`.
 
 #### Type Safety & Architecture Hardening
 - **Kotlin Primitive Types**: Refactored `LauncherPrefs.kt` to use `Boolean::class.javaObjectType`, `Int::class.javaObjectType`, `Float::class.javaObjectType`, and `Long::class.javaObjectType` instead of deprecated `java.lang.*` class literals.
@@ -69,8 +74,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Replaced invalid `ActivityInfo` cast in `ShortcutInfoProvider.kt` with `LauncherActivityInfo.getIcon(0)`.
   - Replaced unsafe unchecked collection cast in `AppCategoriesPage.kt` with `groups.filterIsInstance<DrawerTabs.Tab>()`.
   - Converted `AppPairInfo.kt` copy constructor from `clone() as ArrayList` to idiomatic `ArrayList(appPairInfo.contents)`.
+  - Cleaned redundant casts and replaced unsafe group-by casts in `FirstScreenBroadcastHelper.kt`.
+  - Removed unnecessary safe calls and non-null assertions in `WidgetsInteractor.kt`, `PopupContainer.kt`, and `HomeScreenFilesChangedTask.kt`.
   - Replaced `Object()` instantiation with idiomatic `Any()` for `STABLE_ID` in `OseWidgetView.kt`.
-  - Added `@Suppress("UNCHECKED_CAST")` annotations to generic reflection helpers in `DeviceConfigHelper.kt`, `PopupContainerWithArrow.kt`, and `PopupControllerAppIcons.kt`.
   - Aligned overriding method parameter names in `AppInfoCachingLogic.kt`, `CachedObjectCachingLogic.kt`, `LauncherActivityCachingLogic.kt`, `CacheableShortcutInfo.kt`, `StatsLogCompatManager.kt`, and `UtilitiesKt.kt` to match supertype declarations.
   - Added explicit `@Deprecated("Deprecated in Java")` annotations to override methods for `getOpacity()` and `onLowMemory()` in `BubblePopupDrawable.kt`, `ShaderBlurDrawable.kt`, `WallpaperThemeManager.kt`, and `DoubleShadowIconDrawable.kt`.
 - **Material 3 Compose UI**:
@@ -79,6 +85,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 #### Build System & Gradle Toolchain
 - **Namespace Cleanups (AGP 10+ Ready)**:
   - Removed obsolete `package` attributes from `<manifest>` tags across `iconloaderlib`, `msdllib`, `widgetpicker`, `wmshell`, and `AndroidManifest-common.xml`.
+  - Removed unused `<activity ... tools:node="remove" />` tag in `Omega/AndroidManifest.xml`.
 - **Properties & Directory Nesting**:
   - Cleaned deprecated flags in `gradle.properties` (`android.r8.optimizedResourceShrinking`, `android.uniquePackageNames`, `android.generateSyncIssueWhenLibraryConstraintsAreEnabled`).
   - Fixed nested resource folder declaration in `wmshell/build.gradle.kts` by removing redundant parent `"shared"` source directory.
