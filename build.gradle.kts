@@ -64,6 +64,15 @@ allprojects {
             add("implementation", platform(libs.compose.bom))
         }
     }
+    tasks.withType<JavaCompile>().configureEach {
+        options.compilerArgs.addAll(
+            listOf(
+                "-Xlint:unchecked",
+                "-Xlint:deprecation",
+                "-Xlint:-dep-ann",
+            )
+        )
+    }
     tasks.withType<KotlinCompile>().configureEach {
         compilerOptions {
             freeCompilerArgs.addAll(

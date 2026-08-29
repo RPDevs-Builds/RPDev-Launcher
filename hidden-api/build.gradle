@@ -7,10 +7,10 @@ kotlin {
 }
 
 android {
-    namespace 'com.neoapps.hiddenapi'
-    compileSdk 37
+    namespace = 'com.neoapps.hiddenapi'
+    compileSdk = 37
     buildFeatures {
-        aidl true
+        aidl = true
     }
 
     sourceSets {
