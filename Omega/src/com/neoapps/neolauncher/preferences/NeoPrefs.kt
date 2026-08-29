@@ -147,6 +147,49 @@ class NeoPrefs private constructor(val context: Context) {
         navRoute = NavRoute.Profile.AccentColor(),
     )
 
+    var profileAppIconStyle = StringSelectionPref(
+        titleId = R.string.title_launcher_app_icon,
+        dataStore = dataStore,
+        key = PrefKey.PROFILE_APP_ICON_STYLE,
+        defaultValue = "default",
+        entries = mapOf(
+            "default" to context.getString(R.string.app_icon_dark),
+            "light" to context.getString(R.string.app_icon_light)
+        ),
+        onChange = {
+            val pm = context.packageManager
+            val defaultComp = ComponentName(context, "com.neoapps.neolauncher.NeoLauncher")
+            val lightComp = ComponentName(context, "com.neoapps.neolauncher.LauncherLight")
+            try {
+                if (it == "light") {
+                    pm.setComponentEnabledSetting(
+                        lightComp,
+                        android.content.pm.PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                        android.content.pm.PackageManager.DONT_KILL_APP
+                    )
+                    pm.setComponentEnabledSetting(
+                        defaultComp,
+                        android.content.pm.PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                        android.content.pm.PackageManager.DONT_KILL_APP
+                    )
+                } else {
+                    pm.setComponentEnabledSetting(
+                        defaultComp,
+                        android.content.pm.PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                        android.content.pm.PackageManager.DONT_KILL_APP
+                    )
+                    pm.setComponentEnabledSetting(
+                        lightComp,
+                        android.content.pm.PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                        android.content.pm.PackageManager.DONT_KILL_APP
+                    )
+                }
+            } catch (e: Exception) {
+                // Ignore any failure during non-standard or test execution
+            }
+        }
+    )
+
     var profileIconShape = NavigationPref(
         titleId = R.string.title__theme_icon_shape,
         dataStore = dataStore,

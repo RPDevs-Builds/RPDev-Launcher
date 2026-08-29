@@ -23,6 +23,10 @@
     <string name="app_id" translatable="false">Package</string>
     <string name="default_folder_name">New Folder</string>
     <string name="folder_name">Folder Name</string>
+    <string name="title_launcher_app_icon">Launcher App Icon</string>
+    <string name="summary_launcher_app_icon">Choose between dark neon or high-contrast light icon</string>
+    <string name="app_icon_dark">Dark Neon (Default)</string>
+    <string name="app_icon_light">High Contrast (Light)</string>
 
     <!-- content description for hotseat items -->
     <string name="hotseat_prediction_content_description">Predicted app: <xliff:g id="title" example="Chrome">%1$s</xliff:g></string>

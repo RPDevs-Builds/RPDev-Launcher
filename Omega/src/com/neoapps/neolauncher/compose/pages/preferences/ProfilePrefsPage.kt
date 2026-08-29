@@ -71,6 +71,7 @@ fun ProfilePrefsPage() {
     )
 
     val iconPrefs = listOfNotNull(
+        prefs.profileAppIconStyle,
         prefs.profileIconPack,
         prefs.profileIconShape,
         prefs.profileIconAdaptify,

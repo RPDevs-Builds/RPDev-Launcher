@@ -95,6 +95,33 @@
                 android:name="com.android.launcher3.themedicon.option"
                 android:value="${packageName}.grid_control" />
         </activity>
+
+        <activity-alias
+            android:name="com.neoapps.neolauncher.LauncherLight"
+            android:targetActivity="com.neoapps.neolauncher.NeoLauncher"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_light"
+            android:roundIcon="@mipmap/ic_launcher_light_round"
+            android:label="@string/derived_app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.MONKEY" />
+                <category android:name="android.intent.category.LAUNCHER_APP" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <meta-data
+                android:name="com.android.launcher3.grid.control"
+                android:value="${packageName}.grid_control" />
+
+            <meta-data
+                android:name="com.android.launcher3.themedicon.option"
+                android:value="${packageName}.grid_control" />
+        </activity-alias>
+
         <activity
             android:name="com.android.launcher3.settings.SettingsActivity"
             android:exported="true"

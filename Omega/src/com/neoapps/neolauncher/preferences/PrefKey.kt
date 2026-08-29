@@ -35,6 +35,7 @@ object PrefKey {
     val PROFILE_GLOBAL_LANGUAGE = stringPreferencesKey("profile_language")
     val PROFILE_GLOBAL_THEME = intPreferencesKey("profile_launcher_theme")
     val PROFILE_ACCENT_COLOR = stringPreferencesKey("profile_accent_color")
+    val PROFILE_APP_ICON_STYLE = stringPreferencesKey("profile_app_icon_style")
     val PROFILE_ICON_PACK = stringPreferencesKey("profile_icon_pack")
     val PROFILE_ICON_SHAPE = stringPreferencesKey("profile_icon_shape")
     val FOLDER_ICON_SHAPE = stringPreferencesKey("folder_icon_shape")
