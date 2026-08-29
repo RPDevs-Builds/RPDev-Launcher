@@ -98,6 +98,8 @@ import android.window.TransitionMetrics;
 import android.window.TransitionRequestInfo;
 import android.window.WindowContainerTransaction;
 
+import androidx.core.content.ContextCompat;
+
 import com.android.internal.R;
 import com.android.internal.annotations.VisibleForTesting;
 import com.android.internal.policy.ScreenDecorationsUtils;
@@ -177,11 +179,13 @@ public class DefaultTransitionHandler implements Transitions.TransitionHandler {
 
     private void onInit() {
         updateEnterpriseThumbnailDrawable();
-        mContext.registerReceiver(
+        ContextCompat.registerReceiver(
+                mContext,
                 mEnterpriseResourceUpdatedReceiver,
                 new IntentFilter(ACTION_DEVICE_POLICY_RESOURCE_UPDATED),
                 /* broadcastPermission = */ null,
-                mMainHandler);
+                mMainHandler,
+                ContextCompat.RECEIVER_NOT_EXPORTED);
 
         TransitionAnimation.initAttributeCache(mContext, mMainHandler);
     }

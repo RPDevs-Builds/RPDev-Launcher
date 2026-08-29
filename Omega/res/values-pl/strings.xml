@@ -410,7 +410,7 @@
     <string name="fonts_change_global_font">Zmień</string>
     <string name="summary__advanced_setting_search">Wyświetl wyszukiwanie ustawień na pasku akcji</string>
     <string name="restore_success">Przywrócono</string>
-    <string name="backup_share_text">Plik kopii zapasowej Neo Launcher</string>
+    <string name="backup_share_text">Plik kopii zapasowej RPDev Launcher</string>
     <string name="developer_options_enabled">Opcje programisty włączone</string>
     <string name="summary__dev_restart">Może być pomocne, jeśli niektóre ustawienia nie są prawidłowo zastosowane</string>
     <string name="about_open_source">Biblioteki Open Source</string>

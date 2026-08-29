@@ -176,13 +176,15 @@ fun LauncherScreen(
                             },
                         title = item.displayName,
                         startIcon = {
-                            Icon(
-                                painter = BitmapPainter(
-                                    image = item.icon?.toBitmap()!!.asImageBitmap(),
-                                ),
-                                contentDescription = item.displayName,
-                                modifier = Modifier.size(24.dp),
-                            )
+                            item.icon?.toBitmap()?.asImageBitmap()?.let { bitmap ->
+                                Icon(
+                                    painter = BitmapPainter(
+                                        image = bitmap,
+                                    ),
+                                    contentDescription = item.displayName,
+                                    modifier = Modifier.size(24.dp),
+                                )
+                            }
                         },
                         radioButton = true,
                         selected = item.toString() == selectedOption.value,

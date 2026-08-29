@@ -22,6 +22,7 @@ import static com.android.launcher3.util.OnboardingPrefs.HOME_BOUNCE_SEEN;
 import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.UserManager;
 import android.view.MotionEvent;
 import android.view.View;
@@ -134,7 +135,7 @@ public class DiscoveryBounce extends AbstractFloatingView {
         }
 
         if (withDelay) {
-            new Handler().postDelayed(() -> showForHomeIfNeeded(launcher, false), DELAY_MS);
+            new Handler(Looper.getMainLooper()).postDelayed(() -> showForHomeIfNeeded(launcher, false), DELAY_MS);
             return;
         }
         //OnboardingPrefs.HOME_BOUNCE_COUNT.increment(launcher);

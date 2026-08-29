@@ -418,7 +418,7 @@
     <string name="restore_failed">Pemulihan gagal</string>
     <string name="restore_read_meta_fail">File cadangan tidak valid</string>
     <string name="backup_share_title">Bagikan cadangan</string>
-    <string name="backup_share_text">File cadangan Neo Launcher</string>
+    <string name="backup_share_text">File cadangan RPDev Launcher</string>
     <string name="backup_location">Lokasi</string>
     <string name="backup_location_device_storage">Folder internal</string>
     <string name="read_external_storage_required">Berikan akses penyimpanan untuk membuat cadangan.</string>

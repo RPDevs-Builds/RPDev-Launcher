@@ -69,7 +69,7 @@ object ThemedIconCompat {
                     )
                     if (drawable == 0) return null
 
-                    return resources.getDrawable(drawable, null)
+                    return androidx.core.content.res.ResourcesCompat.getDrawable(resources, drawable, context.theme)
                 }
             }
         } catch (e: Resources.NotFoundException) {

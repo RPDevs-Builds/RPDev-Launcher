@@ -289,7 +289,7 @@
     <string name="read_external_storage_required">منح صلاحية الوصول إلى التخزين لإنشاء نسخة احتياطية.</string>
     <string name="backup_location_device_storage">الملف الداخلي</string>
     <string name="backup_location">موقع</string>
-    <string name="backup_share_text">ملف النسخ الاحتياطي Neo Launcher</string>
+    <string name="backup_share_text">ملف النسخ الاحتياطي RPDev Launcher</string>
     <string name="backup_share_title">شارك النسخ الاحتياطية</string>
     <string name="restore_read_meta_fail">ملف النسخ الاحتياطي غير صالح</string>
     <string name="restore_failed">الاستعادة فشلت</string>

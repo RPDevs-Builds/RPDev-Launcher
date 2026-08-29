@@ -17,6 +17,7 @@ package com.android.launcher3.util;
 
 import android.content.Context;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -69,7 +70,7 @@ public class ViewPool<T extends View & Reusable> {
     @UiThread
     private void initPool(int initialSize) {
         Preconditions.assertUIThread();
-        Handler handler = new Handler();
+        Handler handler = new Handler(Looper.getMainLooper());
 
         // LayoutInflater is not thread safe as it maintains a global variable 'mConstructorArgs'.
         // Create a different copy to use on the background thread.

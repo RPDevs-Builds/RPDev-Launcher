@@ -196,7 +196,7 @@ public class PredictedAppIcon extends DoubleShadowBubbleTextView {
         super.applyIconAndLabel(info);
         FastBitmapDrawable icon = getIcon();
         if (icon.isThemed()) {
-            mPlateColor.endColor = getResources().getColor(android.R.color.system_accent1_300);
+            mPlateColor.endColor = getContext().getColor(android.R.color.system_accent1_300);
         } else {
             float[] hctPlateColor = new float[3];
             ColorUtils.colorToM3HCT(icon.getIconColor(), hctPlateColor);

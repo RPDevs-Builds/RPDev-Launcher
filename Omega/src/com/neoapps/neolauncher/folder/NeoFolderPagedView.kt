@@ -280,9 +280,9 @@ class NeoFolderPagedView @JvmOverloads constructor(
 
     fun getBgColorByTheme(isDark: Boolean): Int {
         if (isDark) {
-            return resources.getColor(R.color.folder_background_dark)
+            return androidx.core.content.ContextCompat.getColor(context, R.color.folder_background_dark)
         }
-        return resources.getColor(R.color.folder_background_light)
+        return androidx.core.content.ContextCompat.getColor(context, R.color.folder_background_light)
     }
 
     private fun updateContentHeight(insets: WindowInsetsCompat?) {

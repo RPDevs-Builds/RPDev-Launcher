@@ -296,7 +296,7 @@
     <string name="read_external_storage_required">Permita acesso aos arquivos para criar um backup.</string>
     <string name="backup_location_device_storage">Pasta interna</string>
     <string name="backup_location">Localização</string>
-    <string name="backup_share_text">Arquivo de backup do Neo Launcher</string>
+    <string name="backup_share_text">Arquivo de backup do RPDev Launcher</string>
     <string name="backup_share_title">Compartilhar arquivo de backup</string>
     <string name="restore_read_meta_fail">Arquivo de Backup inválido</string>
     <string name="restore_failed">Restauração falhou</string>

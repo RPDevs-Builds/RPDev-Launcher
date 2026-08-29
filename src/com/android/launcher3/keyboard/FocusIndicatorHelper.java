@@ -35,7 +35,7 @@ public abstract class FocusIndicatorHelper extends ItemFocusIndicatorHelper<View
                 Flags.enableFocusOutline() ? new int[]{Themes.getAttrColor(container.getContext(),
                         R.attr.focusOutlineColor), Themes.getAttrColor(container.getContext(),
                         R.attr.focusInnerOutlineColor)}
-                        : new int[]{container.getResources().getColor(R.color.focused_background)});
+                        : new int[]{container.getContext().getColor(R.color.focused_background)});
     }
 
     @Override

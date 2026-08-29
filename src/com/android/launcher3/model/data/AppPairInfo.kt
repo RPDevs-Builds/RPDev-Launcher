@@ -55,7 +55,7 @@ class AppPairInfo() : CollectionInfo() {
 
     /** Returns the app pair's member apps as an ArrayList of [ItemInfo]. */
     override fun getContents(): ArrayList<ItemInfo> =
-        ArrayList(contents.stream().map { it as ItemInfo }.collect(Collectors.toList()))
+        ArrayList<ItemInfo>(contents)
 
     /** Returns the app pair's member apps as an ArrayList of [WorkspaceItemInfo]. */
     override fun getAppContents(): ArrayList<WorkspaceItemInfo> = contents

@@ -18,8 +18,7 @@
 */
 -->
 <manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.android.launcher3">
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-sdk android:targetSdkVersion="33" android:minSdkVersion="30"/>
     <!--
     Manifest entries specific to Launcher3. This is merged with AndroidManifest-common.xml.
@@ -30,8 +29,8 @@
         android:backupAgent="com.android.launcher3.LauncherBackupAgent"
         android:fullBackupOnly="true"
         android:fullBackupContent="@xml/backupscheme"
+        android:dataExtractionRules="@xml/data_extraction_rules"
         android:hardwareAccelerated="true"
-        android:debuggable="true"
         android:icon="@drawable/ic_launcher_home"
         android:label="@string/derived_app_name"
         android:theme="@style/AppTheme"

@@ -104,8 +104,8 @@ public class DropZoneView extends FrameLayout {
         setContainerMargin(0, 0, 0, 0); // make sure it's populated
 
         mCornerRadius = ScreenDecorationsUtils.getWindowCornerRadius(context);
-        mMarginColor = getResources().getColor(R.color.taskbar_background_dark);
-        int c = getResources().getColor(android.R.color.system_accent1_500);
+        mMarginColor = getContext().getColor(R.color.taskbar_background_dark);
+        int c = getContext().getColor(android.R.color.system_accent1_500);
         mHighlightColor =  Color.argb(HIGHLIGHT_ALPHA, Color.red(c), Color.green(c), Color.blue(c));
         mSplashScreenColor = Color.argb(SPLASHSCREEN_ALPHA, 0, 0, 0);
         mColorDrawable = new ColorDrawable();
@@ -125,8 +125,8 @@ public class DropZoneView extends FrameLayout {
 
     public void onThemeChange() {
         mCornerRadius = ScreenDecorationsUtils.getWindowCornerRadius(getContext());
-        mMarginColor = getResources().getColor(R.color.taskbar_background_dark);
-        mHighlightColor = getResources().getColor(android.R.color.system_accent1_500);
+        mMarginColor = getContext().getColor(R.color.taskbar_background_dark);
+        mHighlightColor = getContext().getColor(android.R.color.system_accent1_500);
 
         if (mMarginPercent > 0) {
             mMarginView.invalidate();

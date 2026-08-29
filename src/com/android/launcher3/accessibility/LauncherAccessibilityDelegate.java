@@ -17,6 +17,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.util.Pair;
 import android.view.KeyEvent;
@@ -547,7 +548,7 @@ public class LauncherAccessibilityDelegate extends BaseAccessibilityDelegate<Lau
 
         // Bind the item in next frame so that if a new workspace page was created,
         // it will get laid out.
-        new Handler().post(() -> {
+        new Handler(Looper.getMainLooper()).post(() -> {
             mContext.inflateAndBindItemWithAnimation(item);
             announceConfirmation(R.string.item_moved);
         });

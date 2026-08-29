@@ -25,9 +25,7 @@ jakarta-inject = "2.0.1"
 kotlin = "2.4.0"
 koin = "4.2.2"
 koin-ksp = "4.2.2"
-kotlin-stdlib-jdk7 = "2.3.20"
 lifecycle = "2.11.0"
-lifecycle-ext = "2.2.0"
 material = "1.14.0"
 material-icons = "1.7.8"
 material-kolor = "4.1.1"
@@ -99,8 +97,8 @@ error-prone-annotations = { module = "com.google.errorprone:error_prone_annotati
 fuzzywuzzy = { module = "me.xdrop:fuzzywuzzy", version.ref = "fuzzywuzzy" }
 graphics-shapes = { group = "androidx.graphics", name = "graphics-shapes", version.ref = "graphics-shapes" }
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
-hilt-android = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "dagger" }
-hilt-compiler = { group = "com.google.dagger", name = "hilt-android", version.ref = "dagger" }
+hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "dagger" }
+hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "dagger" }
 hokofly-hokoblur = { module = "io.github.hokofly:hoko-blur", version.ref = "hoko-blur" }
 jakarta-inject = { group = "jakarta.inject", name = "jakarta.inject-api", version.ref = "jakarta-inject" }
 java-inject = { group = "javax.inject", name = "javax.inject", version.ref = "inject" }
@@ -108,9 +106,7 @@ koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = 
 koin-workmanager = { group = "io.insert-koin", name = "koin-androidx-workmanager", version.ref = "koin" }
 koin-annotations = { group = "io.insert-koin", name = "koin-annotations", version.ref = "koin-ksp" }
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
-kotlin-stdlib-jdk7 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk7", version.ref = "kotlin-stdlib-jdk7" }
 lifecycle-common = { module = "androidx.lifecycle:lifecycle-common-java8", version.ref = "lifecycle" }
-lifecycle-extensions = { module = "androidx.lifecycle:lifecycle-extensions", version.ref = "lifecycle-ext" }
 lifecycle-livedata = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycle" }
 lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
 lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }

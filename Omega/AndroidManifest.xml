@@ -113,11 +113,13 @@
 
         <activity
             android:name="com.neoapps.neolauncher.smartspace.SmartSpacePreferencesShortcut"
+            android:exported="false"
             android:theme="@style/Theme.Transparent" />
 
         <!-- DT2S using screen timeout -->
         <activity
             android:name="com.neoapps.neolauncher.gestures.handlers.SleepTimeoutActivity"
+            android:exported="false"
             android:theme="@style/SleepTimeoutTheme" />
 
         <activity

@@ -137,7 +137,7 @@ class PreferenceActivity : ComponentActivity(), ThemeManager.ThemeableActivity {
         }
 
         private fun createResultReceiver(callback: (ActivityResult) -> Unit): ResultReceiver {
-            return object : ResultReceiver(Handler(Looper.myLooper()!!)) {
+            return object : ResultReceiver(Handler(Looper.getMainLooper())) {
 
                 override fun onReceiveResult(resultCode: Int, resultData: Bundle?) {
                     val data = Intent()

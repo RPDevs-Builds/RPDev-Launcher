@@ -437,7 +437,7 @@ public class AddItemActivity extends BaseActivity
     private void sendWidgetAddedToScreenAccessibilityEvent(String widgetName) {
         if (mAccessibilityManager.isEnabled()) {
             AccessibilityEvent event =
-                    AccessibilityEvent.obtain(AccessibilityEvent.TYPE_ANNOUNCEMENT);
+                    new AccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT);
             event.setContentDescription(
                     getApplicationContext().getResources().getString(
                             R.string.added_to_home_screen_accessibility_text, widgetName));

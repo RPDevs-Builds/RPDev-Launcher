@@ -101,7 +101,7 @@ public class UnfoldBackgroundController {
     }
 
     private float[] getRGBColorFromId(Context context, @ColorRes int id) {
-        int colorInt = context.getResources().getColor(id);
+        int colorInt = context.getColor(id);
         return new float[]{
                 (float) red(colorInt) / 255.0F,
                 (float) green(colorInt) / 255.0F,

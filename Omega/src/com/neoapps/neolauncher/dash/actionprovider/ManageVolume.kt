@@ -36,7 +36,7 @@ class ManageVolume(context: Context) : DashActionProvider(context) {
 
     override fun runAction(context: Context) {
         try {
-            val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+            val audioManager = context.getSystemService(AudioManager::class.java)!!
             Objects.requireNonNull(audioManager).setStreamVolume(
                 AudioManager.STREAM_RING, audioManager.getStreamVolume(
                     AudioManager.STREAM_RING
@@ -44,7 +44,7 @@ class ManageVolume(context: Context) : DashActionProvider(context) {
             )
         } catch (e: Exception) {
             val mNotificationManager =
-                context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                context.getSystemService(NotificationManager::class.java)!!
             if (!Objects.requireNonNull(mNotificationManager).isNotificationPolicyAccessGranted) {
                 val intent = Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS)
                 context.startActivity(intent)

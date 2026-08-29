@@ -92,7 +92,7 @@ class PageIndicator @JvmOverloads constructor(
         contentDescription = context.getString(
             R.string.accessibility_smartspace_page,
             1,
-            Integer.valueOf(numPages)
+            numPages
         )
     }
 }

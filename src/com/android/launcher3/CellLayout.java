@@ -719,7 +719,7 @@ public class CellLayout extends ViewGroup {
         try {
             dispatchRestoreInstanceState(states);
         } catch (IllegalArgumentException ex) {
-            if (FeatureFlags.IS_STUDIO_BUILD) {
+            if (BuildConfig.IS_STUDIO_BUILD) {
                 throw ex;
             }
             // Mismatched viewId / viewType preventing restore. Skip restore on production builds.

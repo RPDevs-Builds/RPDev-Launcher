@@ -49,7 +49,6 @@ dependencies{
     implementation(project(":flags"))
     implementation(libs.core.animation)
     implementation(libs.core.ktx)
-    implementation(libs.kotlin.stdlib.jdk7)
     androidTestImplementation (libs.junit)
     androidTestImplementation (libs.rules)
 }

@@ -1022,14 +1022,14 @@ public class BubbleStackView extends FrameLayout
         mScrim = new View(getContext());
         mScrim.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
         mScrim.setBackgroundDrawable(new ColorDrawable(
-                getResources().getColor(android.R.color.system_neutral1_1000)));
+                getContext().getColor(android.R.color.system_neutral1_1000)));
         addView(mScrim);
         mScrim.setAlpha(0f);
 
         mManageMenuScrim = new View(getContext());
         mManageMenuScrim.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
         mManageMenuScrim.setBackgroundDrawable(new ColorDrawable(
-                getResources().getColor(android.R.color.system_neutral1_1000)));
+                getContext().getColor(android.R.color.system_neutral1_1000)));
         addView(mManageMenuScrim, new LayoutParams(MATCH_PARENT, MATCH_PARENT));
         mManageMenuScrim.setAlpha(0f);
         mManageMenuScrim.setVisibility(INVISIBLE);
@@ -1599,9 +1599,9 @@ public class BubbleStackView extends FrameLayout
         updateUserEdu();
         updateExpandedViewTheme();
         mScrim.setBackgroundDrawable(new ColorDrawable(
-                getResources().getColor(android.R.color.system_neutral1_1000)));
+                getContext().getColor(android.R.color.system_neutral1_1000)));
         mManageMenuScrim.setBackgroundDrawable(new ColorDrawable(
-                getResources().getColor(android.R.color.system_neutral1_1000)));
+                getContext().getColor(android.R.color.system_neutral1_1000)));
     }
 
     /**

@@ -33,7 +33,7 @@ import com.neoapps.neolauncher.dash.DashControlProvider
 import com.neoapps.neolauncher.util.minSDK
 
 class Bluetooth(context: Context) : DashControlProvider(context) {
-    private val bm = context.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
+    private val bm = context.getSystemService(BluetoothManager::class.java)!!
     override val itemId = 13
     override val name = context.getString(R.string.dash_bluetooth)
     override val description = context.getString(R.string.dash_bluetooth_summary)

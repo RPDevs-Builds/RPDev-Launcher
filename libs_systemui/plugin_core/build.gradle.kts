@@ -47,7 +47,7 @@ val addFrameworkJar = { name: String ->
     if (!frameworkJar.exists()) {
         throw IllegalArgumentException("Framework jar path ${frameworkJar.path} doesn't exist")
     }
-    gradle.projectsEvaluated {
+    afterEvaluate {
         tasks.withType<JavaCompile>().configureEach {
             classpath = files(frameworkJar, classpath)
         }
@@ -63,7 +63,6 @@ addFrameworkJar("framework-15.jar")
 
 dependencies{
     implementation(libs.core.ktx)
-    implementation(libs.kotlin.stdlib.jdk7)
     compileOnly(files("$FRAMEWORK_PREBUILTS_DIR/SystemUI-statsd-15.jar"))
     compileOnly(files("$FRAMEWORK_PREBUILTS_DIR/WindowManager-Shell-15.jar"))
 }

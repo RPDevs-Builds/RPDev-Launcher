@@ -54,7 +54,7 @@ fun DashPage() {
     ).filter {
         it.javaClass.name in activeDashProviders
     }.associateBy { it.javaClass.name }
-    val musicManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+    val musicManager = context.getSystemService(AudioManager::class.java)!!
     val lineSize = prefs.dashLineSize.getValue()
 
     val displayItems = actionItems + controlItems

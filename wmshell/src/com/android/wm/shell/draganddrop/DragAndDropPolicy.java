@@ -48,6 +48,8 @@ import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.ClipDescription;
 import android.content.Context;
+
+import androidx.core.content.IntentCompat;
 import android.content.Intent;
 import android.content.pm.LauncherApps;
 import android.graphics.Insets;
@@ -271,7 +273,7 @@ public class DragAndDropPolicy {
         if (session.appData.hasExtra(EXTRA_ACTIVITY_OPTIONS)) {
             opts.putAll(session.appData.getBundleExtra(EXTRA_ACTIVITY_OPTIONS));
         }
-        final UserHandle user = session.appData.getParcelableExtra(EXTRA_USER);
+        final UserHandle user = IntentCompat.getParcelableExtra(session.appData, EXTRA_USER, UserHandle.class);
 
         if (isTask) {
             final int taskId = session.appData.getIntExtra(EXTRA_TASK_ID, INVALID_TASK_ID);
@@ -282,7 +284,7 @@ public class DragAndDropPolicy {
             mStarter.startShortcut(packageName, id, position, opts, user);
         } else {
             final PendingIntent launchIntent =
-                    session.appData.getParcelableExtra(EXTRA_PENDING_INTENT);
+                    IntentCompat.getParcelableExtra(session.appData, EXTRA_PENDING_INTENT, PendingIntent.class);
             if (Build.IS_DEBUGGABLE) {
                 if (!user.equals(launchIntent.getCreatorUserHandle())) {
                     Log.e(TAG, "Expected app intent's EXTRA_USER to match pending intent user");

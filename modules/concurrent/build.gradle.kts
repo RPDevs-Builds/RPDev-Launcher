@@ -39,7 +39,7 @@ val addFrameworkJar = { name: String ->
     if (!frameworkJar.exists()) {
         throw IllegalArgumentException("Framework jar path ${frameworkJar.path} doesn't exist")
     }
-    gradle.projectsEvaluated {
+    afterEvaluate {
         tasks.withType<JavaCompile>().configureEach {
             classpath = files(frameworkJar, classpath)
         }
@@ -53,7 +53,7 @@ val addFrameworkJar = { name: String ->
 }
 addFrameworkJar("framework-16.jar")
 dependencies {
-    implementation(libs.hilt.compiler)
+    implementation(libs.hilt.android)
     implementation(libs.java.inject)
     implementation(libs.guava)
     //implementation(project(":dagger"))

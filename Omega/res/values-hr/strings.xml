@@ -176,7 +176,7 @@
     <string name="backup_invalid">Nedostupno</string>
     <string name="backup_remove_from_recents">Ukloni iz popisa</string>
     <string name="backup_timestamp">Stvoreno</string>
-    <string name="backup_share_text">Neo Launcher datoteka sigurnosne kopije</string>
+    <string name="backup_share_text">RPDev Launcher datoteka sigurnosne kopije</string>
     <string name="summary__dev_restart">Može biti korisno ako neke postavke nisu ispravno primijenjene</string>
     <string name="title__about_changelog">Dnevnik promjena</string>
     <string name="wallpaper_pick">Odaberi sliku pozadine</string>

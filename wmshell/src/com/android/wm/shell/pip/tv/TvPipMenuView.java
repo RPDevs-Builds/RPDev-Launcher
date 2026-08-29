@@ -165,7 +165,7 @@ public class TvPipMenuView extends FrameLayout implements TvPipActionsProvider.L
 
         final ShapeDrawable arrowDrawable = new ShapeDrawable();
         arrowDrawable.setShape(new PathShape(arrowPath, arrowSize, arrowSize));
-        arrowDrawable.setTint(mContext.getResources().getColor(R.color.tv_pip_menu_arrow_color));
+        arrowDrawable.setTint(mContext.getColor(R.color.tv_pip_menu_arrow_color));
 
         final ViewOutlineProvider arrowOutlineProvider = new ViewOutlineProvider() {
             @Override

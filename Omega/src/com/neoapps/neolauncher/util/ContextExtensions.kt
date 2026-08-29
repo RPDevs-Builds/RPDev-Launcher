@@ -73,9 +73,11 @@ val Context.prefs: NeoPrefs
 fun Context.checkPackagePermission(packageName: String, permissionName: String): Boolean {
     try {
         val info = packageManager.getPackageInfo(packageName, PackageManager.GET_PERMISSIONS)
-        info.requestedPermissions!!.forEachIndexed { index, s ->
+        val permissions = info.requestedPermissions ?: return false
+        val flags = info.requestedPermissionsFlags ?: return false
+        permissions.forEachIndexed { index, s ->
             if (s == permissionName) {
-                return info.requestedPermissionsFlags?.get(index)!!.hasFlag(PackageInfo.REQUESTED_PERMISSION_GRANTED)
+                return flags.get(index).hasFlag(PackageInfo.REQUESTED_PERMISSION_GRANTED)
             }
         }
     } catch (_: PackageManager.NameNotFoundException) {
@@ -102,7 +104,7 @@ fun Context.getSystemAccent(darkTheme: Boolean): Int {
     return if (Utilities.ATLEAST_S) {
         val colorName = if (darkTheme) "system_accent1_100" else "system_accent1_600"
         val colorId = res.getIdentifier(colorName, "color", "android")
-        res.getColor(colorId)
+        ContextCompat.getColor(this, colorId)
     } else {
         var propertyValue = Utilities.getSystemProperty("persist.sys.theme.accentcolor", "")
         if (!TextUtils.isEmpty(propertyValue)) {

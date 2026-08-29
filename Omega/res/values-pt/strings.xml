@@ -412,7 +412,7 @@
     <string name="weather_provider_testing">Debug</string>
     <string name="backup_restoring">Restaurando Backup</string>
     <string name="backup_restarting">Reiniciando</string>
-    <string name="backup_share_text">Ficheiro de backup do Neo Launcher</string>
+    <string name="backup_share_text">Ficheiro de backup do RPDev Launcher</string>
     <string name="permission_denied">Permissão de leitura negada!</string>
     <string name="title__dev_show_debug_info">Mostrar informações de depuração</string>
     <string name="title_feed_provider">Provedor do Feed</string>

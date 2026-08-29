@@ -347,7 +347,7 @@ public class SplashscreenContentDrawer {
             return Color.BLACK;
         }
         final Resources res = systemContext.getResources();
-        return res.getColor(com.android.wm.shell.R.color.splash_window_background_default);
+        return systemContext.getColor(com.android.wm.shell.R.color.splash_window_background_default);
     }
 
     /**

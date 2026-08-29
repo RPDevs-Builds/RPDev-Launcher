@@ -18,6 +18,7 @@ package com.android.launcher3.util;
 
 import android.os.FileUtils;
 import android.util.Log;
+import com.android.launcher3.BuildConfig;
 
 import com.android.launcher3.config.FeatureFlags;
 
@@ -58,7 +59,7 @@ public class IOUtils {
             try {
                 c.close();
             } catch (IOException e) {
-                if (FeatureFlags.IS_STUDIO_BUILD) {
+                if (BuildConfig.IS_STUDIO_BUILD) {
                     Log.d(TAG, "Error closing", e);
                 }
             }

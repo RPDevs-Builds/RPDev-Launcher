@@ -43,6 +43,8 @@ import android.view.WindowManager.LayoutParams;
 
 import com.neoapps.neolauncher.preferences.NeoPrefs;
 
+import androidx.core.content.ContextCompat;
+
 import java.lang.ref.WeakReference;
 
 public class LauncherClient {
@@ -148,7 +150,7 @@ public class LauncherClient {
         IntentFilter intentFilter = new IntentFilter(Intent.ACTION_PACKAGE_ADDED);
         intentFilter.addDataScheme("package");
         intentFilter.addDataSchemeSpecificPart("com.google.android.googlequicksearchbox", 0);
-        mActivity.registerReceiver(googleInstallListener, intentFilter);
+        ContextCompat.registerReceiver(mActivity, googleInstallListener, intentFilter, ContextCompat.RECEIVER_NOT_EXPORTED);
 
         if (apiVersion <= 0) {
             loadApiVersion(activity);

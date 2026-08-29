@@ -22,6 +22,7 @@ import android.annotation.TargetApi;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.CompositionSamplingListener;
 import android.view.SurfaceControl;
 import android.view.View;
@@ -46,7 +47,7 @@ public class RegionSamplingHelper implements View.OnAttachStateChangeListener,
     // Luminance change threshold that allows applying new value if difference was exceeded
     private static final float NAVIGATION_LUMINANCE_CHANGE_THRESHOLD = 0.05f;
 
-    private final Handler mHandler = new Handler();
+    private final Handler mHandler = new Handler(Looper.getMainLooper());
     private final View mSampledView;
 
     private final CompositionSamplingListener mSamplingListener;

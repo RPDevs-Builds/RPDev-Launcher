@@ -40,6 +40,7 @@ import android.animation.AnimatorSet;
 import android.annotation.SuppressLint;
 import android.appwidget.AppWidgetHostView;
 import android.content.Context;
+import com.android.launcher3.BuildConfig;
 import android.graphics.Canvas;
 import android.graphics.Insets;
 import android.graphics.Path;
@@ -877,7 +878,7 @@ public class Folder extends AbstractFloatingView implements ClipPathView, DragSo
             dragLayer.addView(this);
             mActivityContext.getDragController().addDropTarget(this);
         } else {
-            if (FeatureFlags.IS_STUDIO_BUILD) {
+            if (BuildConfig.IS_STUDIO_BUILD) {
                 Log.e(TAG, "Opening folder (" + this + ") which already has a parent:"
                         + getParent());
             }

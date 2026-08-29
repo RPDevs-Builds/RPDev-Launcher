@@ -185,7 +185,7 @@ class BlurWallpaperProvider(val context: Context) {
     }
 
     private fun scaleToScreenSize(bitmap: Bitmap): Bitmap {
-        val wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        val wm = context.getSystemService(WindowManager::class.java)!!
         val windowMetrics = wm.currentWindowMetrics
         val bounds = windowMetrics.bounds
         val width = bounds.width()

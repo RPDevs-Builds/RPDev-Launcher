@@ -316,7 +316,7 @@
     <string name="notification_dots_disabled">Щоб відображати точки сповіщень, увімкніть відображення точок сповіщень у налаштуваннях</string>
     <string name="section_contacts">Контакти</string>
     <string name="backup_delete">Сховати</string>
-    <string name="backup_share_text">Файл резервної копії Neo Launcher</string>
+    <string name="backup_share_text">Файл резервної копії RPDev Launcher</string>
     <string name="local_backups">У сховищі</string>
     <string name="category__about_licenses">Ліцензія</string>
     <string name="about_translators">Перекладачі</string>

@@ -457,7 +457,7 @@
     <string name="backup_timestamp">Aangemaakt op</string>
     <string name="backup_restoring">Back-up terugzetten</string>
     <string name="backup_restarting">Opnieuw starten</string>
-    <string name="backup_share_text">Neo Launcher back-upbestand</string>
+    <string name="backup_share_text">RPDev Launcher back-upbestand</string>
     <string name="read_external_storage_required">Geef opslagtoegang voor het aanmaken van een back-up.</string>
     <string name="pref_desktop_mode_settings">Desktop-modus-instellingen</string>
     <string name="title__feed">Feed</string>
@@ -568,5 +568,5 @@
     <string name="title_dock_bottom_padding">Opvulling onder dok</string>
     <string name="permission_grant">Verlenen</string>
     <string name="permission_wallpaper_title">Achtergrondtoegang</string>
-    <string name="permission_wallpaper_message">Neo Launcher heeft toegang tot je achtergrondafbeelding nodig om vervagingseffecten toe te passen. Zonder deze toestemming wordt de vervaagde achtergrond uitgeschakeld.</string>
+    <string name="permission_wallpaper_message">RPDev Launcher heeft toegang tot je achtergrondafbeelding nodig om vervagingseffecten toe te passen. Zonder deze toestemming wordt de vervaagde achtergrond uitgeschakeld.</string>
 </resources>

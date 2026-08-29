@@ -223,8 +223,8 @@ public class BubbleOverflowContainerView extends LinearLayout {
 
         findViewById(R.id.bubble_overflow_container)
                 .setBackgroundColor(isNightMode
-                        ? res.getColor(R.color.bubbles_dark)
-                        : res.getColor(R.color.bubbles_light));
+                        ? getContext().getColor(R.color.bubbles_dark)
+                        : getContext().getColor(R.color.bubbles_light));
 
         final TypedArray typedArray = getContext().obtainStyledAttributes(new int[] {
                 com.android.internal.R.attr.materialColorSurfaceBright,

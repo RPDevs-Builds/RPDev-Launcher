@@ -391,7 +391,7 @@
     <string name="backup_invalid">Nem érhető el</string>
     <string name="restore_success">Helyreállítva</string>
     <string name="backup_share_title">Biztonsági mentés megosztása</string>
-    <string name="backup_share_text">Neo Launcher biztonsági mentési fájl</string>
+    <string name="backup_share_text">RPDev Launcher biztonsági mentési fájl</string>
     <string name="search_menu">Beállítások keresése</string>
     <string name="change_default_home">Beállítás kezdőképernyő-alkalmazásként</string>
     <string name="title_storage_permission_required">Tárhely engedély szükséges</string>

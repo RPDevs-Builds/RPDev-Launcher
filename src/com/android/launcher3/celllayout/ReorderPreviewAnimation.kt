@@ -113,12 +113,12 @@ class ReorderPreviewAnimation<T>(
             if (noMovement) {
                 // A previous animation for this item exists, and no new animation will exist.
                 // Finish the old animation smoothly.
-                oldAnimation!!.finishAnimation()
+                oldAnimation?.finishAnimation()
                 return
             } else {
                 // A previous animation for this item exists, and a new one will exist. Stop
                 // the old animation in its tracks, and proceed with the new one.
-                oldAnimation!!.cancel()
+                oldAnimation?.cancel()
             }
         }
         if (noMovement) {

@@ -95,12 +95,12 @@ android {
         }
     }
     // Exclude META-INF for running test with android studio
-    packagingOptions.resources.excludes.add("META-INF/versions/9/OSGI-INF/MANIFEST.MF")
+    packaging.resources.excludes.add("META-INF/versions/9/OSGI-INF/MANIFEST.MF")
 }
 
 dependencies {
     implementation(libs.core.ktx)
-    implementation(libs.hilt.compiler)
+    implementation(libs.hilt.android)
 
     // Compose UI dependencies
     implementation(libs.compose.ui)

@@ -47,7 +47,7 @@
     <string name="pref_category__incubating">Incubazione</string>
     <string name="title__about_donate">Donazioni</string>
     <string name="summary__dev_restart">Può essere utile se alcune impostazioni non sono state applicate correttamente</string>
-    <string name="backup_share_text">File di backup di Neo Launcher</string>
+    <string name="backup_share_text">File di backup di RPDev Launcher</string>
     <string name="restore_read_meta_fail">File di backup non valido</string>
     <string name="title__search_bar_radius">Raggio dell\'angolo</string>
     <string name="action_open_recents">Aperti di recente</string>
@@ -583,7 +583,7 @@
     <string name="pref_title_folder">Personalizz cartelle</string>
     <string name="pref_title_general">Generale</string>
     <string name="permission_wallpaper_title">Accesso allo sfondo</string>
-    <string name="permission_wallpaper_message">Neo Launcher necessita dell\'accesso allo sfondo per applicare gli effetti di sfocatura. Senza questa autorizzazione, lo sfondo sfocato verrà disabilitato.</string>
+    <string name="permission_wallpaper_message">RPDev Launcher necessita dell\'accesso allo sfondo per applicare gli effetti di sfocatura. Senza questa autorizzazione, lo sfondo sfocato verrà disabilitato.</string>
     <string name="permission_grant">Concedi</string>
     <string name="title_dock_bottom_padding">Margine inferiore barra app</string>
 </resources>

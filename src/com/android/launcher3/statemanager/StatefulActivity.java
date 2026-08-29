@@ -23,6 +23,7 @@ import static com.android.launcher3.LauncherState.FLAG_NON_INTERACTIVE;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Trace;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,7 +46,7 @@ import java.util.List;
 public abstract class StatefulActivity<STATE_TYPE extends BaseState<STATE_TYPE>>
         extends BaseActivity implements StatefulContainer<STATE_TYPE> {
 
-    public final Handler mHandler = new Handler();
+    public final Handler mHandler = new Handler(Looper.getMainLooper());
     private final Runnable mHandleDeferredResume = this::handleDeferredResume;
     private boolean mDeferredResumePending;
 

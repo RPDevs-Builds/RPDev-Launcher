@@ -638,7 +638,7 @@ public class PipTouchHandler {
             return;
         }
 
-        AccessibilityEvent event = AccessibilityEvent.obtain(type);
+        AccessibilityEvent event = new AccessibilityEvent(type);
         event.setImportantForAccessibility(true);
         event.setSourceNodeId(AccessibilityNodeInfo.ROOT_NODE_ID);
         event.setWindowId(

@@ -37,7 +37,7 @@ class Location(context: Context) : DashControlProvider(context) {
     override val icon = Phosphor.MapPin
 
     var locationManager =
-        context.getSystemService(LOCATION_SERVICE) as LocationManager
+        context.getSystemService(LocationManager::class.java)!!
 
     override var state: Boolean
         get() = if (minSDK(Build.VERSION_CODES.P)) {

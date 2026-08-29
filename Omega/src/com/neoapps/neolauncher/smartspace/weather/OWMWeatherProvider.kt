@@ -64,7 +64,7 @@ class OWMWeatherProvider(context: Context) : SmartspaceDataSource(
     private val locationAccess get() = context.checkLocationAccess()
     private val locationManager: LocationManager? by lazy {
         if (locationAccess) {
-            context.getSystemService(Context.LOCATION_SERVICE) as LocationManager?
+            context.getSystemService(LocationManager::class.java)
         } else null
     }
 
@@ -104,11 +104,13 @@ class OWMWeatherProvider(context: Context) : SmartspaceDataSource(
     fun updateData() {
         if (prefs.smartspaceWeatherCity.getValue() == "##Auto") {
             if (!locationAccess) {
-                Permissions.requestPermission(
-                    context.neoApp.activityHandler.foregroundActivity!!,
-                    Manifest.permission.ACCESS_COARSE_LOCATION,
-                    REQUEST_PERMISSION_LOCATION_ACCESS
-                )
+                context.neoApp.activityHandler.foregroundActivity?.let {
+                    Permissions.requestPermission(
+                        it,
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        REQUEST_PERMISSION_LOCATION_ACCESS
+                    )
+                }
                 return
             } else {
                 val location = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {

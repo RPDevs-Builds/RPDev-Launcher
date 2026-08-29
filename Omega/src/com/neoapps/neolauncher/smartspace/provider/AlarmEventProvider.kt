@@ -34,7 +34,7 @@ class AlarmEventProvider(context: Context) : SmartspaceDataSource(
     }
 
     private fun alarmTarget(): List<SmartspaceTarget> {
-        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val alarmManager = context.getSystemService(AlarmManager::class.java)!!
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             if (!alarmManager.canScheduleExactAlarms()) {

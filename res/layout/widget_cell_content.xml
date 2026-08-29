@@ -52,10 +52,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
-                    android:fadingEdge="horizontal"
+                    android:requiresFadingEdge="horizontal"
                     android:layout_gravity="center_horizontal"
                     android:gravity="center_horizontal|center_vertical"
-                    android:singleLine="true"
                     android:maxLines="1"
                     android:textColor="?attr/widgetCellTitleColor"
                     android:textSize="@dimen/widget_cell_title_font_size"
@@ -85,7 +84,7 @@
                     android:lineHeight="@dimen/widget_cell_description_line_height"
                     android:maxLines="3"
                     android:ellipsize="end"
-                    android:fadingEdge="horizontal" />
+                    android:requiresFadingEdge="horizontal" />
         </LinearLayout>
 
         <Button

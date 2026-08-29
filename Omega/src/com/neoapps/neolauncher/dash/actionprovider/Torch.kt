@@ -32,7 +32,7 @@ class Torch(context: Context) : DashActionProvider(context) { // TODO convert to
     override val icon = Phosphor.Flashlight
 
     override fun runAction(context: Context) {
-        val camManager = context.getSystemService(Context.CAMERA_SERVICE) as CameraManager?
+        val camManager = context.getSystemService(CameraManager::class.java)
         val cameraId = camManager!!.cameraIdList[0]
         context.prefs.dashTorchState.let {
             camManager.setTorchMode(cameraId, !it.getValue())

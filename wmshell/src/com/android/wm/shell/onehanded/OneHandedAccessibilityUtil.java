@@ -73,7 +73,7 @@ public final class OneHandedAccessibilityUtil {
             return;
         }
         mDescription = description;
-        final AccessibilityEvent event = AccessibilityEvent.obtain();
+        final AccessibilityEvent event = new AccessibilityEvent();
         event.setPackageName(mPackageName);
         event.setEventType(AccessibilityEvent.TYPE_ANNOUNCEMENT);
         event.getText().add(mDescription);

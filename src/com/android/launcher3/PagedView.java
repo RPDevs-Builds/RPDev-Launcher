@@ -562,7 +562,7 @@ public abstract class PagedView<T extends View & PageIndicator> extends ViewGrou
         if (isObservedEventType(getContext(), AccessibilityEvent.TYPE_VIEW_SCROLLED)) {
             if (mCurrentPage != getNextPage()) {
                 AccessibilityEvent ev =
-                        AccessibilityEvent.obtain(AccessibilityEvent.TYPE_VIEW_SCROLLED);
+                        new AccessibilityEvent(AccessibilityEvent.TYPE_VIEW_SCROLLED);
                 ev.setScrollable(true);
                 ev.setScrollX(getScrollX());
                 ev.setScrollY(getScrollY());
@@ -1777,7 +1777,7 @@ public abstract class PagedView<T extends View & PageIndicator> extends ViewGrou
             return false;
         }
 
-        if (FeatureFlags.IS_STUDIO_BUILD && !Utilities.isRunningInTestHarness()) {
+        if (BuildConfig.IS_STUDIO_BUILD && !Utilities.isRunningInTestHarness()) {
             duration *= RemoveAnimationSettingsTracker.INSTANCE.get(getContext()).getValue(
                     WINDOW_ANIMATION_SCALE_URI);
         }

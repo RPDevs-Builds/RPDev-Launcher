@@ -96,7 +96,7 @@ public abstract class BaseWidgetSheet extends AbstractSlideInView<BaseActivity>
     }
 
     protected int getScrimColor(Context context) {
-        return context.getResources().getColor(R.color.widgets_picker_scrim);
+        return context.getColor(R.color.widgets_picker_scrim);
     }
 
     @Override

@@ -7,9 +7,39 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [Unreleased] - 2026-08-29
+## [1.0.0-alpha] - 2026-08-29 (RPDev Launcher Modernization & Rebranding)
 
 ### Added
+- **RPDev Launcher Rebranding**:
+  - Rebranded project identifier to `iamrp.dev.launcher` (`iamrp.dev.launcher.alpha` on debug builds).
+  - Rebranded application display name (`derived_app_name`, `app_name`) and user-facing strings across base strings and 19 locale translations (`values-es`, `values-de`, `values-fr`, `values-pt`, `values-ru`, `values-zh-rCN`, `values-zh-rTW`, `values-ja`, `values-nl`, `values-it`, `values-pl`, `values-tr`, `values-uk`, `values-ar`, `values-pt-rBR`, `values-in`, `values-lt`, `values-hr`, `values-hu`).
+  - Dynamic artifact output naming: `RPDev_Launcher_v1.0.0-alpha.apk` (debug/main) and `RPDev_Launcher_v1.0.0.apk` (release).
+  - Rebranded repository documentation (`README.md`), GitHub issue templates, and created comprehensive architectural documentation (`GEMINI.md`).
+- **Continuous Integration & Automated Releases**:
+  - Added GitHub Actions workflow (`.github/workflows/build.yml`) configured for JDK 21, Gradle 9.4 caching, automated APK artifact generation, unit test execution, and GitHub Releases on version tags.
+- **Android 12+ Backup & Extraction Configuration**:
+  - Added modern `res/xml/data_extraction_rules.xml` and configured `android:dataExtractionRules` in root manifests for cloud backup and device-to-device transfers.
+
+### Changed
+- **Android 14+ / 16 (API 34–37) Security & Platform Modernization**:
+  - Added explicit `ContextCompat.RECEIVER_NOT_EXPORTED` flags to all dynamic `BroadcastReceiver` registrations (`LauncherClient.java`, `LoaderTask.java`, `DefaultTransitionHandler.java`) preventing Android 14+ runtime crashes.
+  - Modernized `new Handler()` instantiation across 8 core classes to require explicit Looper bindings (`Looper.getMainLooper()`).
+  - Modernized Accessibility framework instantiations (`new AccessibilityEvent()`, `new AccessibilityNodeInfo()`) avoiding deprecated object pool APIs.
+  - Replaced single-parameter `resources.getColor(...)` calls with theme-aware `context.getColor(...)` across 10 Java files.
+  - Migrated `Intent.getParcelableExtra(...)` and `Bundle.getParcelable(...)` to type-safe `IntentCompat` and `BundleCompat` APIs.
+  - Converted string-based `getSystemService` to native `context.getSystemService(FooManager::class.java)` across 12 Kotlin providers and gestures.
+  - Replaced high-risk non-null assertions (`!!`) with safe calls and null guards across 8 critical Kotlin classes.
+- **AGP 10 & Gradle 9.4 Build System Upgrade**:
+  - Migrated variant configuration from legacy `applicationVariants.all` to AGP 10 `androidComponents.onVariants`.
+  - Upgraded build scripts to use `ApplicationExtension` and `LibraryExtension` with `android.newDsl=true`.
+  - Removed `gradle.projectsEvaluated` anti-patterns across 16+ submodules (`modules/concurrent`, `wmshell`, `flags`, `compatLib/*`, `libs_systemui/*`) for full Gradle Configuration Cache support.
+  - Fixed inverted Hilt version catalog artifacts (`hilt-android` / `hilt-android-compiler`).
+  - Stripped obsolete `kotlin-stdlib-jdk7` and `lifecycle-extensions` dependencies.
+  - Harmonized `compileSdk` and `targetSdk` across all targets to API 37 (Android 16).
+
+---
+
+## [0.9.0-dev] - 2026-08-29
 
 #### 1. Folder Enhancement & Customization Suite
 - **Advanced Visual Styling**:

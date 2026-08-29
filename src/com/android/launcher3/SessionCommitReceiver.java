@@ -25,6 +25,8 @@ import android.content.pm.PackageManager;
 import android.os.UserHandle;
 import android.text.TextUtils;
 
+import androidx.core.content.IntentCompat;
+
 import androidx.annotation.WorkerThread;
 
 import com.android.launcher3.logging.FileLog;
@@ -53,13 +55,13 @@ public class SessionCommitReceiver extends BroadcastReceiver {
 
     @WorkerThread
     private static void processIntent(Context context, Intent intent) {
-        UserHandle user = intent.getParcelableExtra(Intent.EXTRA_USER);
+        UserHandle user = IntentCompat.getParcelableExtra(intent, Intent.EXTRA_USER, UserHandle.class);
         if (!isEnabled(context, user)) {
             // User has decided to not add icons on homescreen.
             return;
         }
 
-        SessionInfo info = intent.getParcelableExtra(PackageInstaller.EXTRA_SESSION);
+        SessionInfo info = IntentCompat.getParcelableExtra(intent, PackageInstaller.EXTRA_SESSION, SessionInfo.class);
         if (!PackageInstaller.ACTION_SESSION_COMMITTED.equals(intent.getAction())
                 || info == null || user == null) {
             // Invalid intent.

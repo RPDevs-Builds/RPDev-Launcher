@@ -93,10 +93,11 @@ class SystemDragListener(launcher: Launcher, private val iconCache: Lazy<IconCac
         options: DragOptions,
     ) {
         mLauncher.dragController?.run {
-            itemInfo = SystemDragItemInfo()
+            val info = SystemDragItemInfo()
+            itemInfo = info
 
             // TODO(b/440196506): Use a more appropriate drag image.
-            val dragImage = iconCache.get().getDefaultIcon(itemInfo!!.user).newIcon(mLauncher)
+            val dragImage = iconCache.get().getDefaultIcon(info.user).newIcon(mLauncher)
 
             startDrag(
                 dragImage,

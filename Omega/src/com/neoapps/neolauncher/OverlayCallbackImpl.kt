@@ -81,35 +81,35 @@ class OverlayCallbackImpl(val launcher: Launcher) : LauncherOverlayTouchProxy,
     }
 
     override fun onDetachedFromWindow() {
-        launcherClient!!.onDetachedFromWindow()
+        launcherClient?.onDetachedFromWindow()
     }
 
     override fun onActivityStarted() {
-        launcherClient!!.onStart()
+        launcherClient?.onStart()
     }
 
     override fun onActivityResumed() {
-        launcherClient!!.onResume()
+        launcherClient?.onResume()
     }
 
     override fun onActivityPaused() {
-        launcherClient!!.onPause()
+        launcherClient?.onPause()
     }
 
     override fun onActivityStopped() {
-        launcherClient!!.onStop()
+        launcherClient?.onStop()
     }
 
     override fun openOverlay() {
-        launcherClient!!.showOverlay(true)
+        launcherClient?.showOverlay(true)
     }
 
     override fun hideOverlay(animate: Boolean) {
-        launcherClient!!.hideOverlay(animate)
+        launcherClient?.hideOverlay(animate)
     }
 
     override fun hideOverlay(duration: Int) {
-        launcherClient!!.hideOverlay(duration)
+        launcherClient?.hideOverlay(duration)
     }
 
 
@@ -121,7 +121,7 @@ class OverlayCallbackImpl(val launcher: Launcher) : LauncherOverlayTouchProxy,
         if (ev == null) return
         when (ev.actionMasked) {
             MotionEvent.ACTION_DOWN -> {
-                if (launcherClient != null && !launcherClient!!.isConnected) {
+                if (launcherClient?.isConnected == false) {
                     launcherClient?.reconnect()
                 }
                 launcherClient?.startScroll()

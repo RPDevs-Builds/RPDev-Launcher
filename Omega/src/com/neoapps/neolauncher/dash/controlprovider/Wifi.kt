@@ -35,7 +35,7 @@ class Wifi(context: Context) : DashControlProvider(context) {
     override val icon = Phosphor.WifiHigh
 
     private var wifiManager: WifiManager =
-        context.getSystemService(WIFI_SERVICE) as WifiManager
+        context.getSystemService(WifiManager::class.java)!!
 
     override var state: Boolean
         get() =

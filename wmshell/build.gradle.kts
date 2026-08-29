@@ -71,7 +71,7 @@ val addFrameworkJar = { name: String ->
     if (!frameworkJar.exists()) {
         throw IllegalArgumentException("Framework jar path ${frameworkJar.path} doesn't exist")
     }
-    gradle.projectsEvaluated {
+    afterEvaluate {
         tasks.withType<JavaCompile>().configureEach {
             classpath = files(frameworkJar, classpath)
         }
@@ -94,8 +94,7 @@ dependencies{
     implementation(libs.material)
     implementation(libs.recyclerview)
 
-    implementation(libs.kotlin.stdlib.jdk7)
-    implementation(libs.hilt.compiler)
+    implementation(libs.hilt.android)
     protobuf(files("proto/"))
 
     compileOnly(files("$FRAMEWORK_PREBUILTS_DIR/SystemUI-statsd-16.jar"))

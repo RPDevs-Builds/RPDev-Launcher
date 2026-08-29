@@ -3,6 +3,7 @@ package com.android.launcher3.widget;
 import android.appwidget.AppWidgetHostView;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 
@@ -34,7 +35,7 @@ public class WidgetHostViewLoader implements DragController.DragListener {
 
     public WidgetHostViewLoader(Launcher launcher, View view) {
         mLauncher = launcher;
-        mHandler = new Handler();
+        mHandler = new Handler(Looper.getMainLooper());
         mView = view;
         mInfo = (PendingAddWidgetInfo) view.getTag();
     }

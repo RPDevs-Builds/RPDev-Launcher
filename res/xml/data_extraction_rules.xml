@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data-extraction-rules xmlns:android="http://schemas.android.com/apk/res/android">
+    <cloud-backup>
+        <include domain="database" path="launcher.db" />
+        <include domain="database" path="launcher_5_by_8.db" />
+        <include domain="database" path="launcher_6_by_5.db" />
+        <include domain="database" path="launcher_5_by_6.db" />
+        <include domain="database" path="launcher_4_by_6.db" />
+        <include domain="database" path="launcher_4_by_5.db" />
+        <include domain="database" path="launcher_4_by_4.db" />
+        <include domain="database" path="launcher_3_by_3.db" />
+        <include domain="database" path="launcher_2_by_2.db" />
+        <include domain="database" path="launcher_7_by_3.db" />
+        <include domain="database" path="launcher_8_by_3.db" />
+        <include domain="sharedpref" path="com.android.launcher3.prefs.xml" />
+        <include domain="file" path="downgrade_schema.json" />
+    </cloud-backup>
+    <device-transfer>
+        <include domain="database" path="launcher.db" />
+        <include domain="database" path="launcher_5_by_8.db" />
+        <include domain="database" path="launcher_6_by_5.db" />
+        <include domain="database" path="launcher_5_by_6.db" />
+        <include domain="database" path="launcher_4_by_6.db" />
+        <include domain="database" path="launcher_4_by_5.db" />
+        <include domain="database" path="launcher_4_by_4.db" />
+        <include domain="database" path="launcher_3_by_3.db" />
+        <include domain="database" path="launcher_2_by_2.db" />
+        <include domain="database" path="launcher_7_by_3.db" />
+        <include domain="database" path="launcher_8_by_3.db" />
+        <include domain="sharedpref" path="com.android.launcher3.prefs.xml" />
+        <include domain="file" path="downgrade_schema.json" />
+    </device-transfer>
+</data-extraction-rules>

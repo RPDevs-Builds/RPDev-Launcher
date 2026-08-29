@@ -89,7 +89,7 @@
     <string name="read_external_storage_required">Yedekleme oluşturmak için depolama erişimi verin.</string>
     <string name="backup_location_device_storage">Dahili klasör</string>
     <string name="backup_location">Konum</string>
-    <string name="backup_share_text">Neo Launcher yedekleme dosyası</string>
+    <string name="backup_share_text">RPDev Launcher yedekleme dosyası</string>
     <string name="backup_share_title">Yedeklemeyi paylaş</string>
     <string name="restore_read_meta_fail">Geçersiz yedekleme dosyası</string>
     <string name="restore_failed">Geri yükleme başarısız</string>

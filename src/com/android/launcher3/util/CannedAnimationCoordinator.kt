@@ -160,13 +160,12 @@ class CannedAnimationCoordinator(private val activity: StatefulActivity<*>) {
         }
         endCurrentAnimation(false /* success */)
 
-        if (animationFactory == null || animationController == null) {
-            return
-        }
+        val controller = animationController ?: return
+        val factory = animationFactory ?: return
         currentAnim =
             PendingAnimation(animationDuration)
-                .apply { animationFactory?.accept(this) }
+                .apply { factory.accept(this) }
                 .createPlaybackController()
-                .apply { setPlayFraction(animationController!!.progressFraction) }
+                .apply { setPlayFraction(controller.progressFraction) }
     }
 }

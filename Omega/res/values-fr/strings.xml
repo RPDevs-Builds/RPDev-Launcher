@@ -278,7 +278,7 @@
     <string name="read_external_storage_required">Autoriser le stockage pour créer une sauvegarde.</string>
     <string name="backup_location_device_storage">Dossier interne</string>
     <string name="backup_location">Emplacement</string>
-    <string name="backup_share_text">Fichier de sauvegarde Neo Launcher</string>
+    <string name="backup_share_text">Fichier de sauvegarde RPDev Launcher</string>
     <string name="backup_share_title">Partager la sauvegarde</string>
     <string name="restore_read_meta_fail">Fichier de sauvegarde invalide</string>
     <string name="restore_failed">Échec de la restauration</string>

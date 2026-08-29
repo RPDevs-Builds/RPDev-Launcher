@@ -28,6 +28,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.ShapeDrawable;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.IntProperty;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
@@ -74,7 +75,7 @@ public class ArrowTipView extends AbstractFloatingView {
             };
 
     protected final ActivityContext mActivityContext;
-    private final Handler mHandler = new Handler();
+    private final Handler mHandler = new Handler(Looper.getMainLooper());
     private boolean mIsPointingUp;
     private Runnable mOnClosed;
     private View mArrowView;

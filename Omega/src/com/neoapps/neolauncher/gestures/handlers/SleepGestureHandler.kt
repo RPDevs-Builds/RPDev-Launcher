@@ -73,7 +73,7 @@ class SleepMethodDeviceAdmin(context: Context) : SleepGestureHandler.SleepMethod
 
     override fun sleep(controller: GestureController?) {
         val devicePolicyManager =
-            context.getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
+            context.getSystemService(DevicePolicyManager::class.java)!!
         if (devicePolicyManager.isAdminActive(
                 ComponentName(
                     context,

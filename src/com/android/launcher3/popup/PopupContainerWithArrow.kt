@@ -483,10 +483,7 @@ private constructor(
             systemShortcuts: List<SystemShortcut<*>>
         ): Optional<SystemShortcut.Widgets<*>> {
             return systemShortcuts
-                .stream()
-                .filter { shortcut: SystemShortcut<*>? -> shortcut is SystemShortcut.Widgets<*> }
-                .map { it as SystemShortcut.Widgets }
-                .findFirst()
+                .filterIsInstance<SystemShortcut.Widgets<*>>().firstOrNull()?.let { Optional.of(it) } ?: Optional.empty()
         }
 
         /**

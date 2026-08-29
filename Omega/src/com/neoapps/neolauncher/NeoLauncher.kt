@@ -132,7 +132,7 @@ class NeoLauncher : Launcher(), SavedStateRegistryOwner,
         val config = Config(this)
         config.setAppLanguage(prefs.profileLanguage.getValue())
         mOverlayManager = defaultOverlay
-        val camManager = getSystemService(CAMERA_SERVICE) as CameraManager?
+        val camManager = getSystemService(CameraManager::class.java)
         camManager?.registerTorchCallback(object : CameraManager.TorchCallback() {
             override fun onTorchModeUnavailable(cameraId: String) {
             }
@@ -622,7 +622,7 @@ class NeoLauncher : Launcher(), SavedStateRegistryOwner,
         @JvmStatic
         fun getLauncher(context: Context): NeoLauncher {
             return context as? NeoLauncher
-                ?: (context as ContextWrapper).baseContext as? NeoLauncher
+                ?: (context as? ContextWrapper)?.baseContext as? NeoLauncher
                 ?: Launcher.getLauncher(context) as NeoLauncher
         }
 

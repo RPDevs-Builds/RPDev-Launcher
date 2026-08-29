@@ -1973,7 +1973,7 @@ public class Workspace<T extends View & PageIndicator> extends PagedView<T>
             // TAPL can work only if UIDevice is set up as setCompressedLayoutHeirarchy(false).
             // Hiding workspace from the tests when it's
             // IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS.
-            return AccessibilityNodeInfo.obtain();
+            return new AccessibilityNodeInfo();
         }
         return super.createAccessibilityNodeInfo();
     }
@@ -2505,7 +2505,7 @@ public class Workspace<T extends View & PageIndicator> extends PagedView<T>
                             parentCell.removeView(cell);
                         } else if (mDragInfo.cell instanceof LauncherAppWidgetHostView) {
                             d.dragView.detachContentView(/* reattachToPreviousParent= */ false);
-                        } else if (FeatureFlags.IS_STUDIO_BUILD) {
+                        } else if (BuildConfig.IS_STUDIO_BUILD) {
                             throw new NullPointerException("mDragInfo.cell has null parent");
                         }
                         addInScreen(cell, container, screenId, mTargetCell[0], mTargetCell[1],
@@ -2850,7 +2850,7 @@ public class Workspace<T extends View & PageIndicator> extends PagedView<T>
 
         ItemInfo item = d.dragInfo;
         if (item == null) {
-            if (FeatureFlags.IS_STUDIO_BUILD) {
+            if (BuildConfig.IS_STUDIO_BUILD) {
                 throw new NullPointerException("DragObject has null info");
             }
             return;
@@ -3629,7 +3629,7 @@ public class Workspace<T extends View & PageIndicator> extends PagedView<T>
                     mDragInfo.container, mDragInfo.screenId);
             if (cellLayout != null) {
                 cellLayout.onDropChild(mDragInfo.cell);
-            } else if (FeatureFlags.IS_STUDIO_BUILD) {
+            } else if (BuildConfig.IS_STUDIO_BUILD) {
                 throw new RuntimeException("Invalid state: cellLayout == null in "
                         + "Workspace#onDropCompleted. Please file a bug. ");
             }
@@ -3648,7 +3648,7 @@ public class Workspace<T extends View & PageIndicator> extends PagedView<T>
         CellLayout parentCell = getParentCellLayoutForView(v);
         if (parentCell != null) {
             parentCell.removeView(v);
-        } else if (FeatureFlags.IS_STUDIO_BUILD) {
+        } else if (BuildConfig.IS_STUDIO_BUILD) {
             // When an app is uninstalled using the drop target, we wait until resume to remove
             // the icon. We also remove all the corresponding items from the workspace at
             // {@link Launcher#bindComponentsRemoved}. That call can come before or after

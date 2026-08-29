@@ -16,6 +16,7 @@ import android.content.Context;
 import android.os.UserHandle;
 import android.util.Log;
 import android.util.Pair;
+import com.android.launcher3.BuildConfig;
 
 import androidx.annotation.Nullable;
 import androidx.collection.ArrayMap;
@@ -181,7 +182,7 @@ public class WidgetsModel {
             }
             setWidgetsAndShortcuts(widgetsAndShortcuts, packageUser);
         } catch (Exception e) {
-            if (!FeatureFlags.IS_STUDIO_BUILD && Utilities.isBinderSizeError(e)) {
+            if (!BuildConfig.IS_STUDIO_BUILD && Utilities.isBinderSizeError(e)) {
                 // the returned value may be incomplete and will not be refreshed until the next
                 // time Launcher starts.
                 // TODO: after figuring out a repro step, introduce a dirty bit to check when

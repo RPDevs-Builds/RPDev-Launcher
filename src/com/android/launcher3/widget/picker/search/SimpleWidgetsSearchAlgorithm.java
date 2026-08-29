@@ -19,6 +19,7 @@ package com.android.launcher3.widget.picker.search;
 import static com.android.launcher3.search.StringMatcherUtility.matches;
 
 import android.os.Handler;
+import android.os.Looper;
 
 import com.android.launcher3.model.WidgetItem;
 import com.android.launcher3.search.SearchAlgorithm;
@@ -42,7 +43,7 @@ public final class SimpleWidgetsSearchAlgorithm implements SearchAlgorithm<Widge
     private final WidgetsSearchDataProvider mDataProvider;
 
     public SimpleWidgetsSearchAlgorithm(WidgetsSearchDataProvider dataProvider) {
-        mResultHandler = new Handler();
+        mResultHandler = new Handler(Looper.getMainLooper());
         mDataProvider = dataProvider;
     }
 

@@ -446,7 +446,7 @@
     <string name="backup_error_blank_name">名稱必須填寫</string>
     <string name="backup_creating">正在建立備份</string>
     <string name="backup_failed">備份失敗</string>
-    <string name="backup_share_text">Neo Launcher 備份檔案</string>
+    <string name="backup_share_text">RPDev Launcher 備份檔案</string>
     <string name="backup_location_device_storage">內部資料夾</string>
     <string name="about_channel">頻道</string>
     <string name="dash_torch_summary">開啟或關閉閃光燈。</string>

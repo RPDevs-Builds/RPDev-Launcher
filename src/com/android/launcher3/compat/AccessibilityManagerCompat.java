@@ -49,7 +49,7 @@ public class AccessibilityManagerCompat {
     public static void sendCustomAccessibilityEvent(@Nullable View target, int type,
                                                     @Nullable String text) {
         if (target != null && isObservedEventType(target.getContext(), type)) {
-            AccessibilityEvent event = AccessibilityEvent.obtain(type);
+            AccessibilityEvent event = new AccessibilityEvent(type);
             target.onInitializeAccessibilityEvent(event);
             if (!TextUtils.isEmpty(text)) {
                 event.getText().add(text);
@@ -83,7 +83,7 @@ public class AccessibilityManagerCompat {
     private static void sendEventToTest(
             AccessibilityManager accessibilityManager,
             Context context, String eventTag, Bundle data) {
-        final AccessibilityEvent e = AccessibilityEvent.obtain(
+        final AccessibilityEvent e = new AccessibilityEvent(
                 AccessibilityEvent.TYPE_ANNOUNCEMENT);
         e.setClassName(eventTag);
         e.setParcelableData(data);

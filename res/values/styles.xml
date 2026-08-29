@@ -472,7 +472,7 @@
         <item name="android:includeFontPadding">false</item>
         <item name="android:textColor">@color/drop_target_text</item>
         <item name="android:textSize">@dimen/drop_target_text_size</item>
-        <item name="android:singleLine">true</item>
+        <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
         <item name="android:background">@drawable/drop_target_background</item>
     </style>

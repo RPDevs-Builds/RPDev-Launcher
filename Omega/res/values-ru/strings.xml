@@ -69,7 +69,7 @@
     <string name="read_external_storage_required">Предоставьте доступ к хранилищу для создания резервной копии.</string>
     <string name="backup_location_device_storage">Внутренняя папка</string>
     <string name="backup_location">Расположение</string>
-    <string name="backup_share_text">Резервный файл Neo Launcher</string>
+    <string name="backup_share_text">Резервный файл RPDev Launcher</string>
     <string name="backup_share_title">Поделиться резервной копией</string>
     <string name="restore_read_meta_fail">Поврежденный файл резервной копии</string>
     <string name="restore_failed">Восстановление не удалось</string>

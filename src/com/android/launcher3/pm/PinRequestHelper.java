@@ -29,6 +29,8 @@ import android.os.Build;
 import android.os.Parcelable;
 import android.os.SystemClock;
 
+import androidx.core.content.IntentCompat;
+
 import androidx.annotation.Nullable;
 
 import com.android.launcher3.LauncherAppState;
@@ -90,8 +92,7 @@ public class PinRequestHelper {
 
     @TargetApi(Build.VERSION_CODES.O)
     public static PinItemRequest getPinItemRequest(Intent intent) {
-        Parcelable extra = intent.getParcelableExtra(LauncherApps.EXTRA_PIN_ITEM_REQUEST);
-        return extra instanceof PinItemRequest ? (PinItemRequest) extra : null;
+        return IntentCompat.getParcelableExtra(intent, LauncherApps.EXTRA_PIN_ITEM_REQUEST, PinItemRequest.class);
     }
 
     /**

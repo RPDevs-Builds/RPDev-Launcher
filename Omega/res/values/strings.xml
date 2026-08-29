@@ -17,7 +17,7 @@
   ~  along with this program.  If not, see <https://www.gnu.org/licenses/>.
   -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="derived_app_name" translatable="false">Neo Launcher</string>
+    <string name="derived_app_name" translatable="false">RPDev Launcher</string>
     <string name="app_version" translatable="false">Version</string>
     <string name="app_build" translatable="false">Build</string>
     <string name="app_id" translatable="false">Package</string>
@@ -470,7 +470,7 @@
     <string name="notification_dots_disabled">To show Notification Dots, enable showing notification dots in settings</string>
     <string name="permission_grant">Grant</string>
     <string name="permission_wallpaper_title">Wallpaper Access</string>
-    <string name="permission_wallpaper_message">Neo Launcher needs access to your wallpaper to apply blur effects. Without this permission, the blur background will be disabled.</string>
+    <string name="permission_wallpaper_message">RPDev Launcher needs access to your wallpaper to apply blur effects. Without this permission, the blur background will be disabled.</string>
 
     <!-- SEARCH -->
     <string name="title__search_bubble_searchbar">Show Two Bubbles</string>
@@ -558,7 +558,7 @@
     <string name="restore_failed">Restore failed</string>
     <string name="restore_read_meta_fail">Invalid backup file</string>
     <string name="backup_share_title">Share backup</string>
-    <string name="backup_share_text">Neo Launcher backup file</string>
+    <string name="backup_share_text">RPDev Launcher backup file</string>
     <string name="backup_location">Location</string>
     <string name="backup_location_device_storage">Internal folder</string>
     <string name="read_external_storage_required">Grant storage access to create a backup.</string>

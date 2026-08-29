@@ -51,8 +51,7 @@
                 android:textColor="?android:attr/textColorPrimary"
                 android:textSize="24sp"
                 android:ellipsize="end"
-                android:fadingEdge="horizontal"
-                android:singleLine="true"
+                android:requiresFadingEdge="horizontal"
                 android:maxLines="1" />
 
             <TextView

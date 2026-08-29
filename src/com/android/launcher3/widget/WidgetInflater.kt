@@ -128,7 +128,7 @@ constructor(
                     if (isDirectConfig && item.bindOptions != null) {
                         val newOptions = item.bindOptions.extras
                         if (options != null) {
-                            newOptions!!.putAll(options)
+                            newOptions?.putAll(options)
                         }
                         options = newOptions
                     }

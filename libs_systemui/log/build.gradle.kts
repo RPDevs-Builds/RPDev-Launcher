@@ -10,7 +10,7 @@ kotlin {
 
 android {
     compileSdk = 37
-    namespace = "com.android.systemui.plugin_core"
+    namespace = "com.android.systemui.log"
 
     defaultConfig {
         minSdk = 30
@@ -51,7 +51,7 @@ val addFrameworkJar = { name: String ->
     if (!frameworkJar.exists()) {
         throw IllegalArgumentException("Framework jar path ${frameworkJar.path} doesn't exist")
     }
-    gradle.projectsEvaluated {
+    afterEvaluate {
         tasks.withType<JavaCompile>().configureEach {
             classpath = files(frameworkJar, classpath)
         }
@@ -67,7 +67,6 @@ addFrameworkJar("framework-15.jar")
 
 dependencies{
     implementation(libs.core.ktx)
-    implementation(libs.kotlin.stdlib.jdk7)
     implementation(libs.error.prone.annotations)
     implementation(project(":plugincore"))
     implementation(project(":common"))

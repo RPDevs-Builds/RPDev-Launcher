@@ -145,7 +145,8 @@ class StartAppGestureHandler(context: Context, config: JSONObject?) :
             }
 
             target != null -> try {
-                context.packageManager.getApplicationIcon(target?.componentName!!.packageName)
+                val packageName = target?.componentName?.packageName ?: return context.getIcon()
+                context.packageManager.getApplicationIcon(packageName)
             } catch (e: Exception) {
                 context.getIcon()
             }

@@ -173,7 +173,7 @@
     <string name="read_external_storage_required">Suteikite prieigą prie saugyklos atsarginei kopijai sukurti.</string>
     <string name="backup_location_device_storage">Vidinis aplankas</string>
     <string name="backup_location">Vieta</string>
-    <string name="backup_share_text">Neo Launcher atsarginės kopijos failas</string>
+    <string name="backup_share_text">RPDev Launcher atsarginės kopijos failas</string>
     <string name="backup_share_title">Dalintis atsargine kopija</string>
     <string name="restore_read_meta_fail">Netinkamas atsarginės kopijos failas</string>
     <string name="restore_failed">Atkūrimas nepavyko</string>

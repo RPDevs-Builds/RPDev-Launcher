@@ -87,7 +87,7 @@ class NeoApp : Application() {
 
     fun performGlobalAction(action: Int): Boolean {
         return if (accessibilityService != null) {
-            accessibilityService!!.performGlobalAction(action)
+            accessibilityService?.performGlobalAction(action) ?: false
         } else {
             startActivity(
                 Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)

@@ -35,7 +35,7 @@ class MobileData(context: Context) : DashControlProvider(context) {
     override val extendable = true
     override val icon = Phosphor.ArrowsDownUp
 
-    var tm = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+    var tm = context.getSystemService(TelephonyManager::class.java)!!
 
     override var state: Boolean
         get() {

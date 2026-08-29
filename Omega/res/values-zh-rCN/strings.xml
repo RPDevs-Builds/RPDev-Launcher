@@ -86,7 +86,7 @@
     <string name="read_external_storage_required">要创建备份，请授予存储权限。</string>
     <string name="backup_location_device_storage">内部文件夹</string>
     <string name="backup_location">位置</string>
-    <string name="backup_share_text">Neo Launcher 备份文件</string>
+    <string name="backup_share_text">RPDev Launcher 备份文件</string>
     <string name="backup_share_title">分享备份</string>
     <string name="restore_read_meta_fail">无效备份文件</string>
     <string name="backup_failed">备份失败</string>

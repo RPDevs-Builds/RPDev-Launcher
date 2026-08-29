@@ -109,11 +109,11 @@ public class BubbleBarLayerView extends FrameLayout
         mScrimView = new View(getContext());
         mScrimView.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
         mScrimView.setBackgroundDrawable(new ColorDrawable(
-                getResources().getColor(android.R.color.system_neutral1_1000)));
+                getContext().getColor(android.R.color.system_neutral1_1000)));
         addView(mScrimView);
         mScrimView.setAlpha(0f);
         mScrimView.setBackgroundDrawable(new ColorDrawable(
-                getResources().getColor(android.R.color.system_neutral1_1000)));
+                getContext().getColor(android.R.color.system_neutral1_1000)));
 
         setUpDismissView();
 

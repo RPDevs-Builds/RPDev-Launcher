@@ -34,7 +34,7 @@ open class FirefoxSearchProvider(context: Context) : AbstractSearchProvider(cont
     override val supportsFeed = true
     override val id = 1005L
     override val packageName: String
-        get() = getPackage(context)!!
+        get() = getPackage(context) ?: "org.mozilla.firefox"
 
     override val isAvailable: Boolean
         get() = getPackage(context) != null

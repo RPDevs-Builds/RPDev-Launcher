@@ -250,7 +250,7 @@ public class PipAccessibilityInteractionConnection {
      * Update the Root node with PIP Accessibility action items.
      */
     public static AccessibilityNodeInfo obtainRootAccessibilityNodeInfo(Context context) {
-        AccessibilityNodeInfo info = AccessibilityNodeInfo.obtain();
+        AccessibilityNodeInfo info = new AccessibilityNodeInfo();
         info.setSourceNodeId(AccessibilityNodeInfo.ROOT_NODE_ID,
                 AccessibilityWindowInfo.PICTURE_IN_PICTURE_ACTION_REPLACER_WINDOW_ID);
         info.addAction(AccessibilityNodeInfo.AccessibilityAction.ACTION_CLICK);

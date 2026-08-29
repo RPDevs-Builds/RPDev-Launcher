@@ -1,5 +1,5 @@
-import com.android.build.gradle.BaseExtension
-import com.android.build.gradle.api.AndroidBasePlugin
+import com.android.build.api.dsl.ApplicationExtension
+import com.android.build.api.dsl.LibraryExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -19,7 +19,7 @@ val addFrameworkJar = { name: String ->
     if (!frameworkJar.exists()) {
         throw IllegalArgumentException("Framework jar path ${frameworkJar.path} doesn't exist")
     }
-    gradle.projectsEvaluated {
+    afterEvaluate {
         tasks.withType<JavaCompile>().configureEach {
             classpath = files(frameworkJar, classpath)
         }
@@ -45,13 +45,31 @@ plugins {
     alias(libs.plugins.gradle.toolchains) apply false
 }
 allprojects {
-    plugins.withType<AndroidBasePlugin>().configureEach {
-        extensions.configure<BaseExtension> {
+    plugins.withId("com.android.application") {
+        extensions.configure<ApplicationExtension> {
             buildToolsVersion = "36.1.0"
 
             defaultConfig {
                 minSdk = 26
                 targetSdk = 37
+                vectorDrawables.useSupportLibrary = true
+            }
+            compileOptions {
+                sourceCompatibility = JavaVersion.toVersion(21)
+                targetCompatibility = JavaVersion.toVersion(21)
+            }
+        }
+        dependencies {
+            add("implementation", libs.core.ktx)
+            add("implementation", platform(libs.compose.bom))
+        }
+    }
+    plugins.withId("com.android.library") {
+        extensions.configure<LibraryExtension> {
+            buildToolsVersion = "36.1.0"
+
+            defaultConfig {
+                minSdk = 26
                 vectorDrawables.useSupportLibrary = true
             }
             compileOptions {
@@ -103,10 +121,10 @@ android {
 
     defaultConfig {
         minSdk = 30
-        targetSdk = 36
-        applicationId = "com.saggitt.omega"
-        versionName = "1.0.1"
-        versionCode = 1007
+        targetSdk = 37
+        applicationId = "iamrp.dev.launcher"
+        versionName = "1.0.0"
+        versionCode = 1000
         buildConfigField("String", "BUILD_DATE", "\"${getBuildDate()}\"")
         buildConfigField("boolean", "ENABLE_AUTO_INSTALLS_LAYOUT", "false")
         buildConfigField("boolean", "IS_DEBUG_DEVICE", "false")
@@ -135,28 +153,12 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    applicationVariants.all {
-        val variant = this
-        outputs.all {
-            (this as com.android.build.gradle.internal.api.BaseVariantOutputImpl).outputFileName =
-                "Neo_Launcher_${variant.versionName}_${variant.buildType.name}.apk"
-        }
-        variant.resValue(
-            "string",
-            "launcher_component",
-            "${variant.applicationId}/com.neoapps.neolauncher.NeoLauncher"
-        )
-    }
-
     buildTypes {
         debug {
             isMinifyEnabled = false
             applicationIdSuffix = ".alpha"
+            versionNameSuffix = "-alpha"
             signingConfig = signingConfigs.getByName("debug")
-        }
-        register("neo") {
-            isMinifyEnabled = false
-            applicationIdSuffix = ".neo"
         }
 
         release {
@@ -192,6 +194,7 @@ android {
         compose = true
         dataBinding = true
         aidl = true
+        resValues = true
     }
 
     packaging {
@@ -204,13 +207,12 @@ android {
         resources.excludes.add("META-INF/versions/9/previous-compilation-data.bin") // TODO remove when issue is fixed (https://github.com/Kotlin/kotlinx.coroutines/issues/3668)
     }
 
-    flavorDimensionList.clear()
-    flavorDimensionList.addAll(listOf("app", "custom"))
+    flavorDimensions += listOf("app", "custom")
 
     productFlavors {
         create("aosp") {
             dimension = "app"
-            applicationId = "com.saggitt.omega"
+            applicationId = "iamrp.dev.launcher"
             testApplicationId = "com.android.launcher3.tests"
         }
 
@@ -279,6 +281,21 @@ android {
     }
 }
 
+androidComponents {
+    onVariants { variant ->
+        variant.outputs.forEach { output ->
+            val vName = output.versionName.getOrElse("1.0.0")
+            output.outputFileName.set("RPDev_Launcher_v${vName}.apk")
+        }
+        variant.resValues.put(
+            variant.makeResValueKey("string", "launcher_component"),
+            com.android.build.api.variant.ResValue(
+                "${variant.applicationId.get()}/com.neoapps.neolauncher.NeoLauncher"
+            )
+        )
+    }
+}
+
 dependencies {
 
     implementation(project(":animationlib"))
@@ -324,8 +341,8 @@ dependencies {
     implementation(libs.fuzzywuzzy)
     implementation(libs.graphics.shapes)
     implementation(libs.guava)
-    implementation(libs.hilt.compiler)
-    ksp(libs.hilt.android)
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
     implementation(libs.hokofly.hokoblur)
     implementation(libs.koin.android)
     implementation(libs.koin.annotations)
@@ -336,7 +353,6 @@ dependencies {
     implementation(libs.jakarta.inject)
     implementation(libs.java.inject)
     implementation(libs.lifecycle.common)
-    implementation(libs.lifecycle.extensions)
     implementation(libs.lifecycle.livedata)
     implementation(libs.lifecycle.runtime)
     implementation(libs.lifecycle.viewmodel)

@@ -2255,7 +2255,7 @@ public class Launcher extends StatefulActivity<LauncherState>
                     Object tag = occupiedView == null ? null : occupiedView.getTag();
                     String desc = "Collision while binding workspace item: " + item
                             + ". Collides with " + tag;
-                    if (FeatureFlags.IS_STUDIO_BUILD) {
+                    if (BuildConfig.IS_STUDIO_BUILD) {
                         throw (new RuntimeException(desc));
                     } else {
                         // b/417021465 - Avoid mutating the model in the UI layer.

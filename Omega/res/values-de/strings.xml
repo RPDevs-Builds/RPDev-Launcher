@@ -262,7 +262,7 @@
     <string name="read_external_storage_required">Erlaube Speicherzugriff, um eine Sicherung zu erstellen.</string>
     <string name="backup_location_device_storage">Interner Ordner</string>
     <string name="backup_location">Ort</string>
-    <string name="backup_share_text">Neo Launcher Sicherungsdatei</string>
+    <string name="backup_share_text">RPDev Launcher Sicherungsdatei</string>
     <string name="backup_share_title">Sicherung teilen</string>
     <string name="restore_read_meta_fail">Ungültige Sicherungsdatei</string>
     <string name="restore_failed">Wiederherstellung fehlgeschlagen</string>

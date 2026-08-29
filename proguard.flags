@@ -12,7 +12,6 @@
 # The support library contains references to newer platform versions.
 # Don't warn about those in case this app is linking against an older
 # platform version.  We know about them, and they are safe.
--dontwarn android.support.**
 
 # Proguard will strip methods required for talkback to properly scroll to
 # next row when focus is on the last item of last row when using a RecyclerView
@@ -22,9 +21,6 @@
 
 # Fragments
 -keep class ** extends androidx.fragment.app.Fragment {
-    public <init>(...);
-}
--keep class ** extends android.app.Fragment {
     public <init>(...);
 }
 
@@ -70,9 +66,6 @@
 -keep class com.android.launcher3.dagger.Dagger** { *; }
 -keep class * extends dagger.internal.Factory { *; }
 -keepattributes *Annotation*
--keepclassmembers class * implements android.os.Parcelable {
-    public static final ** CREATOR;
-}
 -keepclassmembers enum * {
     public static **[] values();
     public static ** valueOf(java.lang.String);

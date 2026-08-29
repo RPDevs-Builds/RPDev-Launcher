@@ -38,7 +38,7 @@ val addFrameworkJar = { name: String ->
     if (!frameworkJar.exists()) {
         throw IllegalArgumentException("Framework jar path ${frameworkJar.path} doesn't exist")
     }
-    gradle.projectsEvaluated {
+    afterEvaluate {
         tasks.withType<JavaCompile>().configureEach {
             classpath = files(frameworkJar, classpath)
         }
@@ -53,6 +53,5 @@ val addFrameworkJar = { name: String ->
 addFrameworkJar("framework-15.jar")
 
 dependencies{
-    implementation(libs.kotlin.stdlib.jdk7)
     implementation(project(":plugincore"))
 }

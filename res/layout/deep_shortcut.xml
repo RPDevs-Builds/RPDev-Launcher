@@ -32,7 +32,7 @@
         android:paddingStart="@dimen/deep_shortcuts_text_padding_start"
         android:paddingEnd="@dimen/popup_padding_end"
         android:drawablePadding="@dimen/deep_shortcut_drawable_padding"
-        android:singleLine="true"
+        android:maxLines="1"
         android:ellipsize="end"
         android:textSize="14sp"
         android:textColor="?attr/popupTextColor"

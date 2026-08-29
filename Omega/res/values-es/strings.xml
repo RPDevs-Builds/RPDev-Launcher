@@ -408,7 +408,7 @@
     <string name="hide_app">Ocultar enlace</string>
     <string name="folder_cover_mode_desc">Lengüeta para abrir la primera app. Deslice arriba para verlo todo.</string>
     <string name="title_theme_customize_icons">Personalizar Iconos</string>
-    <string name="backup_share_text">Archivo de respaldo de Neo Launcher</string>
+    <string name="backup_share_text">Archivo de respaldo de RPDev Launcher</string>
     <string name="backup_location_device_storage">Carpeta Interna</string>
     <string name="read_external_storage_required">Acceso al almacenaje concedido para crear un respaldo.</string>
     <string name="local_backups">En Almacenaje</string>

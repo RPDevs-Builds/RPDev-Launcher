@@ -101,6 +101,7 @@ import com.android.launcher3.util.TraceHelper;
 import com.android.launcher3.util.UserIconInfo;
 import com.android.launcher3.widget.WidgetInflater;
 import com.android.launcher3.widget.util.WidgetSizeHandler;
+import androidx.core.content.ContextCompat;
 import com.neoapps.neolauncher.util.CustomActivityCachingLogic;
 
 import java.util.ArrayList;
@@ -605,11 +606,12 @@ public class LoaderTask implements Runnable {
         mBgDataModel.updateShortcutPinnedState(mContext);
 
         if (!Utilities.isBootCompleted() && !mPendingPackages.isEmpty()) {
-            mContext.registerReceiver(
+            ContextCompat.registerReceiver(mContext,
                     new SdCardAvailableReceiver(mContext, mModel, mPendingPackages),
                     new IntentFilter(Intent.ACTION_BOOT_COMPLETED),
                     null,
-                    MODEL_EXECUTOR.getHandler());
+                    MODEL_EXECUTOR.getHandler(),
+                    ContextCompat.RECEIVER_NOT_EXPORTED);
         }
     }
 

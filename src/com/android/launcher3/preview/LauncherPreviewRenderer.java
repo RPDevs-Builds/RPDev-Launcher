@@ -30,6 +30,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Looper;
@@ -408,11 +409,13 @@ public class LauncherPreviewRenderer extends BaseContext
      */
     private static Rect getInsets(Context context) {
         Display display = context.getDisplay();
+        Point displaySize = new Point();
+        display.getRealSize(displaySize);
         return DisplayController.INSTANCE.get(context).getInfo().supportedBounds.stream()
                 .filter(w -> w.rotationHint == display.getRotation())
                 .min(comparingDouble(w ->
-                        Math.pow(display.getWidth() - w.availableSize.x, 2)
-                                + Math.pow(display.getHeight() - w.availableSize.y, 2)))
+                        Math.pow(displaySize.x - w.availableSize.x, 2)
+                                + Math.pow(displaySize.y - w.availableSize.y, 2)))
                 .map(w -> new Rect(w.insets))
                 .orElse(new Rect());
     }
