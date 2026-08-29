@@ -86,10 +86,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Namespace Cleanups (AGP 10+ Ready)**:
   - Removed obsolete `package` attributes from `<manifest>` tags across `iconloaderlib`, `msdllib`, `widgetpicker`, `wmshell`, and `AndroidManifest-common.xml`.
   - Removed unused `<activity ... tools:node="remove" />` tag in `Omega/AndroidManifest.xml`.
-- **Properties & Directory Nesting**:
+- **Properties, Caching & Gradle 10 Readiness**:
+  - Configured `android.dependency.useConstraints=false` to eliminate AGP 9/10 dependency constraint configuration warnings and speed up project evaluation.
+  - Enabled `org.gradle.parallel=true` and `org.gradle.caching=true` for faster multi-module incremental compilation.
+  - Modernized `hidden-api/build.gradle` from space syntax to assignment syntax (`=`) for Gradle 10 Groovy DSL compliance.
   - Cleaned deprecated flags in `gradle.properties` (`android.r8.optimizedResourceShrinking`, `android.uniquePackageNames`, `android.generateSyncIssueWhenLibraryConstraintsAreEnabled`).
   - Fixed nested resource folder declaration in `wmshell/build.gradle.kts` by removing redundant parent `"shared"` source directory.
-  - Removed unrecognized `dagger.hilt.disableModulesHaveInstallInCheck` argument from `defaultConfig`.
+  - Added `-Xlint:-dep-ann` Java compiler option to suppress annotations on auto-generated Protobuf models.
 
 ### Fixed
 - **Cover Mode Rendering & Swipe-Up Physics**:
