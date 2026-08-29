@@ -174,7 +174,8 @@ class CustomIconProvider @JvmOverloads @Inject constructor(
         iconDpi: Int,
     ): Drawable {
         val packageName = appInfo.packageName
-        val componentName = context.packageManager.getLaunchIntentForPackage(packageName)?.component
+        val componentName = (info as? android.content.pm.ActivityInfo)?.let { ComponentName(it.packageName, it.name) }
+            ?: context.packageManager.getLaunchIntentForPackage(packageName)?.component
         val user = UserHandle.getUserHandleForUid(appInfo.uid)
 
         var iconEntry: IconEntry? = null

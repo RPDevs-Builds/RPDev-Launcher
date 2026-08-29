@@ -47,6 +47,7 @@ import com.android.launcher3.apppairs.AppPairIcon;
 import com.android.launcher3.celllayout.CellLayoutLayoutParams;
 import com.android.launcher3.keyboard.ViewGroupFocusHelper;
 import com.android.launcher3.model.data.AppPairInfo;
+import com.android.launcher3.model.data.FolderInfo;
 import com.android.launcher3.model.data.ItemInfo;
 import com.android.launcher3.model.data.WorkspaceItemInfo;
 import com.android.launcher3.pageindicators.PageIndicatorDots;
@@ -257,11 +258,19 @@ public class FolderPagedView extends PagedView<PageIndicatorDots> implements Cli
             // TODO (b/332607759): Make view cache work with app pair icons
             icon = AppPairIcon.inflateIcon(R.layout.folder_app_pair, ActivityContext.lookupContext(
                     getContext()), null , api, BubbleTextView.DISPLAY_FOLDER);
-        } else {
+        } else if (item instanceof FolderInfo fi) {
+            icon = FolderIcon.inflateFolderAndIcon(
+                    R.layout.folder_icon,
+                    ActivityContext.lookupContext(getContext()),
+                    null,
+                    fi);
+        } else if (item instanceof WorkspaceItemInfo wii) {
             int layout = mFolder.isInAppDrawer() ? R.layout.all_apps_folder_application
                     : R.layout.folder_application;
             icon = mViewCache.getView(layout, getContext(), null);
-            ((BubbleTextView) icon).applyFromWorkspaceItem((WorkspaceItemInfo) item);
+            ((BubbleTextView) icon).applyFromWorkspaceItem(wii);
+        } else {
+            return null;
         }
 
         icon.setOnClickListener(mFolder.mActivityContext.getItemOnClickListener());
@@ -374,8 +383,14 @@ public class FolderPagedView extends PagedView<PageIndicatorDots> implements Cli
                 lp.setCellXY(mOrganizer.getPosForRank(rank));
                 currentPage.addViewToCellLayout(v, -1, info.getViewId(), lp, true);
 
-                if (mOrganizer.isItemInPreview(rank) && v instanceof BubbleTextView) {
-                    ((BubbleTextView) v).verifyHighRes();
+                if (mOrganizer.isItemInPreview(rank)) {
+                    if (v instanceof BubbleTextView) {
+                        ((BubbleTextView) v).verifyHighRes();
+                    } else if (v instanceof AppPairIcon) {
+                        ((AppPairIcon) v).verifyHighRes();
+                    } else if (v instanceof FolderIcon) {
+                        ((FolderIcon) v).verifyHighRes();
+                    }
                 }
             }
 
@@ -573,6 +588,8 @@ public class FolderPagedView extends PagedView<PageIndicatorDots> implements Cli
                     btv.verifyHighRes();
                 } else if (iconView instanceof AppPairIcon api) {
                     api.verifyHighRes();
+                } else if (iconView instanceof FolderIcon fi) {
+                    fi.verifyHighRes();
                 }
             }
         }

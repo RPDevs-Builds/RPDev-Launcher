@@ -135,11 +135,30 @@ public class PreviewItemManager {
     }
 
     Drawable prepareCreateAnimation(final View destView) {
-        Drawable animateDrawable = destView instanceof AppPairIcon
-                ? ((AppPairIcon) destView).getIconDrawableArea().getDrawable()
-                : ((BubbleTextView) destView).getIcon();
-        computePreviewDrawingParams(animateDrawable.getIntrinsicWidth(),
-                destView.getMeasuredWidth());
+        Drawable animateDrawable = null;
+        if (destView instanceof AppPairIcon) {
+            animateDrawable = ((AppPairIcon) destView).getIconDrawableArea().getDrawable();
+        } else if (destView instanceof BubbleTextView) {
+            animateDrawable = ((BubbleTextView) destView).getIcon();
+        } else if (destView instanceof FolderIcon) {
+            com.android.launcher3.model.data.FolderInfo fi = ((FolderIcon) destView).mInfo;
+            WorkspaceItemInfo cover = fi != null ? fi.getCoverInfo() : null;
+            if (cover != null) {
+                animateDrawable = cover.newIcon(mContext, FLAG_THEMED);
+            }
+            if (animateDrawable == null) {
+                animateDrawable = ((FolderIcon) destView).getBackground();
+            }
+        }
+        int iconSize = (mIcon != null && mIcon.mActivity != null && mIcon.mActivity.getDeviceProfile() != null)
+                ? mIcon.mActivity.getDeviceProfile().getWorkspaceIconProfile().getIconSizePx()
+                : (destView != null && destView.getMeasuredWidth() > 0 ? destView.getMeasuredWidth() : 100);
+        if (animateDrawable == null) {
+            animateDrawable = new android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT);
+        }
+        int intrinsicWidth = animateDrawable.getIntrinsicWidth() > 0 ? animateDrawable.getIntrinsicWidth() : iconSize;
+        int measuredWidth = destView != null && destView.getMeasuredWidth() > 0 ? destView.getMeasuredWidth() : iconSize;
+        computePreviewDrawingParams(intrinsicWidth > 0 ? intrinsicWidth : 100, measuredWidth > 0 ? measuredWidth : 100);
         mReferenceDrawable = animateDrawable;
         return animateDrawable;
     }
@@ -190,7 +209,8 @@ public class PreviewItemManager {
         if (index == -1) {
             return getFinalIconParams(params);
         }
-        return mIcon.mPreviewLayoutRule.computePreviewItemDrawingParams(index, curNumItems, params);
+        int style = mIcon.getFolderInfo() != null ? mIcon.getFolderInfo().getPreviewStyle() : com.android.launcher3.model.data.FolderInfo.PREVIEW_STYLE_DEFAULT;
+        return mIcon.mPreviewLayoutRule.computePreviewItemDrawingParams(index, curNumItems, params, style);
     }
 
     private PreviewItemDrawingParams getFinalIconParams(PreviewItemDrawingParams params) {
@@ -466,16 +486,53 @@ public class PreviewItemManager {
     private void setDrawableInternal(
             PreviewItemDrawingParams p, ItemInfo item, boolean loadHighResIcon) {
         if (item instanceof WorkspaceItemInfo wii) {
-            if (wii.shouldShowPendingIcon()) {
-                p.drawable = newPendingIcon(wii, mContext, FLAG_THEMED);
-            } else {
-                p.drawable = wii.newIcon(mContext, FLAG_THEMED);
+            android.content.ComponentName comp = wii.getTargetComponent() != null ? wii.getTargetComponent()
+                    : (wii.getIntent() != null ? wii.getIntent().getComponent() : null);
+            boolean customLoaded = false;
+            if (comp != null) {
+                com.android.launcher3.util.ComponentKey key = new com.android.launcher3.util.ComponentKey(comp, wii.user);
+                com.neoapps.neolauncher.data.models.IconPickerItem override =
+                        com.neoapps.neolauncher.data.IconOverrideRepository.INSTANCE.get(mContext).getOverridesMap().get(key);
+                if (override != null) {
+                    Drawable custom = com.neoapps.neolauncher.iconpack.IconPackProvider.INSTANCE.get(mContext).getDrawable(override.toIconEntry(), 0, wii.user);
+                    if (custom != null) {
+                        p.drawable = custom;
+                        customLoaded = true;
+                    }
+                }
+            }
+            if (!customLoaded) {
+                if (wii.shouldShowPendingIcon()) {
+                    p.drawable = newPendingIcon(wii, mContext, FLAG_THEMED);
+                } else {
+                    p.drawable = wii.newIcon(mContext, FLAG_THEMED);
+                }
             }
             p.drawable.setBounds(0, 0, mIconSize, mIconSize);
         } else if (item instanceof AppPairInfo api) {
             AppPairIconDrawingParams appPairParams =
                     new AppPairIconDrawingParams(mContext, DISPLAY_FOLDER);
             p.drawable = AppPairIconGraphic.composeDrawable(api, appPairParams);
+            p.drawable.setBounds(0, 0, mIconSize, mIconSize);
+        } else if (item instanceof com.android.launcher3.model.data.FolderInfo fi) {
+            Drawable icon = null;
+            com.android.launcher3.util.ComponentKey folderKey = fi.getFolderComponentKey();
+            com.neoapps.neolauncher.data.models.IconPickerItem override =
+                    com.neoapps.neolauncher.data.IconOverrideRepository.INSTANCE.get(mContext).getOverridesMap().get(folderKey);
+            if (override != null) {
+                icon = com.neoapps.neolauncher.iconpack.IconPackProvider.INSTANCE.get(mContext).getDrawable(override.toIconEntry(), 0, fi.user);
+            }
+            if (icon == null) {
+                WorkspaceItemInfo cover = fi.getCoverInfo();
+                if (cover != null) {
+                    icon = cover.newIcon(mContext, FLAG_THEMED);
+                }
+            }
+            if (icon == null) {
+                icon = androidx.core.content.res.ResourcesCompat.getDrawable(mContext.getResources(),
+                        com.android.launcher3.R.drawable.round_rect_folder, mContext.getTheme());
+            }
+            p.drawable = icon != null ? icon : new android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT);
             p.drawable.setBounds(0, 0, mIconSize, mIconSize);
         }
 

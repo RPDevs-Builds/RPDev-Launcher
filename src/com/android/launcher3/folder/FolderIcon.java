@@ -32,7 +32,10 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.Rect;
+import android.graphics.RectF;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Looper;
 import android.util.AttributeSet;
@@ -62,6 +65,8 @@ import com.android.launcher3.R;
 import com.android.launcher3.Reorderable;
 import com.android.launcher3.Utilities;
 import com.android.launcher3.Workspace;
+import com.android.launcher3.icons.GraphicsUtils;
+import com.android.launcher3.util.Themes;
 import com.android.launcher3.allapps.ActivityAllAppsContainerView;
 import com.android.launcher3.celllayout.CellLayoutLayoutParams;
 import com.android.launcher3.dot.FolderDotInfo;
@@ -161,6 +166,11 @@ public class FolderIcon extends FrameLayout implements FloatingIconViewCompanion
     private GestureHandler mSwipeUpHandler;
     private Drawable mCoverDrawable;
 
+    private final Paint mCoverIndicatorPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Paint mCoverIndicatorTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Path mCoverIndicatorPath = new Path();
+    private final RectF mCoverIndicatorRectF = new RectF();
+
     private static final Property<FolderIcon, Float> DOT_SCALE_PROPERTY
             = new Property<FolderIcon, Float>(Float.TYPE, "dotScale") {
         @Override
@@ -236,6 +246,7 @@ public class FolderIcon extends FrameLayout implements FloatingIconViewCompanion
             icon.mFolderName.setCompoundDrawablePadding(grid.getAllAppsProfile().getIconDrawablePaddingPx());
             icon.mBackground = new PreviewBackground(activity.asContext(), true);
             ((DrawerFolderInfo) folderInfo).getAppsStore().registerFolderIcon(icon);
+            icon.setOnLongClickListener(activity.getAllAppsItemLongClickListener());
         } else {
             lp.topMargin = grid.getWorkspaceIconProfile().getIconSizePx()
                 + grid.getWorkspaceIconProfile().getIconDrawablePaddingPx();
@@ -272,31 +283,47 @@ public class FolderIcon extends FrameLayout implements FloatingIconViewCompanion
      * Ensures high-resolution icon data is requested asynchronously from the icon cache if needed.
      */
     public void updateCoverDrawable() {
-        if (mInfo != null && mInfo.isCoverMode()) {
-            WorkspaceItemInfo coverInfo = mInfo.getCoverInfo();
-            if (coverInfo != null) {
-                mCoverDrawable = coverInfo.newIcon(getContext(), BitmapInfo.FLAG_THEMED);
-                if (mCoverDrawable != null) {
-                    mCoverDrawable.setCallback(this);
+        if (mInfo != null) {
+            com.android.launcher3.util.ComponentKey folderKey = mInfo.getFolderComponentKey();
+            com.neoapps.neolauncher.data.models.IconPickerItem override =
+                    com.neoapps.neolauncher.data.IconOverrideRepository.INSTANCE.get(getContext()).getOverridesMap().get(folderKey);
+            if (override != null) {
+                try {
+                    Drawable customDrawable = com.neoapps.neolauncher.iconpack.IconPackProvider.INSTANCE.get(getContext())
+                            .getDrawable(override.toIconEntry(), 0, mInfo.user);
+                    if (customDrawable != null) {
+                        mCoverDrawable = customDrawable;
+                        mCoverDrawable.setCallback(this);
+                        return;
+                    }
+                } catch (Exception ignored) {
                 }
-                if (coverInfo.getMatchingLookupFlag().isVisuallyLessThan(DESKTOP_ICON_FLAG)) {
+            }
+
+            if (mInfo.isCoverMode()) {
+                WorkspaceItemInfo coverInfo = mInfo.getCoverInfo();
+                if (coverInfo != null) {
+                    mCoverDrawable = coverInfo.newIcon(getContext(), BitmapInfo.FLAG_THEMED);
+                    if (mCoverDrawable != null) {
+                        mCoverDrawable.setCallback(this);
+                    }
                     LauncherAppState.getInstance(getContext()).getIconCache().updateIconInBackground(
                             newInfo -> {
                                 if (mInfo != null && mInfo.isCoverMode() && mInfo.getCoverInfo() == newInfo) {
-                                    mCoverDrawable = ((WorkspaceItemInfo) newInfo).newIcon(getContext(), BitmapInfo.FLAG_THEMED);
-                                    if (mCoverDrawable != null) {
-                                        mCoverDrawable.setCallback(this);
+                                    if (!com.neoapps.neolauncher.data.IconOverrideRepository.INSTANCE.get(getContext()).getOverridesMap().containsKey(folderKey)) {
+                                        mCoverDrawable = ((WorkspaceItemInfo) newInfo).newIcon(getContext(), BitmapInfo.FLAG_THEMED);
+                                        if (mCoverDrawable != null) {
+                                            mCoverDrawable.setCallback(this);
+                                        }
+                                        invalidate();
                                     }
-                                    invalidate();
                                 }
                             }, coverInfo, DESKTOP_ICON_FLAG);
+                    return;
                 }
-            } else {
-                mCoverDrawable = null;
             }
-        } else {
-            mCoverDrawable = null;
         }
+        mCoverDrawable = null;
     }
 
     /**
@@ -353,8 +380,18 @@ public class FolderIcon extends FrameLayout implements FloatingIconViewCompanion
         mFolder = folder;
     }
 
+    public void verifyHighRes() {
+        if (mFolderName != null) {
+            mFolderName.verifyHighRes();
+        }
+    }
+
     private boolean willAcceptItem(ItemInfo item) {
-        return (willAcceptItemType(item.itemType) && item != mInfo && !mFolder.isOpen());
+        if (item == mInfo || mFolder.isOpen()) return false;
+        if (item instanceof FolderInfo fi && (fi.id == mInfo.id || mInfo.wouldCreateCycle(fi))) {
+            return false;
+        }
+        return willAcceptItemType(item.itemType);
     }
 
     public boolean acceptDrop(ItemInfo dragInfo) {
@@ -694,22 +731,20 @@ public class FolderIcon extends FrameLayout implements FloatingIconViewCompanion
         // Ensure layout geometry and spring animation parameters are up to date
         mPreviewItemManager.recomputePreviewDrawingParams();
 
-        // In Cover Mode (or custom icon mode), directly render the full-sized cover application icon
-        // rather than the standard multi-item folder preview bubble and plate background.
-        if (isCustomIcon || (mInfo != null && mInfo.isCoverMode())) {
+        // If the folder has a custom icon or is in Cover Mode, directly render the custom/cover icon.
+        if (mCoverDrawable == null) {
+            updateCoverDrawable();
+        }
+        if (mCoverDrawable != null) {
+            int iconSize = isInAppDrawer()
+                    ? mActivity.getDeviceProfile().getAllAppsProfile().getIconSizePx()
+                    : mActivity.getDeviceProfile().getWorkspaceIconProfile().getIconSizePx();
+            int left = (getWidth() - iconSize) / 2;
+            int top = getPaddingTop();
+            mCoverDrawable.setBounds(left, top, left + iconSize, top + iconSize);
+            mCoverDrawable.draw(canvas);
             if (mInfo != null && mInfo.isCoverMode()) {
-                if (mCoverDrawable == null) {
-                    updateCoverDrawable();
-                }
-                if (mCoverDrawable != null) {
-                    int iconSize = isInAppDrawer()
-                            ? mActivity.getDeviceProfile().getAllAppsProfile().getIconSizePx()
-                            : mActivity.getDeviceProfile().getWorkspaceIconProfile().getIconSizePx();
-                    int left = (getWidth() - iconSize) / 2;
-                    int top = getPaddingTop();
-                    mCoverDrawable.setBounds(left, top, left + iconSize, top + iconSize);
-                    mCoverDrawable.draw(canvas);
-                }
+                drawCoverIndicator(canvas, left, top, iconSize);
             }
             mBackground.setStartOpacity(0f);
             drawDot(canvas);
@@ -909,17 +944,83 @@ public class FolderIcon extends FrameLayout implements FloatingIconViewCompanion
         return true;
     }
 
+    private void drawCoverIndicator(Canvas canvas, int left, int top, int iconSize) {
+        if (mInfo == null || !mInfo.isCoverMode()) return;
+        int style = mInfo.getCoverIndicatorStyle();
+        if (style == FolderInfo.COVER_INDICATOR_NONE) return;
+
+        int accentColor = Themes.getColorAccent(getContext());
+        float right = left + iconSize;
+        float bottom = top + iconSize;
+
+        if (style == FolderInfo.COVER_INDICATOR_NOTCH) {
+            float notchSize = iconSize * 0.22f;
+            mCoverIndicatorPath.reset();
+            mCoverIndicatorPath.moveTo(right - notchSize, bottom);
+            mCoverIndicatorPath.lineTo(right, bottom);
+            mCoverIndicatorPath.lineTo(right, bottom - notchSize);
+            mCoverIndicatorPath.close();
+
+            mCoverIndicatorPaint.setColor(accentColor);
+            mCoverIndicatorPaint.setStyle(Paint.Style.FILL);
+            canvas.drawPath(mCoverIndicatorPath, mCoverIndicatorPaint);
+        } else if (style == FolderInfo.COVER_INDICATOR_DOT) {
+            float dotRadius = iconSize * 0.075f;
+            float cx = right - dotRadius * 1.5f;
+            float cy = bottom - dotRadius * 1.5f;
+
+            mCoverIndicatorPaint.setColor(accentColor);
+            mCoverIndicatorPaint.setStyle(Paint.Style.FILL);
+            canvas.drawCircle(cx, cy, dotRadius, mCoverIndicatorPaint);
+        } else if (style == FolderInfo.COVER_INDICATOR_COUNT) {
+            int totalCount = mInfo.contents.size();
+            if (totalCount > 0) {
+                String text = String.valueOf(totalCount);
+                mCoverIndicatorTextPaint.setTextSize(iconSize * 0.20f);
+                mCoverIndicatorTextPaint.setTypeface(Typeface.create("sans-serif-medium", Typeface.BOLD));
+                mCoverIndicatorTextPaint.setColor(GraphicsUtils.setColorAlphaBound(
+                        Themes.getAttrColor(getContext(), android.R.attr.colorBackground), 255));
+                mCoverIndicatorTextPaint.setTextAlign(Paint.Align.CENTER);
+
+                float textWidth = mCoverIndicatorTextPaint.measureText(text);
+                float pillHeight = iconSize * 0.24f;
+                float pillWidth = Math.max(pillHeight, textWidth + iconSize * 0.12f);
+                float pillRadius = pillHeight / 2f;
+
+                mCoverIndicatorRectF.set(right - pillWidth, bottom - pillHeight, right, bottom);
+                mCoverIndicatorPaint.setColor(accentColor);
+                mCoverIndicatorPaint.setStyle(Paint.Style.FILL);
+                canvas.drawRoundRect(mCoverIndicatorRectF, pillRadius, pillRadius, mCoverIndicatorPaint);
+
+                Paint.FontMetrics fm = mCoverIndicatorTextPaint.getFontMetrics();
+                float textY = mCoverIndicatorRectF.centerY() - (fm.descent + fm.ascent) / 2f;
+                canvas.drawText(text, mCoverIndicatorRectF.centerX(), textY, mCoverIndicatorTextPaint);
+            }
+        }
+    }
+
     private void applyTouchActions(FolderInfo info) {
-        mSwipeUpHandler = info.isCoverMode() ?
-                new RunnableGestureHandler(getContext(), () -> ItemClickHandler.INSTANCE.onClick(this))
-                : new BlankGestureHandler(getContext(), null); // GestureController.Companion.createGestureHandler(getContext(), info.swipeUpAction, new BlankGestureHandler(getContext(), null));
+        if (info.isCoverMode()) {
+            if (info.isCoverReverseActions()) {
+                // Reverse Mode: Tap opens folder, Swipe Up launches cover app
+                setOnClickListener(ItemClickHandler.INSTANCE);
+                mSwipeUpHandler = new RunnableGestureHandler(getContext(),
+                        () -> ItemClickHandler.FOLDER_COVER_INSTANCE.onClick(this));
+            } else {
+                // Standard Mode: Tap launches cover app, Swipe Up opens folder
+                setOnClickListener(ItemClickHandler.FOLDER_COVER_INSTANCE);
+                mSwipeUpHandler = new RunnableGestureHandler(getContext(),
+                        () -> ItemClickHandler.INSTANCE.onClick(this));
+            }
+        } else {
+            setOnClickListener(ItemClickHandler.INSTANCE);
+            mSwipeUpHandler = new BlankGestureHandler(getContext(), null);
+        }
         if (mSwipeUpHandler instanceof BlankGestureHandler) {
             mSwipeUpHandler = null;
         } else {
             mSwipeUpHandler = new ViewSwipeUpGestureHandler(this, mSwipeUpHandler);
         }
-        setOnClickListener(mInfo.isCoverMode() ?
-                ItemClickHandler.FOLDER_COVER_INSTANCE : ItemClickHandler.INSTANCE);
     }
 
     /**

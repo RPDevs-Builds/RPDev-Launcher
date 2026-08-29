@@ -22,13 +22,23 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -62,14 +72,23 @@ fun AppSelectionPage(
 ) {
     var selected by remember { mutableStateOf(selectedApps) }
     var title by remember { mutableStateOf(pageTitle) }
+    var searchQuery by rememberSaveable { mutableStateOf("") }
     val allApps by appsState(comparator = hiddenAppsComparator(selectedApps))
     val pluralTitle = stringResource(id = pluralTitleId, selected.size)
-    var appsSize by remember { mutableIntStateOf(1) }
 
-    DisposableEffect(allApps.size) {
-        appsSize = allApps.size
-        onDispose { }
+    val filteredApps = remember(allApps, searchQuery) {
+        if (searchQuery.isBlank()) {
+            allApps
+        } else {
+            val query = searchQuery.trim().lowercase()
+            allApps.filter { app ->
+                app.label.lowercase().contains(query) ||
+                    app.key.componentName.packageName.lowercase().contains(query)
+            }
+        }
     }
+
+    val appsSize = filteredApps.size
 
     title = if (selected.isNotEmpty()) {
         pluralTitle
@@ -83,7 +102,21 @@ fun AppSelectionPage(
             OverflowMenu {
                 DropdownMenuItem(
                     onClick = {
+                        selected = allApps.map { it.key.toString() }.toSet()
+                        hideMenu()
+                    },
+                    text = { Text(text = stringResource(id = R.string.select_all)) }
+                )
+                DropdownMenuItem(
+                    onClick = {
                         selected = emptySet()
+                        hideMenu()
+                    },
+                    text = { Text(text = stringResource(id = R.string.deselect_all)) }
+                )
+                DropdownMenuItem(
+                    onClick = {
+                        selected = selectedApps
                         hideMenu()
                     },
                     text = { Text(text = stringResource(id = R.string.app_reset)) }
@@ -104,43 +137,87 @@ fun AppSelectionPage(
                 CircularProgressIndicator()
             }
         } else {
-            PreferenceGroup {
-                LazyColumn(
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+            ) {
+                OutlinedTextField(
+                    value = searchQuery,
+                    onValueChange = { searchQuery = it },
                     modifier = Modifier
-                        .fillMaxSize()
-                        .padding(8.dp),
-                    contentPadding = paddingValues,
-                    verticalArrangement = Arrangement.spacedBy(2.dp)
-                ) {
-                    itemsIndexed(allApps) { index, app ->
-                        val isSelected = rememberSaveable(selected) {
-                            mutableStateOf(selected.contains(app.key.toString()))
-                        }
-                        ListItemWithCheckbox(
-                            modifier = Modifier
-                                .clip(GroupItemShape(index, appsSize - 1))
-                                .clickable {
-                                    selected =
-                                        if (isSelected.value) selected.minus(app.key.toString())
-                                        else selected.plus(app.key.toString())
-                                },
-                            title = app.label + if (app.key.user.hashCode() != 0) " \uD83D\uDCBC" else "",
-                            startIcon = {
-                                Image(
-                                    painter = BitmapPainter(app.icon.asImageBitmap()),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(40.dp)
-                                )
-                            },
-                            checkBox = true,
-                            checked = isSelected.value,
-                            onCheck = {
-                                selected = if (it) selected.plus(app.key.toString())
-                                else selected.minus(app.key.toString())
-                            },
-                            index = index,
-                            groupSize = appsSize
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                    placeholder = {
+                        Text(
+                            text = stringResource(R.string.search_apps),
+                            style = MaterialTheme.typography.bodyMedium
                         )
+                    },
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Search,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    },
+                    trailingIcon = {
+                        if (searchQuery.isNotEmpty()) {
+                            IconButton(onClick = { searchQuery = "" }) {
+                                Icon(
+                                    imageVector = Icons.Default.Clear,
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                        }
+                    },
+                    singleLine = true,
+                    shape = MaterialTheme.shapes.extraLarge,
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedContainerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                        unfocusedContainerColor = MaterialTheme.colorScheme.surfaceContainer,
+                        focusedBorderColor = MaterialTheme.colorScheme.primary,
+                        unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant,
+                    )
+                )
+
+                PreferenceGroup {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(horizontal = 8.dp),
+                        verticalArrangement = Arrangement.spacedBy(2.dp)
+                    ) {
+                        itemsIndexed(filteredApps, key = { _, app -> app.key.toString() }) { index, app ->
+                            val appKeyStr = app.key.toString()
+                            val isSelected = selected.contains(appKeyStr)
+                            ListItemWithCheckbox(
+                                modifier = Modifier
+                                    .clip(GroupItemShape(index, appsSize - 1))
+                                    .clickable {
+                                        selected =
+                                            if (isSelected) selected.minus(appKeyStr)
+                                            else selected.plus(appKeyStr)
+                                    },
+                                title = app.label + if (app.key.user.hashCode() != 0) " \uD83D\uDCBC" else "",
+                                startIcon = {
+                                    Image(
+                                        painter = BitmapPainter(app.icon.asImageBitmap()),
+                                        contentDescription = null,
+                                        modifier = Modifier.size(40.dp)
+                                    )
+                                },
+                                checkBox = true,
+                                checked = isSelected,
+                                onCheck = {
+                                    selected = if (it) selected.plus(appKeyStr)
+                                    else selected.minus(appKeyStr)
+                                },
+                                index = index,
+                                groupSize = appsSize
+                            )
+                        }
                     }
                 }
             }

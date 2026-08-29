@@ -54,6 +54,28 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import android.app.Activity
+import android.content.ComponentName
+import android.os.Process
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.draw.clip
+import com.google.accompanist.drawablepainter.rememberDrawablePainter
+import com.neoapps.neolauncher.data.IconOverrideRepository
+import com.neoapps.neolauncher.iconpack.IconPackProvider
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import com.android.launcher3.Launcher
+import com.android.launcher3.LauncherSettings
+import com.android.launcher3.folder.FolderIcon
+import com.android.launcher3.model.data.FolderInfo
+import com.neoapps.neolauncher.preferences.PreferenceActivity
+import com.neoapps.neolauncher.compose.navigation.Routes
 import com.android.launcher3.R
 import com.android.launcher3.util.ComponentKey
 import com.neoapps.neolauncher.compose.components.BaseDialog
@@ -115,7 +137,32 @@ fun EditGroupBottomSheet(
             ?: emptyArray()
     }
 
+    val folderId = remember(group) {
+        (group as? DrawerFolders.Folder)?.id?.value()?.toInt() ?: group.title.hashCode()
+    }
+    val folderCompKey = remember(folderId) {
+        ComponentKey(
+            ComponentName("com.neoapps.neolauncher.folder", "folder_$folderId"),
+            Process.myUserHandle()
+        )
+    }
+    val repo = IconOverrideRepository.INSTANCE.get(context)
+    val overrideItem by repo.observeTarget(folderCompKey).collectAsState(initial = null)
+    val ipp = IconPackProvider.INSTANCE.get(context)
+    val currentCustomIcon = remember(overrideItem) {
+        overrideItem?.iconPickerItem?.let { item ->
+            try {
+                ipp.getDrawable(item.toIconEntry(), 0, Process.myUserHandle())
+            } catch (e: Exception) {
+                null
+            }
+        }
+    }
     val selectedApps = remember { mutableStateListOf(*apps) }
+    val editIconRequest =
+        rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            context.prefs.withChangeCallback { it.reloadGrid() }
+        }
     var color by remember {
         mutableStateOf(
             (config[AppGroups.KEY_COLOR] as? AppGroups.StringCustomization)?.value
@@ -131,6 +178,51 @@ fun EditGroupBottomSheet(
         verticalArrangement = Arrangement.spacedBy(12.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+        if (category == AppGroupsManager.Category.FOLDER) {
+            item {
+                Box(
+                    modifier = Modifier
+                        .padding(vertical = 4.dp)
+                        .clip(MaterialTheme.shapes.medium)
+                        .clickable {
+                            editIconRequest.launch(
+                                PreferenceActivity.navigateIntent(context, "${Routes.EDIT_ICON}/$folderCompKey")
+                            )
+                        }
+                ) {
+                    if (currentCustomIcon != null) {
+                        Image(
+                            painter = rememberDrawablePainter(currentCustomIcon),
+                            contentDescription = title,
+                            modifier = Modifier.size(64.dp)
+                        )
+                    } else {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_folder_outline),
+                            contentDescription = title,
+                            modifier = Modifier.size(64.dp),
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                }
+                if (overrideItem != null) {
+                    Text(
+                        text = stringResource(R.string.reset_custom_icon),
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier
+                            .clip(MaterialTheme.shapes.small)
+                            .clickable {
+                                CoroutineScope(Dispatchers.Main).launch {
+                                    repo.deleteOverride(folderCompKey)
+                                    context.prefs.withChangeCallback { it.reloadGrid() }
+                                }
+                            }
+                            .padding(horizontal = 8.dp, vertical = 2.dp)
+                    )
+                }
+            }
+        }
         item {
             OutlinedTextField(
                 value = title,
@@ -357,6 +449,92 @@ fun EditGroupBottomSheet(
                     }
                 }
             }
+            if (category == AppGroupsManager.Category.FOLDER) {
+                Spacer(modifier = Modifier.height(4.dp))
+                BasePreference(
+                    titleId = R.string.drawer_folder_custom_icon,
+                    summary = if (overrideItem != null) stringResource(R.string.custom_icon_applied) else stringResource(R.string.default_icon),
+                    startWidget = {
+                        if (currentCustomIcon != null) {
+                            Image(
+                                painter = rememberDrawablePainter(currentCustomIcon),
+                                contentDescription = null,
+                                modifier = Modifier.size(24.dp)
+                            )
+                        } else {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_folder_outline),
+                                contentDescription = null,
+                                modifier = Modifier.size(24.dp)
+                            )
+                        }
+                    },
+                    endWidget = {
+                        Icon(
+                            painter = painterResource(id = R.drawable.chevron_right),
+                            contentDescription = null,
+                        )
+                    },
+                    onClick = {
+                        editIconRequest.launch(
+                            PreferenceActivity.navigateIntent(context, "${Routes.EDIT_ICON}/$folderCompKey")
+                        )
+                    },
+                    index = 2,
+                    groupSize = 4
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                BasePreference(
+                    titleId = R.string.drawer_folder_add_to_home,
+                    startWidget = {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_build),
+                            contentDescription = null,
+                            modifier = Modifier.size(24.dp)
+                        )
+                    },
+                    onClick = {
+                        try {
+                            val launcher = Launcher.ACTIVITY_TRACKER.getCreatedContext<Launcher>() ?: (context as? Launcher)
+                            if (launcher != null) {
+                                val workspace = launcher.workspace
+                                if (workspace != null) {
+                                    val page = workspace.currentPage
+                                    val cellLayout = workspace.getChildAt(page) as? com.android.launcher3.CellLayout
+                                    val screenId = workspace.getScreenIdForPageIndex(page)
+                                    if (cellLayout != null) {
+                                        val targetCell = IntArray(2)
+                                        if (cellLayout.findCellForSpan(targetCell, 1, 1)) {
+                                            val fi = launcher.addFolder(cellLayout, LauncherSettings.Favorites.CONTAINER_DESKTOP, screenId, targetCell[0], targetCell[1])
+                                            fi.folderInfo.setTitle(title, launcher.modelWriter)
+                                            val folderId = (group as? DrawerFolders.Folder)?.id?.value()?.toString()
+                                            if (!folderId.isNullOrBlank()) {
+                                                fi.folderInfo.linkedDrawerFolderId = folderId
+                                                launcher.modelWriter.updateItemInDatabase(fi.folderInfo)
+                                            }
+                                            val appsStore = launcher.appsView?.appsStore
+                                            selectedApps.forEach { compKey ->
+                                                val appInfo = appsStore?.getApp(compKey)
+                                                    ?: appsStore?.apps?.find { it.toComponentKey() == compKey }
+                                                if (appInfo != null) {
+                                                    val wii = appInfo.makeWorkspaceItem(launcher)
+                                                    fi.folder.addFolderContent(wii)
+                                                }
+                                            }
+                                            android.widget.Toast.makeText(context, R.string.drawer_folder_added_to_home, android.widget.Toast.LENGTH_SHORT).show()
+                                        }
+                                    }
+                                }
+                            }
+                            onClose(Config.BS_NONE)
+                        } catch (e: Exception) {
+                            // ignore
+                        }
+                    },
+                    index = 3,
+                    groupSize = 4
+                )
+            }
         }
 
         item {
@@ -394,6 +572,15 @@ fun EditGroupBottomSheet(
                         when (category) {
                             AppGroupsManager.Category.FOLDER -> {
                                 prefs.drawerFolders.saveToJson()
+                                val folderId = (group as? DrawerFolders.Folder)?.id?.value()
+                                if (folderId != null) {
+                                    com.neoapps.neolauncher.groups.DrawerFolderSyncUtil.syncDrawerFolderToWorkspace(
+                                        context = context,
+                                        folderId = folderId,
+                                        newTitle = title,
+                                        newComponentKeys = selectedApps
+                                    )
+                                }
                             }
 
                             AppGroupsManager.Category.TAB,

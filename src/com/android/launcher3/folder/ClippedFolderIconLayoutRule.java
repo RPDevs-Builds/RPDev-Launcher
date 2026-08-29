@@ -48,29 +48,26 @@ public class ClippedFolderIconLayoutRule {
     /**
      * Computes positions for icons in Preview.
      *
-     * @param index       index of icon in folder
-     * @param curNumItems current number of preview items
-     * @param params      params to update for icon
+     * @param index        index of icon in folder
+     * @param curNumItems  current number of preview items
+     * @param params       params to update for icon
+     * @param previewStyle preview style (GRID, RADIAL, STACKED, FAN)
      */
     public PreviewItemDrawingParams computePreviewItemDrawingParams(int index, int curNumItems,
-                                                                    PreviewItemDrawingParams params) {
-        float totalScale = scaleForItem(curNumItems, 0);
+                                                                    PreviewItemDrawingParams params,
+                                                                    int previewStyle) {
+        float totalScale = scaleForItem(curNumItems, 0, previewStyle);
         float transX;
         float transY;
 
         if (index == EXIT_INDEX) {
-            // 0 1 * <-- Exit position (row 0, col 2)
-            // 2 3
             getGridPosition(0, 2, mTmpPoint);
         } else if (index == ENTER_INDEX) {
-            // 0 1
-            // 2 3 * <-- Enter position (row 1, col 2)
             getGridPosition(1, 2, mTmpPoint);
         } else if (index >= MAX_NUM_ITEMS_IN_PREVIEW) {
-            // Items beyond those displayed in the preview are animated to the center
             mTmpPoint[0] = mTmpPoint[1] = mAvailableSpace / 2 - (mIconSize * totalScale) / 2;
         } else {
-            getPosition(index, curNumItems, mTmpPoint);
+            getStyledPosition(index, curNumItems, mTmpPoint, previewStyle);
         }
 
         transX = mTmpPoint[0];
@@ -82,6 +79,51 @@ public class ClippedFolderIconLayoutRule {
             params.update(transX, transY, totalScale);
         }
         return params;
+    }
+
+    public PreviewItemDrawingParams computePreviewItemDrawingParams(int index, int curNumItems,
+                                                                    PreviewItemDrawingParams params) {
+        return computePreviewItemDrawingParams(index, curNumItems, params, com.android.launcher3.model.data.FolderInfo.PREVIEW_STYLE_DEFAULT);
+    }
+
+    private void getStyledPosition(int index, int curNumItems, float[] result, int previewStyle) {
+        if (previewStyle == com.android.launcher3.model.data.FolderInfo.PREVIEW_STYLE_STACKED) {
+            float scale = scaleForItem(curNumItems, 0, previewStyle);
+            float iconPx = mIconSize * scale;
+            float step = mAvailableSpace * 0.10f;
+            float baseLeft = (mAvailableSpace - iconPx) * 0.35f;
+            float baseTop = (mAvailableSpace - iconPx) * 0.65f;
+            result[0] = baseLeft + (index * step);
+            result[1] = baseTop - (index * step);
+        } else if (previewStyle == com.android.launcher3.model.data.FolderInfo.PREVIEW_STYLE_FAN) {
+            float scale = scaleForItem(curNumItems, 0, previewStyle);
+            float iconPx = mIconSize * scale;
+            float span = mAvailableSpace - iconPx;
+            float fraction = curNumItems > 1 ? (float) index / (curNumItems - 1) : 0.5f;
+            result[0] = span * (0.2f + 0.6f * fraction);
+            result[1] = span * (0.8f - 0.6f * fraction);
+        } else if (previewStyle == com.android.launcher3.model.data.FolderInfo.PREVIEW_STYLE_GRID) {
+            float scale = scaleForItem(curNumItems, 0, previewStyle);
+            float iconPx = mIconSize * scale;
+            int col = index % 2;
+            int row = index / 2;
+            float padding = (mAvailableSpace - 2 * iconPx) / 3f;
+            result[0] = padding + col * (iconPx + padding);
+            result[1] = padding + row * (iconPx + padding);
+        } else {
+            getPosition(index, curNumItems, result);
+        }
+    }
+
+    public float scaleForItem(int numItems, int page, int previewStyle) {
+        if (previewStyle == com.android.launcher3.model.data.FolderInfo.PREVIEW_STYLE_STACKED) {
+            return 0.48f * mBaselineIconScale;
+        } else if (previewStyle == com.android.launcher3.model.data.FolderInfo.PREVIEW_STYLE_FAN) {
+            return 0.45f * mBaselineIconScale;
+        } else if (previewStyle == com.android.launcher3.model.data.FolderInfo.PREVIEW_STYLE_GRID) {
+            return 0.38f * mBaselineIconScale;
+        }
+        return scaleForItem(numItems, page);
     }
 
     /**

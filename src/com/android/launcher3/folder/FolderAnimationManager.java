@@ -529,8 +529,12 @@ public class FolderAnimationManager implements FolderAnimationCreator {
      * only serves to store the title text.
      */
     private BubbleTextView getBubbleTextView(View v) {
-        return v instanceof AppPairIcon
-                ? ((AppPairIcon) v).getTitleTextView()
-                : (BubbleTextView) v;
+        if (v instanceof AppPairIcon) {
+            return ((AppPairIcon) v).getTitleTextView();
+        } else if (v instanceof FolderIcon) {
+            return ((FolderIcon) v).getFolderName();
+        } else {
+            return (BubbleTextView) v;
+        }
     }
 }

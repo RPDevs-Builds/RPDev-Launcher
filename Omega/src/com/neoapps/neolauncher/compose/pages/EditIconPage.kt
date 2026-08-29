@@ -98,13 +98,16 @@ fun EditIconPage(
 
     val ipp = IconPackProvider.INSTANCE.get(LocalContext.current)
     val iconPacks = ipp.getIconPackList()
+    val isFolder = componentKey.componentName.packageName == "com.neoapps.neolauncher.folder" ||
+            componentKey.componentName.packageName.contains("folder")
     val launcherApps = context.getSystemService<LauncherApps>()!!
     val intent = Intent().setComponent(componentKey.componentName)
-    val activity = launcherApps.resolveActivity(intent, componentKey.user)
+    val activity = if (!isFolder) launcherApps.resolveActivity(intent, componentKey.user) else null
 
-    val originalIcon: Drawable = activity.getIcon(context.resources.displayMetrics.densityDpi)
+    val originalIcon: Drawable = activity?.getIcon(context.resources.displayMetrics.densityDpi)
+        ?: context.packageManager.defaultActivityIcon
     val title = remember(componentKey) {
-        activity.label.toString()
+        if (isFolder) context.getString(R.string.folder_name) else (activity?.label?.toString() ?: "")
     }
     var searchQuery by remember { mutableStateOf("") }
     val iconPackName: MutableState<String?> = rememberSaveable { mutableStateOf(null) }
@@ -126,7 +129,10 @@ fun EditIconPage(
                 componentKey,
                 iconPickerItem
             )
-            (context as Activity).finish()
+            (context as Activity).apply {
+                setResult(Activity.RESULT_OK)
+                finish()
+            }
         }
     }
     val pickerLauncher =

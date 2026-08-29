@@ -4,6 +4,7 @@ import android.content.Context
 import com.android.launcher3.LauncherAppState
 import com.android.launcher3.dagger.ApplicationContext
 import com.android.launcher3.dagger.LauncherAppSingleton
+import com.android.launcher3.model.tasks.PackageUpdatedTask
 import com.android.launcher3.util.ComponentKey
 import com.android.launcher3.util.MainThreadInitializedObject
 import com.neoapps.neolauncher.data.models.IconOverride
@@ -35,22 +36,20 @@ class IconOverrideRepository  @Inject constructor(@ApplicationContext private va
                         keySelector = { it.target },
                         valueTransform = { it.iconPickerItem }
                     )
-                    while (updatePackageQueue.isNotEmpty()) {
-                        val target = updatePackageQueue.poll() ?: continue
-                        updatePackageIcons(target)
-                    }
                 }
         }
     }
 
     suspend fun setOverride(target: ComponentKey, item: IconPickerItem) {
+        _overridesMap = _overridesMap + (target to item)
         dao.insert(IconOverride(target, item))
-        updatePackageQueue.offer(target)
+        updatePackageIcons(target)
     }
 
     suspend fun deleteOverride(target: ComponentKey) {
+        _overridesMap = _overridesMap - target
         dao.delete(target)
-        updatePackageQueue.offer(target)
+        updatePackageIcons(target)
     }
 
     fun observeTarget(target: ComponentKey) = dao.observeTarget(target)
@@ -58,21 +57,39 @@ class IconOverrideRepository  @Inject constructor(@ApplicationContext private va
 
     suspend fun deleteAll() {
         val targets = dao.getAll()
+        _overridesMap = emptyMap()
         dao.deleteAll()
         updatePackageIcons(targets)
     }
 
     private fun updatePackageIcons(target: ComponentKey) {
-        val model = LauncherAppState.getInstance(context).model
-        //TODO: Fix this
-        //model.onPackageChanged(target.componentName.packageName, target.user)
+        if (target.componentName.packageName == "com.neoapps.neolauncher.folder") {
+            return
+        }
+        val appState = LauncherAppState.getInstance(context)
+        appState.model.enqueueModelUpdateTask(
+            PackageUpdatedTask(
+                PackageUpdatedTask.OP_UPDATE,
+                target.user,
+                target.componentName.packageName
+            )
+        )
     }
 
-    private fun updatePackageIcons(target: List<IconOverride>) {
-        val model = LauncherAppState.getInstance(context).model
-        target.forEach {
-            //TODO: Fix this
-            //model.onPackageChanged(it.target.componentName.packageName, it.target.user)
+    private fun updatePackageIcons(targets: List<IconOverride>) {
+        val appState = LauncherAppState.getInstance(context)
+        val packageUserSet = targets
+            .map { it.target.componentName.packageName to it.target.user }
+            .filter { (pkg, _) -> pkg != "com.neoapps.neolauncher.folder" }
+            .toSet()
+        packageUserSet.forEach { (pkg, user) ->
+            appState.model.enqueueModelUpdateTask(
+                PackageUpdatedTask(
+                    PackageUpdatedTask.OP_UPDATE,
+                    user,
+                    pkg
+                )
+            )
         }
     }
 

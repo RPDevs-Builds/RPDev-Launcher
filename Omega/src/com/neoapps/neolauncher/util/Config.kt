@@ -111,6 +111,7 @@ class Config(val context: Context) {
 
         //CATEGORY BOTTOM SHEET
         const val BS_NONE = -1
+        const val BS_CLOSE = -1
         const val BS_SELECT_TAB_TYPE = 0
         const val BS_CREATE_GROUP = 1
         const val BS_EDIT_GROUP = 2

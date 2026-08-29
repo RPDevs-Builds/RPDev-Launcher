@@ -64,6 +64,11 @@ fun FolderPrefsPage() {
                 if (prefs.desktopCustomFolderBackground.getValue()) {
                     prefs.desktopFolderBackgroundColor
                 } else null,
+                prefs.desktopFolderOpacity,
+                prefs.desktopFolderStroke,
+                if (prefs.desktopFolderStroke.getValue()) {
+                    prefs.desktopFolderStrokeColor
+                } else null,
             ).toTypedArray()
         )
     }

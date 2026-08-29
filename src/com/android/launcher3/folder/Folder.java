@@ -80,6 +80,7 @@ import androidx.core.content.res.ResourcesCompat;
 import com.android.launcher3.AbstractFloatingView;
 import com.android.launcher3.Alarm;
 import com.android.launcher3.BubbleTextView;
+import com.android.launcher3.apppairs.AppPairIcon;
 import com.android.launcher3.CellLayout;
 import com.android.launcher3.DeviceProfile;
 import com.android.launcher3.DragSource;
@@ -368,12 +369,8 @@ public class Folder extends AbstractFloatingView implements ClipPathView, DragSo
             } else {
                 settingsButton.setOnClickListener(v -> {
                     animateClosed();
-                    if (mInfo instanceof DrawerFolderInfo) {
-                        ((DrawerFolderInfo) mInfo).showEdit(mLauncher);
-                    } else {
-                        FolderShortcut fc = new FolderShortcut(mLauncher, mInfo);
-                        fc.show();
-                    }
+                    FolderShortcut fc = new FolderShortcut(mLauncher, mInfo);
+                    fc.show();
                 });
             }
         }
@@ -384,12 +381,22 @@ public class Folder extends AbstractFloatingView implements ClipPathView, DragSo
             int bgColor = prefs.getDesktopFolderBackgroundColor().getColor();
             mBackground = new GradientDrawable();
             mBackground.setShape(GradientDrawable.RECTANGLE);
-            mBackground.setColorFilter(bgColor, PorterDuff.Mode.SRC_OVER);
+            mBackground.setColor(bgColor);
+            if (prefs.getDesktopFolderStroke().getValue()) {
+                int strokeWidth = Math.round(pxFromDp(2, getResources().getDisplayMetrics()));
+                mBackground.setStroke(strokeWidth, prefs.getDesktopFolderStrokeColor().getColor());
+            }
         } else {
             mBackground = (GradientDrawable) Objects.requireNonNull(
                     ResourcesCompat.getDrawable(getResources(),
-                            R.drawable.round_rect_folder, getContext().getTheme()));
+                            R.drawable.round_rect_folder, getContext().getTheme())).mutate();
+            if (prefs.getDesktopFolderStroke().getValue()) {
+                int strokeWidth = Math.round(pxFromDp(2, getResources().getDisplayMetrics()));
+                mBackground.setStroke(strokeWidth, prefs.getDesktopFolderStrokeColor().getColor());
+            }
         }
+        int alpha = Math.round(prefs.getDesktopFolderOpacity().getValue() * 255f);
+        mBackground.setAlpha(alpha);
         mBackground.setCallback(this);
         mBackground.setCornerRadius(getCornerRadius());
     }
@@ -854,7 +861,8 @@ public class Folder extends AbstractFloatingView implements ClipPathView, DragSo
         Folder openFolder = getOpen(mActivityContext);
         closeOpenFolder(openFolder);
 
-        mContent.bindItems(items);
+        com.neoapps.neolauncher.folder.FolderSortUtil.sortFolder(mInfo, getContext(), mActivityContext.getModelWriter());
+        mContent.bindItems(mInfo.getContents());
         mContent.setCanAnnouncePageDescriptionForFolder(true);
         centerAboutIcon();
         mItemsInvalidated = true;
@@ -1073,6 +1081,13 @@ public class Folder extends AbstractFloatingView implements ClipPathView, DragSo
             if (view instanceof BubbleTextView btv) {
                 btv.setTextVisibility(true);
                 btv.verifyHighRes();
+            } else if (view instanceof AppPairIcon api) {
+                api.verifyHighRes();
+            } else if (view instanceof FolderIcon fi) {
+                if (fi.getFolderName() != null) {
+                    fi.getFolderName().setTextVisibility(true);
+                }
+                fi.verifyHighRes();
             }
             return false;
         });
@@ -1237,6 +1252,10 @@ public class Folder extends AbstractFloatingView implements ClipPathView, DragSo
 
     @Override
     public boolean acceptDrop(DragObject d) {
+        if (d.dragInfo == mInfo) return false;
+        if (d.dragInfo instanceof FolderInfo fi && (fi.id == mInfo.id || mInfo.wouldCreateCycle(fi))) {
+            return false;
+        }
         return willAcceptItemType(d.dragInfo.itemType);
     }
 
@@ -1849,6 +1868,12 @@ public class Folder extends AbstractFloatingView implements ClipPathView, DragSo
 
         mActivityContext.getModelWriter().notifyItemModified(mInfo);
         mFolderIcon.onItemsChanged(animate);
+        if (mInfo instanceof com.neoapps.neolauncher.groups.category.DrawerFolderInfo dfi) {
+            dfi.syncToDrawerFolderAndWorkspace();
+        } else if ((mInfo.linkedDrawerFolderId != null && !mInfo.linkedDrawerFolderId.isEmpty()) || mInfo.title != null) {
+            com.neoapps.neolauncher.groups.DrawerFolderSyncUtil.syncWorkspaceFolderToDrawer(
+                    getContext(), mInfo.linkedDrawerFolderId, mInfo.title != null ? mInfo.title.toString() : null, mInfo.getContents());
+        }
     }
 
     /** Remove all matching app or shortcut. Does not change the DB. */
@@ -1877,6 +1902,12 @@ public class Folder extends AbstractFloatingView implements ClipPathView, DragSo
         }
 
         mFolderIcon.onItemsChanged(animate);
+        if (mInfo instanceof com.neoapps.neolauncher.groups.category.DrawerFolderInfo dfi) {
+            dfi.syncToDrawerFolderAndWorkspace();
+        } else if ((mInfo.linkedDrawerFolderId != null && !mInfo.linkedDrawerFolderId.isEmpty()) || mInfo.title != null) {
+            com.neoapps.neolauncher.groups.DrawerFolderSyncUtil.syncWorkspaceFolderToDrawer(
+                    getContext(), mInfo.linkedDrawerFolderId, mInfo.title != null ? mInfo.title.toString() : null, mInfo.getContents());
+        }
     }
 
     @VisibleForTesting
