@@ -112,6 +112,7 @@ class DoubleShadowIconDrawable(
 
     override fun getIntrinsicWidth() = iconSize
 
+    @Deprecated("Deprecated in Java")
     override fun getOpacity() = PixelFormat.TRANSPARENT
 
     override fun setAlpha(alpha: Int) {

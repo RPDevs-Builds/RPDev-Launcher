@@ -65,9 +65,8 @@ class ShortcutInfoProvider(context: Context) : CustomInfoProvider<WorkspaceItemI
 
     override fun setIcon(info: WorkspaceItemInfo, iconEntry: IconEntry) {
         if (iconEntry != null) {
-            val launcherActivityInfo = getLauncherActivityInfo(info)
-            val iconCache = LauncherAppState.getInstance(context).iconCache
-            val drawable = iconCache.getFullResIcon(launcherActivityInfo as ActivityInfo)!!
+            val launcherActivityInfo = getLauncherActivityInfo(info) ?: return
+            val drawable = launcherActivityInfo.getIcon(0)
             val bitmap = LauncherIcons.obtain(context)
                 .createBadgedIconBitmap(drawable)
             val repository = IconOverrideRepository(context)
@@ -78,7 +77,6 @@ class ShortcutInfoProvider(context: Context) : CustomInfoProvider<WorkspaceItemI
                     drawableName = bitmap.icon.toString(),
                     label = info.title.toString(),
                     type = IconType.Normal
-
                 )
                 repository.setOverride(info.componentKey!!, iconPicker)
             }

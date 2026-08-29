@@ -150,6 +150,7 @@ class ShaderBlurDrawable internal constructor(
         wallpaperOffsetX = offset
     }
 
+    @Deprecated("Deprecated in Java")
     override fun getOpacity(): Int {
         return PixelFormat.TRANSLUCENT
     }

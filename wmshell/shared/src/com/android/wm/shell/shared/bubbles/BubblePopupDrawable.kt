@@ -109,6 +109,7 @@ class BubblePopupDrawable(val config: Config) : Drawable() {
         outline.setPath(path)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun getOpacity(): Int {
         return paint.alpha
     }

@@ -42,6 +42,7 @@ import androidx.activity.result.contract.ActivityResultContracts.StartActivityFo
 import androidx.activity.result.contract.ActivityResultContracts.StartIntentSenderForResult
 import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityOptionsCompat
+import androidx.core.content.IntentCompat
 import androidx.savedstate.SavedStateRegistry
 import androidx.savedstate.SavedStateRegistryController
 import androidx.savedstate.SavedStateRegistryOwner
@@ -392,7 +393,11 @@ class NeoLauncher : Launcher(), SavedStateRegistryOwner,
                     ActivityCompat.requestPermissions(activity, permissions, requestCode)
                 } else if (StartIntentSenderForResult.ACTION_INTENT_SENDER_REQUEST == intent.action) {
                     val request: IntentSenderRequest =
-                        intent.getParcelableExtra(StartIntentSenderForResult.EXTRA_INTENT_SENDER_REQUEST)!!
+                        IntentCompat.getParcelableExtra(
+                            intent,
+                            StartIntentSenderForResult.EXTRA_INTENT_SENDER_REQUEST,
+                            IntentSenderRequest::class.java
+                        )!!
                     try {
                         // startIntentSenderForResult path
                         ActivityCompat.startIntentSenderForResult(

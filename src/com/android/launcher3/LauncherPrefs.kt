@@ -78,13 +78,13 @@ constructor(@ApplicationContext private val encryptedContext: Context) {
         val sp = getSharedPrefs(item)
         return when {
             item.type == String::class.java -> sp.getString(item.sharedPrefKey, default as? String)
-            item.type == Boolean::class.java || item.type == java.lang.Boolean::class.java ->
+            item.type == Boolean::class.java || item.type == Boolean::class.javaObjectType ->
                 sp.getBoolean(item.sharedPrefKey, default as Boolean)
-            item.type == Int::class.java || item.type == java.lang.Integer::class.java ->
+            item.type == Int::class.java || item.type == Int::class.javaObjectType ->
                 sp.getInt(item.sharedPrefKey, default as Int)
-            item.type == Float::class.java || item.type == java.lang.Float::class.java ->
+            item.type == Float::class.java || item.type == Float::class.javaObjectType ->
                 sp.getFloat(item.sharedPrefKey, default as Float)
-            item.type == Long::class.java || item.type == java.lang.Long::class.java ->
+            item.type == Long::class.java || item.type == Long::class.javaObjectType ->
                 sp.getLong(item.sharedPrefKey, default as Long)
             Set::class.java.isAssignableFrom(item.type) ->
                 sp.getStringSet(item.sharedPrefKey, default as? Set<String>)
@@ -150,13 +150,13 @@ constructor(@ApplicationContext private val encryptedContext: Context) {
     ): SharedPreferences.Editor =
         when {
             item.type == String::class.java -> putString(item.sharedPrefKey, value as? String)
-            item.type == Boolean::class.java || item.type == java.lang.Boolean::class.java ->
+            item.type == Boolean::class.java || item.type == Boolean::class.javaObjectType ->
                 putBoolean(item.sharedPrefKey, value as Boolean)
-            item.type == Int::class.java || item.type == java.lang.Integer::class.java ->
+            item.type == Int::class.java || item.type == Int::class.javaObjectType ->
                 putInt(item.sharedPrefKey, value as Int)
-            item.type == Float::class.java || item.type == java.lang.Float::class.java ->
+            item.type == Float::class.java || item.type == Float::class.javaObjectType ->
                 putFloat(item.sharedPrefKey, value as Float)
-            item.type == Long::class.java || item.type == java.lang.Long::class.java ->
+            item.type == Long::class.java || item.type == Long::class.javaObjectType ->
                 putLong(item.sharedPrefKey, value as Long)
             Set::class.java.isAssignableFrom(item.type) ->
                 putStringSet(item.sharedPrefKey, value as? Set<String>)

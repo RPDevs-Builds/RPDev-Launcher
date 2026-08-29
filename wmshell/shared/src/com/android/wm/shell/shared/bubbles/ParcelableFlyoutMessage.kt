@@ -19,6 +19,7 @@ package com.android.wm.shell.shared.bubbles
 import android.graphics.drawable.Icon
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.core.os.ParcelCompat
 
 /** The contents of the flyout message to be passed to launcher for rendering in the bubble bar. */
 class ParcelableFlyoutMessage(
@@ -30,7 +31,7 @@ class ParcelableFlyoutMessage(
     constructor(
         parcel: Parcel
     ) : this(
-        icon = parcel.readParcelable(Icon::class.java.classLoader),
+        icon = ParcelCompat.readParcelable(parcel, Icon::class.java.classLoader, Icon::class.java),
         title = parcel.readString(),
         message = parcel.readString(),
     )

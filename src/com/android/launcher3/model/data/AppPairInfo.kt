@@ -40,7 +40,7 @@ class AppPairInfo() : CollectionInfo() {
 
     /** Creates a new AppPairInfo that is a copy of the provided one. */
     constructor(appPairInfo: AppPairInfo) : this() {
-        contents = appPairInfo.contents.clone() as ArrayList<WorkspaceItemInfo>
+        contents = ArrayList(appPairInfo.contents)
         copyFrom(appPairInfo)
     }
 

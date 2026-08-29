@@ -392,6 +392,7 @@ fun minSDK(sdk: Int): Boolean {
 inline fun <T : Any> unsafeLazy(noinline initializer: () -> T): Lazy<T> =
     lazy(LazyThreadSafetyMode.NONE, initializer)
 
+@Suppress("DEPRECATION")
 fun getSignatureHash(context: Context, packageName: String): Long? {
     return try {
         val packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {

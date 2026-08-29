@@ -23,7 +23,7 @@ android {
             kotlin.directories.add("shared/src")
             aidl.directories.addAll(listOf("shared/src", "aidl"))
             manifest.srcFile("AndroidManifest.xml")
-            res.directories.addAll(listOf("shared/res", "shared"))
+            res.directories.add("shared/res")
         }
 
         protobuf {

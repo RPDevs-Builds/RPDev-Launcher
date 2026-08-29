@@ -104,6 +104,7 @@ private constructor(
         itemDragHandler = popupItemDragHandler
     }
 
+    @Suppress("UNCHECKED_CAST")
     fun configureForLauncher(launcher: Launcher, itemInfo: ItemInfo) {
         addOnAttachStateChangeListener(
             LauncherPopupLiveUpdateHandler(launcher, this as PopupContainerWithArrow<Launcher>)

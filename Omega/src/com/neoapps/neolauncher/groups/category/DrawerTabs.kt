@@ -23,6 +23,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import android.os.Process
 import android.os.UserHandle
+import androidx.core.os.ParcelCompat
 import com.android.launcher3.R
 import com.android.launcher3.Utilities
 import com.android.launcher3.model.data.ItemInfo
@@ -154,7 +155,7 @@ abstract class DrawerTabs(manager: AppGroupsManager, type: AppGroupsManager.Cate
         constructor() : this(null, true)
 
         constructor(parcel: Parcel) : this(
-            parcel.readParcelable<UserHandle?>(UserHandle::class.java.classLoader),
+            ParcelCompat.readParcelable(parcel, UserHandle::class.java.classLoader, UserHandle::class.java),
             parcel.readBoolean()
         )
 

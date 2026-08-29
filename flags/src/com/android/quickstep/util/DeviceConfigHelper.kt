@@ -47,6 +47,7 @@ class DeviceConfigHelper<ConfigType>(private val factory: (PropReader) -> Config
             factory(
                 PropReader(
                     object : PropProvider {
+                        @Suppress("UNCHECKED_CAST")
                         override fun <T : Any> get(key: String, fallback: T): T {
                             val prefs = prefs
                             if (fallback is Int) {
@@ -77,6 +78,7 @@ class DeviceConfigHelper<ConfigType>(private val factory: (PropReader) -> Config
             factory(
                 PropReader(
                     object : PropProvider {
+                        @Suppress("UNCHECKED_CAST")
                         override fun <T : Any> get(key: String, fallback: T): T {
                             if (fallback is Int) return myProps.getInt(key, fallback) as T
                             else if (fallback is Boolean)
@@ -106,6 +108,7 @@ class DeviceConfigHelper<ConfigType>(private val factory: (PropReader) -> Config
     /** The reader is sent to the config for initialization */
     class PropReader internal constructor(private val f: PropProvider) {
 
+        @Suppress("UNCHECKED_CAST")
         @JvmOverloads
         fun <T : Any> get(key: String, fallback: T, desc: String? = null): T {
             val v = f.get(key, fallback)

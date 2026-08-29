@@ -326,7 +326,7 @@ fun saveGroupPositions(manager: AppGroupsManager, groups: List<AppGroups.Group>)
         AppGroupsManager.Category.TAB.key,
         AppGroupsManager.Category.FLOWERPOT.key,
                                              -> {
-            manager.drawerTabs.setGroups(groups as List<DrawerTabs.Tab>)
+            manager.drawerTabs.setGroups(groups.filterIsInstance<DrawerTabs.Tab>())
             manager.drawerTabs.saveToJson()
         }
     }

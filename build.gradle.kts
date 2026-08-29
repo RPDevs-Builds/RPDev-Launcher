@@ -64,6 +64,13 @@ allprojects {
             add("implementation", platform(libs.compose.bom))
         }
     }
+    tasks.withType<KotlinCompile>().configureEach {
+        compilerOptions {
+            freeCompilerArgs.addAll(
+                "-Xconsistent-data-class-copy-visibility"
+            )
+        }
+    }
 }
 
 configurations.all {
@@ -89,8 +96,6 @@ android {
         minSdk = 30
         targetSdk = 36
         applicationId = "com.saggitt.omega"
-        javaCompileOptions.annotationProcessorOptions.arguments["dagger.hilt.disableModulesHaveInstallInCheck"] =
-            "true"
         versionName = "1.0.1"
         versionCode = 1007
         buildConfigField("String", "BUILD_DATE", "\"${getBuildDate()}\"")

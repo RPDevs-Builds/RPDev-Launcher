@@ -9,6 +9,7 @@ import android.media.session.PlaybackState
 import android.service.notification.StatusBarNotification
 import android.util.Log
 import android.view.KeyEvent
+import androidx.core.os.BundleCompat
 import com.neoapps.neolauncher.util.FlowCollector
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -98,7 +99,7 @@ class MediaListener(private val mContext: Context, onChange: (MediaListener) -> 
         get() = mNotifications.mapNotNull { notif ->
             val extras = notif.notification.extras
             val notifToken =
-                extras.getParcelable<MediaSession.Token>(Notification.EXTRA_MEDIA_SESSION)
+                BundleCompat.getParcelable(extras, Notification.EXTRA_MEDIA_SESSION, MediaSession.Token::class.java)
             notifToken?.let { MediaNotificationController(MediaController(mContext, it), notif) }
         }
 

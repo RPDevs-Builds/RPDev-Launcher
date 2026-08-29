@@ -52,6 +52,7 @@ class WallpaperThemeManager(private val activity: Activity) :
 
     override fun onConfigurationChanged(config: Configuration) = updateTheme()
 
+    @Deprecated("Deprecated in Java")
     override fun onLowMemory() {}
 
     override fun onColorHintsChanged(colorHints: Int) = updateTheme()

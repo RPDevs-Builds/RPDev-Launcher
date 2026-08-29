@@ -20,8 +20,9 @@ package com.neoapps.neolauncher.gestures.handlers
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 
 class SleepTimeoutActivity : AppCompatActivity() {
 
@@ -46,8 +47,8 @@ class SleepTimeoutActivity : AppCompatActivity() {
         timeout
         stayOnWhilePluggedIn
 
-        window.decorView.systemUiVisibility =
-            window.decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
+        insetsController.hide(WindowInsetsCompat.Type.navigationBars())
 
         putSettings(0, 0)
     }

@@ -30,6 +30,7 @@ import android.widget.Toast
 import androidx.annotation.Keep
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
+import androidx.core.content.IntentCompat
 import com.android.launcher3.LauncherState
 import com.android.launcher3.R
 import com.android.launcher3.Utilities
@@ -214,7 +215,7 @@ class StartAppGestureHandler(context: Context, config: JSONObject?) :
 
                 "shortcut" -> {
                     intent = Intent.parseUri(data.getStringExtra("intent"), 0)
-                    user = data.getParcelableExtra("user")
+                    user = IntentCompat.getParcelableExtra(data, "user", UserHandle::class.java)
                     packageName = data.getStringExtra("packageName")
                     id = data.getStringExtra("id")
                 }

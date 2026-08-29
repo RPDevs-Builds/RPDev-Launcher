@@ -26,6 +26,7 @@ import android.graphics.drawable.Drawable
 import android.os.Process
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.IntentCompat
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
@@ -137,9 +138,13 @@ fun EditIconPage(
     }
     val pickerLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            val icon = it.data?.getParcelableExtra<Intent.ShortcutIconResource>(
-                Intent.EXTRA_SHORTCUT_ICON_RESOURCE
-            ) ?: return@rememberLauncherForActivityResult
+            val icon = it.data?.let { intent ->
+                IntentCompat.getParcelableExtra(
+                    intent,
+                    Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
+                    Intent.ShortcutIconResource::class.java
+                )
+            } ?: return@rememberLauncherForActivityResult
             val entry = (iconPack as CustomIconPack).createFromExternalPicker(icon)
                 ?: return@rememberLauncherForActivityResult
             onItemClick(entry)
