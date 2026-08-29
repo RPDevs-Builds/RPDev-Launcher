@@ -362,7 +362,7 @@ fun ComposableWebView(url: String) {
                         } else {
                             val intent = Intent(Intent.ACTION_VIEW, url.toUri())
                             try {
-                                ContextCompat.startActivity(context, intent, null)
+                                context.startActivity(intent)
                             } catch (e: ActivityNotFoundException) {
                                 view.loadUrl(url)
                             }

@@ -136,7 +136,7 @@ constructor(
 
     private fun emptyDbDir() {
         if (mDbDir != null && mDbDir.exists()) {
-            Arrays.stream(mDbDir.listFiles()).forEach { obj: File -> obj.delete() }
+            mDbDir.listFiles()?.forEach { it.delete() }
         }
     }
 

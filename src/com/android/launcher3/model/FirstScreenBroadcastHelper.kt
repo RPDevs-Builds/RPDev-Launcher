@@ -111,7 +111,7 @@ constructor(private val packageManagerHelper: PackageManagerHelper) {
                 keySelector = { it.installerPackageName },
                 valueTransform = { it.appPackageName },
             )
-            .mapValues { it.value.filterNotNull().toSet() } as Map<String, Set<String>>
+            .mapValues { it.value.filterNotNull().toSet() }
     }
 
     /** Maps Installer packages to Set of ItemInfos. Filter out installing packages. */
@@ -122,18 +122,18 @@ constructor(private val packageManagerHelper: PackageManagerHelper) {
     ): Map<String, List<ItemInfo>> =
         allItems
             .sortedBy { it.screenId }
-            .groupByTo(mutableMapOf()) {
-                getPackageName(it)?.let { pkg ->
-                    if (installingPackages.contains(pkg)) {
-                        null
-                    } else {
-                        installerAppCache.getOrPut(pkg) {
-                            packageManagerHelper.getAppInstallerPackage(pkg)
-                        }
+            .groupBy {
+                val pkg = getPackageName(it) ?: return@groupBy null
+                if (installingPackages.contains(pkg)) {
+                    null
+                } else {
+                    installerAppCache.getOrPut(pkg) {
+                        packageManagerHelper.getAppInstallerPackage(pkg)
                     }
                 }
             }
-            .apply { remove(null) } as Map<String, List<ItemInfo>>
+            .filterKeys { it != null }
+            .mapKeys { it.key!! }
 
     /**
      * Add first screen Pending Items from Map to [FirstScreenBroadcastModel] for given installer

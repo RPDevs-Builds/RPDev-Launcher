@@ -148,7 +148,7 @@ abstract class MagnetizedObject<T : Any>(
     private val associatedTargets = ArrayList<MagneticTarget>()
 
     private val velocityTracker: VelocityTracker = VelocityTracker.obtain()
-    private val vibrator: Vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+    private val vibrator: Vibrator = context.getSystemService(Vibrator::class.java)
     private val vibrationAttributes: VibrationAttributes = VibrationAttributes.createForUsage(
             VibrationAttributes.USAGE_TOUCH)
 
@@ -391,7 +391,7 @@ abstract class MagnetizedObject<T : Any>(
             // animate sticking to the magnet.
             targetObjectIsStuckTo = targetObjectIsInMagneticFieldOf
             cancelAnimations()
-            magnetListener.onStuckToTarget(targetObjectIsInMagneticFieldOf!!, this)
+            magnetListener.onStuckToTarget(targetObjectIsInMagneticFieldOf, this)
             animateStuckToTarget(targetObjectIsInMagneticFieldOf, velX, velY, false, null)
 
             vibrateIfEnabled(VibrationEffect.EFFECT_HEAVY_CLICK)

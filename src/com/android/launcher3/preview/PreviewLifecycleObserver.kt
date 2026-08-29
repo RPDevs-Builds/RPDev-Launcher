@@ -41,6 +41,7 @@ class PreviewLifecycleObserver(
         lifeCycleTracker.add { destroyed = true }
     }
 
+    @Suppress("DEPRECATION")
     private fun executeUpdate(command: String, values: Bundle) {
         renderer.customizationDelegate.handleUpdate(
             command,
@@ -56,6 +57,7 @@ class PreviewLifecycleObserver(
         )
     }
 
+    @Suppress("DEPRECATION")
     override fun handleMessage(message: Message): Boolean {
         if (destroyed) {
             return true

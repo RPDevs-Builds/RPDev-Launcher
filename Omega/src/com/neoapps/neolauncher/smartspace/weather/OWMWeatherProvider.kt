@@ -24,6 +24,7 @@ import android.content.Context
 import android.graphics.drawable.Icon
 import android.location.Criteria
 import android.location.LocationManager
+import android.os.Build
 import android.util.Log
 import android.widget.Toast
 import com.android.launcher3.BuildConfig
@@ -110,8 +111,14 @@ class OWMWeatherProvider(context: Context) : SmartspaceDataSource(
                 )
                 return
             } else {
-                val locationProvider = locationManager?.getBestProvider(Criteria(), true)
-                val location = locationProvider?.let { locationManager?.getLastKnownLocation(it) }
+                val location = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                    locationManager?.getLastKnownLocation(LocationManager.FUSED_PROVIDER)
+                        ?: locationManager?.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+                } else {
+                    @Suppress("DEPRECATION")
+                    val locationProvider = locationManager?.getBestProvider(Criteria(), true)
+                    locationProvider?.let { locationManager?.getLastKnownLocation(it) }
+                } ?: locationManager?.getLastKnownLocation(LocationManager.GPS_PROVIDER)
                 if (location != null) {
                     owm.getCurrentWeatherByGeoCoordinates(
                         location.latitude,

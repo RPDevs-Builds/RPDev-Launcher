@@ -59,11 +59,6 @@
         android:theme="@style/NeoTheme.Light"
         tools:replace="android:label, android:icon">
 
-        <activity
-            android:name="com.android.launcher3.Launcher"
-            android:exported="true"
-            tools:node="remove" />
-
         <!--
             Main launcher activity. When extending only change the name, and keep all the
             attributes and intent filters the same

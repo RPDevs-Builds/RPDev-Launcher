@@ -146,7 +146,7 @@ constructor(
                             widgetApp = it,
                             resultLabel =
                                 when {
-                                    isWorkApp -> profiles?.work?.label
+                                    isWorkApp -> profiles.work?.label
                                     else ->
                                         null // personal is default, so don't label it explicitly.
                                 },

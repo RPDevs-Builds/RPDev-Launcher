@@ -429,9 +429,9 @@ class PreloadIconDelegate(
             @DrawableCreationFlags creationFlags: Int = 0,
         ): FastBitmapDrawable {
             val originalState = newIcon(context, creationFlags).constantState
-            val themedSeedColor = context.resources.getColor(R.color.materialColorInverseSurface)
-            val themedProgressColor = context.resources.getColor(R.color.materialColorPrimary)
-            val themedProgressColorDark = context.resources.getColor(R.color.materialColorSecondary)
+            val themedSeedColor = context.getColor(R.color.materialColorInverseSurface)
+            val themedProgressColor = context.getColor(R.color.materialColorPrimary)
+            val themedProgressColorDark = context.getColor(R.color.materialColorSecondary)
             val newState = originalState.copy(
                 // Set a disabled icon color if the app is suspended or is pending download
                 isDisabled = isDisabled || isPendingDownload,
