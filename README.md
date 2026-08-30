@@ -97,9 +97,11 @@ Contributions, bug reports, and feature requests are welcome! Feel free to explo
 
 ---
 
-## 📜 License
+## 📜 License & Acknowledgements
 
-- **RPDev Launcher** modifications and features are licensed under the [GPLv3+](/COPYING).
-- Upstream **AOSP Launcher3** code is licensed under the [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0).
+**RPDev Launcher** modifications and features are licensed under the [GPLv3+](https://github.com/RPDevs-Builds/RPDev-Launcher/blob/main/COPYING).
+Upstream AOSP Launcher3 code is licensed under the [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0).
+
+This project is originally based on and heavily indebted to the work of [Neo-Launcher](https://github.com/NeoApplications/Neo-Launcher) by the NeoApplications team. Special thanks to key contributors [Saul Henriquez](https://github.com/saulhdev) and [Antonios Hazim](https://github.com/machiav3lli) for their foundational work on the launcher.
 
 Copyright © 2026 [RPDevs-Builds](https://github.com/RPDevs-Builds), [Saul Henriquez](https://github.com/saulhdev), and [Antonios Hazim](https://github.com/machiav3lli).
