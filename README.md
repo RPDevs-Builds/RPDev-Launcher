@@ -1,7 +1,5 @@
 <h1 align="center">
   <img src="assets/icon/icon.png" alt="RPDev Launcher Dark Icon" width="128" height="128"/>
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="assets/icon/lighticon.png" alt="RPDev Launcher Light Icon" width="128" height="128"/>
   <br>
   RPDev Launcher
 </h1>
