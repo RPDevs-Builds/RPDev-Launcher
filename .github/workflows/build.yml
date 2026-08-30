@@ -46,6 +46,21 @@ jobs:
       - name: Run Unit Tests
         run: ./gradlew testAospOmegaDebugUnitTest
 
+      - name: Build Release APK
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: ./gradlew assembleAospOmegaRelease --stacktrace
+
+      - name: Sign Release APK
+        if: startsWith(github.ref, 'refs/tags/v')
+        id: sign_app
+        uses: r0adkll/sign-android-release@v1
+        with:
+          releaseDirectory: build/outputs/apk/aospOmega/release
+          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+          alias: ${{ secrets.ALIAS }}
+          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
+
       - name: Upload Debug APK Artifact
         uses: actions/upload-artifact@v4
         with:
@@ -54,11 +69,22 @@ jobs:
           if-no-files-found: error
           retention-days: 14
 
+      - name: Upload Release APK Artifact
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: actions/upload-artifact@v4
+        with:
+          name: RPDev-Launcher-Release-APK
+          path: ${{steps.sign_app.outputs.signedReleaseFile}}
+          if-no-files-found: error
+          retention-days: 14
+
       - name: Publish GitHub Release (On Version Tags)
         if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
         with:
-          files: build/outputs/apk/aospOmega/debug/RPDev_Launcher_*.apk
+          files: |
+            build/outputs/apk/aospOmega/debug/RPDev_Launcher_*.apk
+            ${{steps.sign_app.outputs.signedReleaseFile}}
           generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
