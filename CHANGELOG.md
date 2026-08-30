@@ -10,15 +10,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0-alpha] - 2026-08-29 (RPDev Launcher Modernization & Rebranding)
 
 ### Added
-- **RPDev Launcher Rebranding**:
+- **Dual Launcher App Icon Support**:
+  - Fully replaced the legacy Neo logo with the new **Dark Neon (Default)** master icon (`assets/icon/icon.png`) and generated `ic_launcher` mipmaps across all densities.
+  - Added secondary **High Contrast (Light)** icon (`assets/icon/lighticon.png`) with full mipmap generation.
+  - Added user preference `profileAppIconStyle` in Theme / Profile settings to dynamically switch between dark neon and high-contrast light launcher app icons.
+- **RPDev Launcher Rebranding & Naming**:
   - Rebranded project identifier to `iamrp.dev.launcher` (`iamrp.dev.launcher.alpha` on debug builds).
-  - Rebranded application display name (`derived_app_name`, `app_name`) and user-facing strings across base strings and 19 locale translations (`values-es`, `values-de`, `values-fr`, `values-pt`, `values-ru`, `values-zh-rCN`, `values-zh-rTW`, `values-ja`, `values-nl`, `values-it`, `values-pl`, `values-tr`, `values-uk`, `values-ar`, `values-pt-rBR`, `values-in`, `values-lt`, `values-hr`, `values-hu`).
+  - Renamed core Launcher activity aliases to `iamrp.dev.launcher` and `iamrp.dev.launcher.LauncherLight` to ensure complete alignment with project branding.
+  - Rebranded application display name (`derived_app_name`, `app_name`) and user-facing strings across base strings and 19 locale translations.
   - Dynamic artifact output naming: `RPDev_Launcher_v1.0.0-alpha.apk` (debug/main) and `RPDev_Launcher_v1.0.0.apk` (release).
   - Rebranded repository documentation (`README.md`), GitHub issue templates, and created comprehensive architectural documentation (`GEMINI.md`).
-- **Dual Launcher App Icon Support**:
-  - Added primary **Dark Neon (Default)** master icon (`assets/icon/icon.png`) and secondary **High Contrast (Light)** icon (`assets/icon/lighticon.png`).
-  - Added `LauncherLight` activity alias in manifest with full mipmap assets generated across `mdpi`, `hdpi`, `xhdpi`, `xxhdpi`, and `xxxhdpi`.
-  - Added user preference `profileAppIconStyle` in Theme / Profile settings to dynamically switch between dark neon and high-contrast light launcher app icons.
 - **Continuous Integration & Automated Releases**:
   - Added GitHub Actions workflow (`.github/workflows/build.yml`) configured for JDK 21, Gradle 9.4 caching, automated APK artifact generation, unit test execution, and GitHub Releases on version tags.
 - **Android 12+ Backup & Extraction Configuration**:
