@@ -27,7 +27,7 @@ class IconPackProvider @Inject constructor(
 ) : SafeCloseable {
     private val iconPacks = mutableMapOf<String, IconPack?>()
     private val systemIcon = CustomAdaptiveIconDrawable.wrapNonNull(
-        ContextCompat.getDrawable(context, R.drawable.ic_launcher_foreground)!!
+        ContextCompat.getDrawable(context, R.mipmap.ic_launcher)!!
     )
 
     fun getIconPackOrSystem(packageName: String): IconPack? {
