@@ -484,7 +484,7 @@ class WorkspaceItemProcessor(
             collection.linkedDrawerFolderId = linkedId
             if (linkedId != null) {
                 try {
-                    val matchingFolder = com.neoapps.neolauncher.preferences.NeoPrefs.getInstance().drawerFolders
+                    val matchingFolder = iamrp.dev.launcher.preferences.NeoPrefs.getInstance().drawerFolders
                         .getGroups(isFolder = true)
                         .find { it.id.value().toString() == linkedId }
                     if (matchingFolder != null && !matchingFolder.title.isNullOrBlank()) {

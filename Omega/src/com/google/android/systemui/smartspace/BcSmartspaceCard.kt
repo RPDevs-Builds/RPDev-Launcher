@@ -13,7 +13,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import com.android.launcher3.R
-import com.neoapps.neolauncher.smartspace.provider.MediaListener
+import iamrp.dev.launcher.smartspace.provider.MediaListener
 import com.saulhdev.smartspace.SmartspaceAction
 import com.saulhdev.smartspace.SmartspaceTarget
 import com.saulhdev.smartspace.hasIntent

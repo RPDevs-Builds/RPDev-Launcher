@@ -41,7 +41,7 @@ import com.android.launcher3.views.ActivityContext
 import com.android.launcher3.widget.LauncherWidgetHolder.WidgetHolderFactory
 import com.android.launcher3.widget.LauncherWidgetHolder.WidgetHolderFactoryImpl
 import com.android.launcher3.widget.LocalColorExtractor
-import com.neoapps.neolauncher.allapps.NeoLauncherModelDelegate
+import iamrp.dev.launcher.allapps.RPDevLauncherModelDelegate
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -93,7 +93,7 @@ object SystemDragModule {
 @InstallIn(SingletonComponent::class)
 abstract class PredictionAppModule {
     @Binds
-    abstract fun bindModelDelegate(impl: NeoLauncherModelDelegate): ModelDelegate
+    abstract fun bindModelDelegate(impl: RPDevLauncherModelDelegate): ModelDelegate
 }
 
 // Module containing bindings for the final derivative app

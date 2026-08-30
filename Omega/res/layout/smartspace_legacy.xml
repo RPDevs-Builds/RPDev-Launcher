@@ -14,7 +14,7 @@
   ~ limitations under the License.
   -->
 
-<com.neoapps.neolauncher.smartspace.SmartspaceQsb xmlns:android="http://schemas.android.com/apk/res/android"
+<iamrp.dev.launcher.smartspace.SmartspaceQsb xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@id/search_container_workspace"
     android:layout_width="match_parent"
@@ -22,10 +22,10 @@
     android:layout_gravity="center_vertical">
 
     <fragment
-        android:name="com.neoapps.neolauncher.smartspace.SmartspaceQsb$SmartSpaceFragment"
+        android:name="iamrp.dev.launcher.smartspace.SmartspaceQsb$SmartSpaceFragment"
         android:layout_width="match_parent"
         android:tag="smart_space_view"
         android:layout_height="match_parent"
         tools:ignore="FragmentTagUsage" />
 
-</com.neoapps.neolauncher.smartspace.SmartspaceQsb>
+</iamrp.dev.launcher.smartspace.SmartspaceQsb>

@@ -44,7 +44,7 @@ import com.android.launcher3.pm.UserCache
 import com.android.launcher3.util.DaggerSingletonTracker
 import com.android.launcher3.util.Executors.MODEL_EXECUTOR
 import com.android.launcher3.util.PackageUserKey
-import com.neoapps.neolauncher.allapps.NeoLauncherModelDelegate
+import iamrp.dev.launcher.allapps.RPDevLauncherModelDelegate
 import java.io.PrintWriter
 import java.util.concurrent.CancellationException
 import java.util.function.Consumer
@@ -69,7 +69,7 @@ constructor(
     @Named("ICONS_DB") dbFileName: String?,
     initializer: ModelInitializer,
     lifecycle: DaggerSingletonTracker,
-    val modelDelegate: NeoLauncherModelDelegate,
+    val modelDelegate: RPDevLauncherModelDelegate,
     private val mBgAllAppsList: AllAppsList,
     private val mBgDataModel: BgDataModel,
     private val loaderFactory: LoaderTaskFactory,

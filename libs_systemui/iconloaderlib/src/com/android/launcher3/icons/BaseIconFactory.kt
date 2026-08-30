@@ -45,10 +45,10 @@ import com.android.launcher3.util.UserIconInfo
 import com.android.launcher3.util.UserIconInfo.Companion.TYPE_MAIN
 import com.android.launcher3.util.UserIconInfo.Companion.TYPE_WORK
 import com.android.systemui.shared.Flags.extendibleThemeManager
-import com.neoapps.neolauncher.icons.CustomAdaptiveIconDrawable
-import com.neoapps.neolauncher.icons.ExtendedBitmapDrawable.Companion.isFromIconPack
-import com.neoapps.neolauncher.icons.FixedScaleDrawable
-import com.neoapps.neolauncher.icons.IconPreferences
+import iamrp.dev.launcher.icons.CustomAdaptiveIconDrawable
+import iamrp.dev.launcher.icons.ExtendedBitmapDrawable.Companion.isFromIconPack
+import iamrp.dev.launcher.icons.FixedScaleDrawable
+import iamrp.dev.launcher.icons.IconPreferences
 import java.lang.ref.WeakReference
 import kotlin.annotation.AnnotationRetention.SOURCE
 import kotlin.math.ceil

@@ -26,7 +26,7 @@ import com.android.launcher3.LauncherUiState;
 import com.android.launcher3.R;
 import com.android.launcher3.views.ActivityContext;
 import com.android.launcher3.views.ScrimColors;
-import com.neoapps.neolauncher.util.OmegaUtilsKt;
+import iamrp.dev.launcher.util.OmegaUtilsKt;
 
 /**
  * Definition for AllApps state

@@ -265,7 +265,7 @@ import com.android.systemui.plugins.LauncherOverlayPlugin;
 import com.android.systemui.plugins.PluginListener;
 import com.android.systemui.plugins.shared.LauncherOverlayManager;
 import com.android.systemui.plugins.shared.LauncherOverlayManager.LauncherOverlayTouchProxy;
-import com.neoapps.neolauncher.NeoLauncher;
+import iamrp.dev.launcher.RPDevLauncher;
 
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
@@ -1589,8 +1589,8 @@ public class Launcher extends StatefulActivity<LauncherState>
                 if (shouldMoveToDefaultScreen && !mWorkspace.isHandlingTouch()) {
                     mWorkspace.post(mWorkspace::moveToDefaultScreen);
                 }
-                if (!handled && this instanceof NeoLauncher) {
-                    ((NeoLauncher) this).getGestureController().onPressHome();
+                if (!handled && this instanceof RPDevLauncher) {
+                    ((RPDevLauncher) this).getGestureController().onPressHome();
                 }
             }
 
@@ -2108,8 +2108,8 @@ public class Launcher extends StatefulActivity<LauncherState>
             if (!isInState(NORMAL)) {
                 onStateBack();
             } else {
-                if (this instanceof NeoLauncher) {
-                    ((NeoLauncher) this).getGestureController().onPressBack();
+                if (this instanceof RPDevLauncher) {
+                    ((RPDevLauncher) this).getGestureController().onPressBack();
                 }
             }
         }

@@ -13,7 +13,7 @@
      limitations under the License.
 -->
 
-<com.neoapps.neolauncher.views.BaseBottomSheet xmlns:android="http://schemas.android.com/apk/res/android"
+<iamrp.dev.launcher.views.BaseBottomSheet xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/content"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -36,4 +36,4 @@
         android:background="?attr/bottomSheetNavBarColor"
         android:focusable="false" />
 
-</com.neoapps.neolauncher.views.BaseBottomSheet>
+</iamrp.dev.launcher.views.BaseBottomSheet>

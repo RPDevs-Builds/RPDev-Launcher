@@ -97,14 +97,14 @@ import com.android.launcher3.util.Thunk;
 import com.android.launcher3.views.ActivityContext;
 import com.android.launcher3.views.FloatingIconViewCompanion;
 import com.android.launcher3.widget.PendingAddShortcutInfo;
-import com.neoapps.neolauncher.NeoLauncher;
-import com.neoapps.neolauncher.gestures.BlankGestureHandler;
-import com.neoapps.neolauncher.gestures.GestureHandler;
-import com.neoapps.neolauncher.gestures.RunnableGestureHandler;
-import com.neoapps.neolauncher.gestures.handlers.ViewSwipeUpGestureHandler;
-import com.neoapps.neolauncher.groups.category.DrawerFolderInfo;
-import com.neoapps.neolauncher.preferences.NeoPrefs;
-import com.neoapps.neolauncher.util.ContextExtensionsKt;
+import iamrp.dev.launcher.RPDevLauncher;
+import iamrp.dev.launcher.gestures.BlankGestureHandler;
+import iamrp.dev.launcher.gestures.GestureHandler;
+import iamrp.dev.launcher.gestures.RunnableGestureHandler;
+import iamrp.dev.launcher.gestures.handlers.ViewSwipeUpGestureHandler;
+import iamrp.dev.launcher.groups.category.DrawerFolderInfo;
+import iamrp.dev.launcher.preferences.NeoPrefs;
+import iamrp.dev.launcher.util.ContextExtensionsKt;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -285,11 +285,11 @@ public class FolderIcon extends FrameLayout implements FloatingIconViewCompanion
     public void updateCoverDrawable() {
         if (mInfo != null) {
             com.android.launcher3.util.ComponentKey folderKey = mInfo.getFolderComponentKey();
-            com.neoapps.neolauncher.data.models.IconPickerItem override =
-                    com.neoapps.neolauncher.data.IconOverrideRepository.INSTANCE.get(getContext()).getOverridesMap().get(folderKey);
+            iamrp.dev.launcher.data.models.IconPickerItem override =
+                    iamrp.dev.launcher.data.IconOverrideRepository.INSTANCE.get(getContext()).getOverridesMap().get(folderKey);
             if (override != null) {
                 try {
-                    Drawable customDrawable = com.neoapps.neolauncher.iconpack.IconPackProvider.INSTANCE.get(getContext())
+                    Drawable customDrawable = iamrp.dev.launcher.iconpack.IconPackProvider.INSTANCE.get(getContext())
                             .getDrawable(override.toIconEntry(), 0, mInfo.user);
                     if (customDrawable != null) {
                         mCoverDrawable = customDrawable;
@@ -310,7 +310,7 @@ public class FolderIcon extends FrameLayout implements FloatingIconViewCompanion
                     LauncherAppState.getInstance(getContext()).getIconCache().updateIconInBackground(
                             newInfo -> {
                                 if (mInfo != null && mInfo.isCoverMode() && mInfo.getCoverInfo() == newInfo) {
-                                    if (!com.neoapps.neolauncher.data.IconOverrideRepository.INSTANCE.get(getContext()).getOverridesMap().containsKey(folderKey)) {
+                                    if (!iamrp.dev.launcher.data.IconOverrideRepository.INSTANCE.get(getContext()).getOverridesMap().containsKey(folderKey)) {
                                         mCoverDrawable = ((WorkspaceItemInfo) newInfo).newIcon(getContext(), BitmapInfo.FLAG_THEMED);
                                         if (mCoverDrawable != null) {
                                             mCoverDrawable.setCallback(this);
@@ -937,8 +937,8 @@ public class FolderIcon extends FrameLayout implements FloatingIconViewCompanion
         mLongPressHelper.onTouchEvent(event);
         // Keep receiving the rest of the events
         Launcher launcher = ContextExtensionsKt.getLauncherOrNull(getContext());
-        if (launcher instanceof NeoLauncher && mSwipeUpHandler != null) {
-            ((NeoLauncher) launcher).getGestureController()
+        if (launcher instanceof RPDevLauncher && mSwipeUpHandler != null) {
+            ((RPDevLauncher) launcher).getGestureController()
                     .setSwipeUpOverride(mSwipeUpHandler, event.getDownTime());
         }
         return true;

@@ -4,7 +4,7 @@ import android.content.ComponentName;
 import android.content.Context;
 
 import com.android.launcher3.dagger.ApplicationContext;
-import com.neoapps.neolauncher.NeoLauncher;
+import iamrp.dev.launcher.RPDevLauncher;
 
 import java.util.Arrays;
 import java.util.Set;
@@ -25,7 +25,7 @@ public class AppFilter {
                 context.getResources().getStringArray(R.array.filtered_components))
                 .map(ComponentName::unflattenFromString)
                 .collect(Collectors.toSet());
-        mFilteredComponents.add(new ComponentName(context, NeoLauncher.class.getName()));
+        mFilteredComponents.add(new ComponentName(context, RPDevLauncher.class.getName()));
     }
 
     public boolean shouldShowApp(ComponentName app) {

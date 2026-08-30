@@ -22,7 +22,7 @@ import android.util.Size;
 import com.android.launcher3.DeviceProfile;
 import com.android.launcher3.R;
 import com.android.launcher3.model.WidgetItem;
-import com.neoapps.neolauncher.preferences.NeoPrefs;
+import iamrp.dev.launcher.preferences.NeoPrefs;
 
 /** A utility class for widget sizes related calculations. */
 public final class WidgetSizes {

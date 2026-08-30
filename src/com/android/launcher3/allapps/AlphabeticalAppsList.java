@@ -24,7 +24,7 @@ import static com.android.launcher3.allapps.SectionDecorationInfo.ROUND_BOTTOM_R
 import static com.android.launcher3.allapps.SectionDecorationInfo.ROUND_NOTHING;
 import static com.android.launcher3.logging.StatsLogManager.LauncherEvent.LAUNCHER_PRIVATE_SPACE_PREINSTALLED_APPS_COUNT;
 import static com.android.launcher3.logging.StatsLogManager.LauncherEvent.LAUNCHER_PRIVATE_SPACE_USER_INSTALLED_APPS_COUNT;
-import static com.neoapps.neolauncher.util.OmegaUtilsKt.getAllAppsComparator;
+import static iamrp.dev.launcher.util.OmegaUtilsKt.getAllAppsComparator;
 
 import android.content.Context;
 import android.text.Spannable;
@@ -48,8 +48,8 @@ import com.android.launcher3.model.data.ItemInfo;
 import com.android.launcher3.util.ComponentKey;
 import com.android.launcher3.util.LabelComparator;
 import com.android.launcher3.views.ActivityContext;
-import com.neoapps.neolauncher.groups.category.DrawerFolderInfo;
-import com.neoapps.neolauncher.preferences.NeoPrefs;
+import iamrp.dev.launcher.groups.category.DrawerFolderInfo;
+import iamrp.dev.launcher.preferences.NeoPrefs;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;

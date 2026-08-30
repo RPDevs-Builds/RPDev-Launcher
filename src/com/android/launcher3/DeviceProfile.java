@@ -76,7 +76,7 @@ import com.android.launcher3.util.IconSizeSteps;
 import com.android.launcher3.util.ResourceHelper;
 import com.android.launcher3.util.WindowBounds;
 import com.android.launcher3.util.window.WindowManagerProxy;
-import com.neoapps.neolauncher.preferences.NeoPrefs;
+import iamrp.dev.launcher.preferences.NeoPrefs;
 
 import java.io.PrintWriter;
 import java.util.Locale;

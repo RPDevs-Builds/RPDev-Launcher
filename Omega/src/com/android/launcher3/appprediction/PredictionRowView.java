@@ -18,7 +18,7 @@ package com.android.launcher3.appprediction;
 
 import static android.os.Build.VERSION_CODES.UPSIDE_DOWN_CAKE;
 import static com.android.launcher3.Utilities.dpToPx;
-import static com.neoapps.neolauncher.preferences.ConstantsKt.LAYOUT_CATEGORIES;
+import static iamrp.dev.launcher.preferences.ConstantsKt.LAYOUT_CATEGORIES;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -48,7 +48,7 @@ import com.android.launcher3.model.data.ItemInfo;
 import com.android.launcher3.model.data.ItemInfoWithIcon;
 import com.android.launcher3.model.data.WorkspaceItemInfo;
 import com.android.launcher3.views.ActivityContext;
-import com.neoapps.neolauncher.preferences.NeoPrefs;
+import iamrp.dev.launcher.preferences.NeoPrefs;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;

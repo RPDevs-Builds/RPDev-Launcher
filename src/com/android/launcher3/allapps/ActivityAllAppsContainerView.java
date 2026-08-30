@@ -27,10 +27,10 @@ import static com.android.launcher3.logging.StatsLogManager.LauncherEvent.LAUNCH
 import static com.android.launcher3.util.Executors.MAIN_EXECUTOR;
 import static com.android.launcher3.util.ScrollableLayoutManager.PREDICTIVE_BACK_MIN_SCALE;
 import static com.android.launcher3.views.RecyclerViewFastScroller.FastScrollerLocation.ALL_APPS_SCROLLER;
-import static com.neoapps.neolauncher.preferences.ConstantsKt.LAYOUT_CATEGORIES;
-import static com.neoapps.neolauncher.preferences.ConstantsKt.LAYOUT_HORIZONTAL;
-import static com.neoapps.neolauncher.preferences.ConstantsKt.LAYOUT_TABS;
-import static com.neoapps.neolauncher.preferences.ConstantsKt.LAYOUT_VERTICAL;
+import static iamrp.dev.launcher.preferences.ConstantsKt.LAYOUT_CATEGORIES;
+import static iamrp.dev.launcher.preferences.ConstantsKt.LAYOUT_HORIZONTAL;
+import static iamrp.dev.launcher.preferences.ConstantsKt.LAYOUT_TABS;
+import static iamrp.dev.launcher.preferences.ConstantsKt.LAYOUT_VERTICAL;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -99,10 +99,10 @@ import com.android.launcher3.views.ScrimView;
 import com.android.launcher3.views.SpringRelativeLayout;
 import com.android.launcher3.workprofile.PersonalWorkSlidingTabStrip;
 import com.android.systemui.plugins.AllAppsRow;
-import com.neoapps.neolauncher.allapps.AllAppsTabItem;
-import com.neoapps.neolauncher.allapps.AllAppsTabs;
-import com.neoapps.neolauncher.allapps.AllAppsTabsController;
-import com.neoapps.neolauncher.preferences.NeoPrefs;
+import iamrp.dev.launcher.allapps.AllAppsTabItem;
+import iamrp.dev.launcher.allapps.AllAppsTabs;
+import iamrp.dev.launcher.allapps.AllAppsTabsController;
+import iamrp.dev.launcher.preferences.NeoPrefs;
 
 import java.util.ArrayList;
 import java.util.List;

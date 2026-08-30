@@ -21,7 +21,7 @@ import com.android.launcher3.LauncherAppState;
 import com.android.launcher3.icons.cache.BaseIconCache;
 import com.android.launcher3.icons.cache.CachedObject;
 import com.android.launcher3.model.data.LauncherAppWidgetInfo;
-import com.neoapps.neolauncher.preferences.NeoPrefs;
+import iamrp.dev.launcher.preferences.NeoPrefs;
 
 /**
  * This class is a thin wrapper around the framework AppWidgetProviderInfo class. This class affords

@@ -119,9 +119,9 @@ import com.android.launcher3.views.ActivityContext;
 import com.android.launcher3.views.BaseDragLayer;
 import com.android.launcher3.views.ClipPathView;
 import com.android.launcher3.widget.PendingAddShortcutInfo;
-import com.neoapps.neolauncher.folder.FolderShortcut;
-import com.neoapps.neolauncher.groups.category.DrawerFolderInfo;
-import com.neoapps.neolauncher.preferences.NeoPrefs;
+import iamrp.dev.launcher.folder.FolderShortcut;
+import iamrp.dev.launcher.groups.category.DrawerFolderInfo;
+import iamrp.dev.launcher.preferences.NeoPrefs;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -865,7 +865,7 @@ public class Folder extends AbstractFloatingView implements ClipPathView, DragSo
         Folder openFolder = getOpen(mActivityContext);
         closeOpenFolder(openFolder);
 
-        com.neoapps.neolauncher.folder.FolderSortUtil.sortFolder(mInfo, getContext(), mActivityContext.getModelWriter());
+        iamrp.dev.launcher.folder.FolderSortUtil.sortFolder(mInfo, getContext(), mActivityContext.getModelWriter());
         mContent.bindItems(mInfo.getContents());
         mContent.setCanAnnouncePageDescriptionForFolder(true);
         centerAboutIcon();
@@ -1872,10 +1872,10 @@ public class Folder extends AbstractFloatingView implements ClipPathView, DragSo
 
         mActivityContext.getModelWriter().notifyItemModified(mInfo);
         mFolderIcon.onItemsChanged(animate);
-        if (mInfo instanceof com.neoapps.neolauncher.groups.category.DrawerFolderInfo dfi) {
+        if (mInfo instanceof iamrp.dev.launcher.groups.category.DrawerFolderInfo dfi) {
             dfi.syncToDrawerFolderAndWorkspace();
         } else if ((mInfo.linkedDrawerFolderId != null && !mInfo.linkedDrawerFolderId.isEmpty()) || mInfo.title != null) {
-            com.neoapps.neolauncher.groups.DrawerFolderSyncUtil.syncWorkspaceFolderToDrawer(
+            iamrp.dev.launcher.groups.DrawerFolderSyncUtil.syncWorkspaceFolderToDrawer(
                     getContext(), mInfo.linkedDrawerFolderId, mInfo.title != null ? mInfo.title.toString() : null, mInfo.getContents());
         }
     }
@@ -1906,10 +1906,10 @@ public class Folder extends AbstractFloatingView implements ClipPathView, DragSo
         }
 
         mFolderIcon.onItemsChanged(animate);
-        if (mInfo instanceof com.neoapps.neolauncher.groups.category.DrawerFolderInfo dfi) {
+        if (mInfo instanceof iamrp.dev.launcher.groups.category.DrawerFolderInfo dfi) {
             dfi.syncToDrawerFolderAndWorkspace();
         } else if ((mInfo.linkedDrawerFolderId != null && !mInfo.linkedDrawerFolderId.isEmpty()) || mInfo.title != null) {
-            com.neoapps.neolauncher.groups.DrawerFolderSyncUtil.syncWorkspaceFolderToDrawer(
+            iamrp.dev.launcher.groups.DrawerFolderSyncUtil.syncWorkspaceFolderToDrawer(
                     getContext(), mInfo.linkedDrawerFolderId, mInfo.title != null ? mInfo.title.toString() : null, mInfo.getContents());
         }
     }

@@ -45,7 +45,7 @@
         android:name="android.permission.WRITE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
     <application
-        android:name="com.neoapps.neolauncher.NeoApp"
+        android:name="iamrp.dev.launcher.RPDevApp"
         android:backupAgent="com.android.launcher3.LauncherBackupAgent"
         android:fullBackupOnly="true"
         android:hardwareAccelerated="true"
@@ -64,7 +64,7 @@
             attributes and intent filters the same
             -->
         <activity
-            android:name="com.neoapps.neolauncher.NeoLauncher"
+            android:name="iamrp.dev.launcher.RPDevLauncher"
             android:clearTaskOnLaunch="true"
             android:configChanges="keyboard|keyboardHidden|mcc|mnc|navigation|orientation|screenSize|screenLayout|smallestScreenSize|density"
             android:enabled="true"
@@ -99,7 +99,7 @@
         <!-- Primary RPDev Launcher Alias -->
         <activity-alias
             android:name="iamrp.dev.launcher"
-            android:targetActivity="com.neoapps.neolauncher.NeoLauncher"
+            android:targetActivity="iamrp.dev.launcher.RPDevLauncher"
             android:enabled="true"
             android:exported="true"
             android:icon="@mipmap/ic_launcher"
@@ -126,7 +126,7 @@
         <!-- Secondary High Contrast Light Alias -->
         <activity-alias
             android:name="iamrp.dev.launcher.LauncherLight"
-            android:targetActivity="com.neoapps.neolauncher.NeoLauncher"
+            android:targetActivity="iamrp.dev.launcher.RPDevLauncher"
             android:enabled="false"
             android:exported="true"
             android:icon="@mipmap/ic_launcher_light"
@@ -155,7 +155,7 @@
             android:exported="true"
             tools:node="remove" />
         <activity
-            android:name="com.neoapps.neolauncher.preferences.PreferenceActivity"
+            android:name="iamrp.dev.launcher.preferences.PreferenceActivity"
             android:autoRemoveFromRecents="true"
             android:exported="true"
             android:label="@string/settings_button_text"
@@ -167,18 +167,18 @@
         </activity>
 
         <activity
-            android:name="com.neoapps.neolauncher.smartspace.SmartSpacePreferencesShortcut"
+            android:name="iamrp.dev.launcher.smartspace.SmartSpacePreferencesShortcut"
             android:exported="false"
             android:theme="@style/Theme.Transparent" />
 
         <!-- DT2S using screen timeout -->
         <activity
-            android:name="com.neoapps.neolauncher.gestures.handlers.SleepTimeoutActivity"
+            android:name="iamrp.dev.launcher.gestures.handlers.SleepTimeoutActivity"
             android:exported="false"
             android:theme="@style/SleepTimeoutTheme" />
 
         <activity
-            android:name="com.neoapps.neolauncher.gestures.AssistantGestureReceiver"
+            android:name="iamrp.dev.launcher.gestures.AssistantGestureReceiver"
             android:exported="true"
             android:theme="@style/SettingsTheme.Black">
             <intent-filter>
@@ -191,7 +191,7 @@
 
         <!-- DT2S using device admin -->
         <receiver
-            android:name="com.neoapps.neolauncher.gestures.handlers.SleepMethodDeviceAdmin$SleepDeviceAdmin"
+            android:name="iamrp.dev.launcher.gestures.handlers.SleepMethodDeviceAdmin$SleepDeviceAdmin"
             android:description="@string/dt2s_admin_hint"
             android:exported="true"
             android:permission="android.permission.BIND_DEVICE_ADMIN">
@@ -205,7 +205,7 @@
         </receiver>
 
         <service
-            android:name="com.neoapps.neolauncher.OmegaAccessibilityService"
+            android:name="iamrp.dev.launcher.OmegaAccessibilityService"
             android:exported="true"
             android:label="@string/derived_app_name"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
@@ -215,7 +215,7 @@
         </service>
 
         <receiver
-            android:name="com.neoapps.neolauncher.smartspace.SmartSpaceAppWidgetProvider"
+            android:name="iamrp.dev.launcher.smartspace.SmartSpaceAppWidgetProvider"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

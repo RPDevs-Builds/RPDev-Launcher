@@ -10,12 +10,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.neoapps.neolauncher.blur.BlurScrimView
+        <iamrp.dev.launcher.blur.BlurScrimView
             android:id="@+id/blur_bg"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <com.neoapps.neolauncher.folder.FolderRootView
+        <iamrp.dev.launcher.folder.FolderRootView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/accent_ripple_color"
@@ -24,6 +24,6 @@
             android:id="@+id/folder_content_parent_view">
 
             <include layout="@layout/folder_full_screen_content" />
-        </com.neoapps.neolauncher.folder.FolderRootView>
+        </iamrp.dev.launcher.folder.FolderRootView>
     </FrameLayout>
 </com.android.launcher3.folder.Folder>

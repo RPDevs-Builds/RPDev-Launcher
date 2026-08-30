@@ -71,10 +71,10 @@ import com.android.launcher3.util.window.WindowManagerProxy;
 import com.android.launcher3.widget.LauncherWidgetHolder.WidgetHolderFactory;
 import com.android.launcher3.widget.custom.CustomWidgetManager;
 import com.android.launcher3.widget.util.WidgetSizeHandler;
-import com.neoapps.neolauncher.data.IconOverrideRepository;
-import com.neoapps.neolauncher.iconpack.IconPackProvider;
-import com.neoapps.neolauncher.icons.IconShapeManager;
-import com.neoapps.neolauncher.util.CustomActivityCachingLogic;
+import iamrp.dev.launcher.data.IconOverrideRepository;
+import iamrp.dev.launcher.iconpack.IconPackProvider;
+import iamrp.dev.launcher.icons.IconShapeManager;
+import iamrp.dev.launcher.util.CustomActivityCachingLogic;
 
 import javax.inject.Named;
 

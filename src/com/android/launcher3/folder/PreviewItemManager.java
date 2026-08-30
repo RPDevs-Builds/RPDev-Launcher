@@ -491,10 +491,10 @@ public class PreviewItemManager {
             boolean customLoaded = false;
             if (comp != null) {
                 com.android.launcher3.util.ComponentKey key = new com.android.launcher3.util.ComponentKey(comp, wii.user);
-                com.neoapps.neolauncher.data.models.IconPickerItem override =
-                        com.neoapps.neolauncher.data.IconOverrideRepository.INSTANCE.get(mContext).getOverridesMap().get(key);
+                iamrp.dev.launcher.data.models.IconPickerItem override =
+                        iamrp.dev.launcher.data.IconOverrideRepository.INSTANCE.get(mContext).getOverridesMap().get(key);
                 if (override != null) {
-                    Drawable custom = com.neoapps.neolauncher.iconpack.IconPackProvider.INSTANCE.get(mContext).getDrawable(override.toIconEntry(), 0, wii.user);
+                    Drawable custom = iamrp.dev.launcher.iconpack.IconPackProvider.INSTANCE.get(mContext).getDrawable(override.toIconEntry(), 0, wii.user);
                     if (custom != null) {
                         p.drawable = custom;
                         customLoaded = true;
@@ -517,10 +517,10 @@ public class PreviewItemManager {
         } else if (item instanceof com.android.launcher3.model.data.FolderInfo fi) {
             Drawable icon = null;
             com.android.launcher3.util.ComponentKey folderKey = fi.getFolderComponentKey();
-            com.neoapps.neolauncher.data.models.IconPickerItem override =
-                    com.neoapps.neolauncher.data.IconOverrideRepository.INSTANCE.get(mContext).getOverridesMap().get(folderKey);
+            iamrp.dev.launcher.data.models.IconPickerItem override =
+                    iamrp.dev.launcher.data.IconOverrideRepository.INSTANCE.get(mContext).getOverridesMap().get(folderKey);
             if (override != null) {
-                icon = com.neoapps.neolauncher.iconpack.IconPackProvider.INSTANCE.get(mContext).getDrawable(override.toIconEntry(), 0, fi.user);
+                icon = iamrp.dev.launcher.iconpack.IconPackProvider.INSTANCE.get(mContext).getDrawable(override.toIconEntry(), 0, fi.user);
             }
             if (icon == null) {
                 WorkspaceItemInfo cover = fi.getCoverInfo();

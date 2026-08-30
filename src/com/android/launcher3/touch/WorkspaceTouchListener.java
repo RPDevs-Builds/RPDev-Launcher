@@ -50,8 +50,8 @@ import com.android.launcher3.logger.LauncherAtom;
 import com.android.launcher3.testing.TestLogging;
 import com.android.launcher3.testing.shared.TestProtocol;
 import com.android.launcher3.util.TouchUtil;
-import com.neoapps.neolauncher.NeoLauncher;
-import com.neoapps.neolauncher.gestures.GestureController;
+import iamrp.dev.launcher.RPDevLauncher;
+import iamrp.dev.launcher.gestures.GestureController;
 
 /**
  * Helper class to handle touch on empty space in workspace and show options popup on long press
@@ -88,7 +88,7 @@ public class WorkspaceTouchListener extends GestureDetector.SimpleOnGestureListe
         // likely to cause movement.
         mTouchSlop = 2 * ViewConfiguration.get(launcher).getScaledTouchSlop();
         mGestureDetector = new GestureDetector(workspace.getContext(), this);
-        mGestureController = ((NeoLauncher) launcher).getGestureController();
+        mGestureController = ((RPDevLauncher) launcher).getGestureController();
     }
 
     @Override

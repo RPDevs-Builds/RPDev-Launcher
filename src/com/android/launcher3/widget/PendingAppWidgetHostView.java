@@ -67,7 +67,7 @@ import com.android.launcher3.util.RunnableList;
 import com.android.launcher3.util.SafeCloseable;
 import com.android.launcher3.util.Themes;
 import com.android.launcher3.widget.ListenableAppWidgetHost.ProviderChangedListener;
-import com.neoapps.neolauncher.preferences.NeoPrefs;
+import iamrp.dev.launcher.preferences.NeoPrefs;
 
 import java.util.List;
 

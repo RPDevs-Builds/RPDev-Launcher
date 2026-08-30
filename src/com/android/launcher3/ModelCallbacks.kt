@@ -38,7 +38,7 @@ import com.android.launcher3.util.RunnableList
 import com.android.launcher3.util.TraceHelper
 import com.android.launcher3.util.ViewOnDrawExecutor
 import com.android.launcher3.widget.model.WidgetsListBaseEntry
-import com.neoapps.neolauncher.preferences.NeoPrefs
+import iamrp.dev.launcher.preferences.NeoPrefs
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.CompletionStage
 import java.util.concurrent.Executor

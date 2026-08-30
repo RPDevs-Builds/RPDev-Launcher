@@ -13,7 +13,7 @@ import com.android.launcher3.model.data.LauncherAppWidgetInfo
 import com.android.launcher3.util.IntSet
 import com.android.launcher3.util.PendingRequestArgs
 import com.android.launcher3.views.Snackbar
-import com.neoapps.neolauncher.preferences.NeoPrefs
+import iamrp.dev.launcher.preferences.NeoPrefs
 
 /**
  * Handler class for drop target actions that require modifying or interacting with launcher.

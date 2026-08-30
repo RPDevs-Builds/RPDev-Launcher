@@ -1,0 +1,232 @@
+/*
+ * This file is part of Neo Launcher
+ * Copyright (c) 2022   Neo Launcher Team
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+package iamrp.dev.launcher.compose.pages
+
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.painter.BitmapPainter
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import com.android.launcher3.R
+import iamrp.dev.launcher.compose.components.ListItemWithCheckbox
+import iamrp.dev.launcher.compose.components.OverflowMenu
+import iamrp.dev.launcher.compose.components.ViewWithActionBar
+import iamrp.dev.launcher.compose.components.preferences.PreferenceGroup
+import iamrp.dev.launcher.theme.GroupItemShape
+import iamrp.dev.launcher.util.appsState
+
+@Composable
+fun AppSelectionPage(
+    pageTitle: String,
+    selectedApps: Set<String>,
+    pluralTitleId: Int,
+    onSave: (Set<String>) -> Unit
+) {
+    var selected by remember { mutableStateOf(selectedApps) }
+    var title by remember { mutableStateOf(pageTitle) }
+    var searchQuery by rememberSaveable { mutableStateOf("") }
+    val allApps by appsState(comparator = hiddenAppsComparator(selectedApps))
+    val pluralTitle = stringResource(id = pluralTitleId, selected.size)
+
+    val filteredApps = remember(allApps, searchQuery) {
+        if (searchQuery.isBlank()) {
+            allApps
+        } else {
+            val query = searchQuery.trim().lowercase()
+            allApps.filter { app ->
+                app.label.lowercase().contains(query) ||
+                    app.key.componentName.packageName.lowercase().contains(query)
+            }
+        }
+    }
+
+    val appsSize = filteredApps.size
+
+    title = if (selected.isNotEmpty()) {
+        pluralTitle
+    } else {
+        pageTitle
+    }
+
+    ViewWithActionBar(
+        title = title,
+        actions = {
+            OverflowMenu {
+                DropdownMenuItem(
+                    onClick = {
+                        selected = allApps.map { it.key.toString() }.toSet()
+                        hideMenu()
+                    },
+                    text = { Text(text = stringResource(id = R.string.select_all)) }
+                )
+                DropdownMenuItem(
+                    onClick = {
+                        selected = emptySet()
+                        hideMenu()
+                    },
+                    text = { Text(text = stringResource(id = R.string.deselect_all)) }
+                )
+                DropdownMenuItem(
+                    onClick = {
+                        selected = selectedApps
+                        hideMenu()
+                    },
+                    text = { Text(text = stringResource(id = R.string.app_reset)) }
+                )
+            }
+        },
+        onBackAction = {
+            onSave(selected)
+        }
+    ) { paddingValues ->
+        if (allApps.isEmpty()) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
+            }
+        } else {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+            ) {
+                OutlinedTextField(
+                    value = searchQuery,
+                    onValueChange = { searchQuery = it },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                    placeholder = {
+                        Text(
+                            text = stringResource(R.string.search_apps),
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    },
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Search,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    },
+                    trailingIcon = {
+                        if (searchQuery.isNotEmpty()) {
+                            IconButton(onClick = { searchQuery = "" }) {
+                                Icon(
+                                    imageVector = Icons.Default.Clear,
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                        }
+                    },
+                    singleLine = true,
+                    shape = MaterialTheme.shapes.extraLarge,
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedContainerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                        unfocusedContainerColor = MaterialTheme.colorScheme.surfaceContainer,
+                        focusedBorderColor = MaterialTheme.colorScheme.primary,
+                        unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant,
+                    )
+                )
+
+                PreferenceGroup {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(horizontal = 8.dp),
+                        verticalArrangement = Arrangement.spacedBy(2.dp)
+                    ) {
+                        itemsIndexed(filteredApps, key = { _, app -> app.key.toString() }) { index, app ->
+                            val appKeyStr = app.key.toString()
+                            val isSelected = selected.contains(appKeyStr)
+                            ListItemWithCheckbox(
+                                modifier = Modifier
+                                    .clip(GroupItemShape(index, appsSize - 1))
+                                    .clickable {
+                                        selected =
+                                            if (isSelected) selected.minus(appKeyStr)
+                                            else selected.plus(appKeyStr)
+                                    },
+                                title = app.label + if (app.key.user.hashCode() != 0) " \uD83D\uDCBC" else "",
+                                startIcon = {
+                                    Image(
+                                        painter = BitmapPainter(app.icon.asImageBitmap()),
+                                        contentDescription = null,
+                                        modifier = Modifier.size(40.dp)
+                                    )
+                                },
+                                checkBox = true,
+                                checked = isSelected,
+                                onCheck = {
+                                    selected = if (it) selected.plus(appKeyStr)
+                                    else selected.minus(appKeyStr)
+                                },
+                                index = index,
+                                groupSize = appsSize
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    DisposableEffect(key1 = null) {
+        onDispose {
+            onSave(selected)
+        }
+    }
+}

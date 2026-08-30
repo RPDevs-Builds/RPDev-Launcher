@@ -74,10 +74,10 @@ import com.android.launcher3.widget.LauncherAppWidgetProviderInfo;
 import com.android.launcher3.widget.PendingAppWidgetHostView;
 import com.android.launcher3.widget.WidgetAddFlowHandler;
 import com.android.launcher3.widget.WidgetManagerHelper;
-import com.neoapps.neolauncher.NeoLauncher;
-import com.neoapps.neolauncher.data.AppTrackerRepository;
-import com.neoapps.neolauncher.preferences.NeoPrefs;
-import com.neoapps.neolauncher.util.Config;
+import iamrp.dev.launcher.RPDevLauncher;
+import iamrp.dev.launcher.data.AppTrackerRepository;
+import iamrp.dev.launcher.preferences.NeoPrefs;
+import iamrp.dev.launcher.util.Config;
 
 import java.util.Collections;
 import java.util.concurrent.CompletableFuture;
@@ -422,7 +422,7 @@ public class ItemClickHandler {
             throw new IllegalArgumentException("Input must have a valid intent");
         }
         boolean isProtected = false;
-        NeoLauncher myLauncher = (NeoLauncher) launcher;
+        RPDevLauncher myLauncher = (RPDevLauncher) launcher;
         NeoPrefs prefs = NeoPrefs.getInstance();
         if (item instanceof WorkspaceItemInfo si) {
             if (si.hasStatusFlag(WorkspaceItemInfo.FLAG_SUPPORTS_WEB_UI)

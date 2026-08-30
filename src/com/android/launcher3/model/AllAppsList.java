@@ -46,7 +46,7 @@ import com.android.launcher3.util.ApplicationInfoWrapper;
 import com.android.launcher3.util.ComponentKey;
 import com.android.launcher3.util.FlagOp;
 import com.android.launcher3.util.PackageManagerHelper;
-import com.neoapps.neolauncher.allapps.HiddenAppFilter;
+import iamrp.dev.launcher.allapps.HiddenAppFilter;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -30,7 +30,7 @@ import com.android.launcher3.icons.FastBitmapDrawable
 import com.android.launcher3.icons.FastBitmapDrawableDelegate
 import com.android.launcher3.icons.IconShape
 import com.android.launcher3.icons.R
-import com.neoapps.neolauncher.icons.IconPreferences
+import iamrp.dev.launcher.icons.IconPreferences
 
 /** Class to handle monochrome themed app icons */
 class ThemedIconDrawable(constantState: ThemedConstantState) :

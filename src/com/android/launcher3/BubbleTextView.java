@@ -108,11 +108,11 @@ import com.android.launcher3.util.ShortcutUtil;
 import com.android.launcher3.util.Themes;
 import com.android.launcher3.views.ActivityContext;
 import com.android.launcher3.views.FloatingIconViewCompanion;
-import com.neoapps.neolauncher.gestures.BlankGestureHandler;
-import com.neoapps.neolauncher.gestures.GestureController;
-import com.neoapps.neolauncher.gestures.GestureHandler;
-import com.neoapps.neolauncher.gestures.handlers.ViewSwipeUpGestureHandler;
-import com.neoapps.neolauncher.preferences.NeoPrefs;
+import iamrp.dev.launcher.gestures.BlankGestureHandler;
+import iamrp.dev.launcher.gestures.GestureController;
+import iamrp.dev.launcher.gestures.GestureHandler;
+import iamrp.dev.launcher.gestures.handlers.ViewSwipeUpGestureHandler;
+import iamrp.dev.launcher.preferences.NeoPrefs;
 
 import java.text.NumberFormat;
 import java.util.HashMap;

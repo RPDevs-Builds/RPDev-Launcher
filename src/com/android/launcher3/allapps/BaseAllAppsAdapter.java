@@ -45,8 +45,8 @@ import com.android.launcher3.folder.FolderIcon;
 import com.android.launcher3.model.data.AppInfo;
 import com.android.launcher3.popup.PopupContainerWithArrow;
 import com.android.launcher3.views.ActivityContext;
-import com.neoapps.neolauncher.groups.DrawerFolderItem;
-import com.neoapps.neolauncher.groups.category.DrawerFolderInfo;
+import iamrp.dev.launcher.groups.DrawerFolderItem;
+import iamrp.dev.launcher.groups.category.DrawerFolderInfo;
 
 /**
  * Adapter for all the apps.

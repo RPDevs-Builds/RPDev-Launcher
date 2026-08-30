@@ -54,8 +54,8 @@ import com.android.launcher3.graphics.ShapeDelegate;
 import com.android.launcher3.graphics.ThemeManager;
 import com.android.launcher3.util.Themes;
 import com.android.launcher3.views.ActivityContext;
-import com.neoapps.neolauncher.preferences.NeoPrefs;
-import com.neoapps.neolauncher.util.OmegaUtilsKt;
+import iamrp.dev.launcher.preferences.NeoPrefs;
+import iamrp.dev.launcher.util.OmegaUtilsKt;
 
 /**
  * This object represents a FolderIcon preview background. It stores drawing / measurement

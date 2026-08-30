@@ -42,7 +42,7 @@ import androidx.core.os.BuildCompat;
 
 import com.android.launcher3.icons.cache.CachingLogic;
 import com.android.launcher3.util.ComponentKey;
-import com.neoapps.neolauncher.icons.CustomAdaptiveIconDrawable;
+import iamrp.dev.launcher.icons.CustomAdaptiveIconDrawable;
 
 import java.util.Calendar;
 import java.util.Objects;

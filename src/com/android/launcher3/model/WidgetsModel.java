@@ -39,7 +39,7 @@ import com.android.launcher3.widget.LauncherAppWidgetProviderInfo;
 import com.android.launcher3.widget.WidgetManagerHelper;
 import com.android.launcher3.widget.WidgetSections;
 import com.android.wm.shell.Flags;
-import com.neoapps.neolauncher.allapps.HiddenAppFilter;
+import iamrp.dev.launcher.allapps.HiddenAppFilter;
 
 import java.util.ArrayList;
 import java.util.Arrays;

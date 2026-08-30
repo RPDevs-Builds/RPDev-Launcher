@@ -41,7 +41,7 @@ import com.android.launcher3.allapps.BaseAllAppsAdapter.AdapterItem;
 import com.android.launcher3.allapps.SearchUiManager;
 import com.android.launcher3.search.SearchCallback;
 import com.android.launcher3.views.ActivityContext;
-import com.neoapps.neolauncher.allapps.search.NeoAppSearchAlgorithm;
+import iamrp.dev.launcher.allapps.search.RPDevAppSearchAlgorithm;
 
 import java.util.ArrayList;
 
@@ -132,7 +132,7 @@ public class AppsSearchContainerLayout extends ExtendedEditText
     public void initializeSearch(ActivityAllAppsContainerView<?> appsView) {
         mAppsView = appsView;
         mSearchBarController.initialize(
-                new NeoAppSearchAlgorithm(getContext(), true),
+                new RPDevAppSearchAlgorithm(getContext(), true),
                 this, mLauncher, this);
     }
 

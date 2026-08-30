@@ -13,7 +13,7 @@ import android.util.Log
 import android.view.View
 import com.android.launcher3.BuildConfig
 import com.android.launcher3.R
-import com.neoapps.neolauncher.NeoLauncher
+import iamrp.dev.launcher.RPDevLauncher
 import com.saulhdev.smartspace.SmartspaceAction
 
 object BcSmartSpaceUtil {
@@ -85,7 +85,7 @@ object BcSmartSpaceUtil {
 
     private fun intentClickListener(intent: Intent?) = View.OnClickListener { v ->
         if (intent == null) return@OnClickListener
-        val launcher = NeoLauncher.getLauncher(v.context)
+        val launcher = RPDevLauncher.getLauncher(v.context)
         try {
             launcher.startActivity(intent)
         } catch (e: ActivityNotFoundException) {
@@ -96,7 +96,7 @@ object BcSmartSpaceUtil {
     private fun pendingIntentClickListener(pendingIntent: PendingIntent?) =
         View.OnClickListener { v ->
             if (pendingIntent == null) return@OnClickListener
-            val launcher = NeoLauncher.getLauncher(v.context)
+            val launcher = RPDevLauncher.getLauncher(v.context)
             val opts = launcher.getActivityLaunchOptions(v, null).toBundle()
             try {
                 launcher.startIntentSender(

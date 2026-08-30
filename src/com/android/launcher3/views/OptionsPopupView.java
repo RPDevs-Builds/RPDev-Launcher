@@ -52,9 +52,9 @@ import com.android.launcher3.popup.ArrowPopup;
 import com.android.launcher3.shortcuts.DeepShortcutView;
 import com.android.launcher3.testing.TestLogging;
 import com.android.launcher3.testing.shared.TestProtocol;
-import com.neoapps.neolauncher.NeoLauncher;
-import com.neoapps.neolauncher.preferences.NeoPrefs;
-import com.neoapps.neolauncher.util.Config;
+import iamrp.dev.launcher.RPDevLauncher;
+import iamrp.dev.launcher.preferences.NeoPrefs;
+import iamrp.dev.launcher.util.Config;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -278,9 +278,9 @@ public class OptionsPopupView<T extends Context & ActivityContext> extends Arrow
 
     public static boolean setAsHomeScreen(View view) {
         Launcher launcher = Launcher.getLauncher(view.getContext());
-        if (launcher instanceof NeoLauncher) {
+        if (launcher instanceof RPDevLauncher) {
             int currentPage = launcher.getWorkspace().getCurrentPage();
-            ((NeoLauncher) launcher).getPrefs().getDesktopDefaultPage().setValue(currentPage);
+            ((RPDevLauncher) launcher).getPrefs().getDesktopDefaultPage().setValue(currentPage);
             Toast.makeText(launcher, R.string.home_screen_set_toast, Toast.LENGTH_SHORT).show();
             return true;
         }

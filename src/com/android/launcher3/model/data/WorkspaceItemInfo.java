@@ -39,8 +39,8 @@ import com.android.launcher3.util.ApiWrapper;
 import com.android.launcher3.util.ComponentKey;
 import com.android.launcher3.util.ContentWriter;
 import com.android.wm.shell.shared.bubbles.BubbleAnythingFlagHelper;
-import com.neoapps.neolauncher.data.GestureItemInfoRepository;
-import com.neoapps.neolauncher.data.models.GestureItemInfo;
+import iamrp.dev.launcher.data.GestureItemInfoRepository;
+import iamrp.dev.launcher.data.models.GestureItemInfo;
 
 import org.jetbrains.annotations.NotNull;
 

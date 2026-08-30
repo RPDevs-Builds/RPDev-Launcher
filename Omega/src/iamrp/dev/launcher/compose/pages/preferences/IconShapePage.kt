@@ -1,0 +1,119 @@
+/*
+ * This file is part of Neo Launcher
+ * Copyright (c) 2022   Neo Launcher Team
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+package iamrp.dev.launcher.compose.pages.preferences
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import com.android.launcher3.R
+import iamrp.dev.launcher.compose.components.ViewWithActionBar
+import iamrp.dev.launcher.icons.IconShape
+import iamrp.dev.launcher.icons.IconShapeItem
+import iamrp.dev.launcher.icons.IconShapeManager
+import iamrp.dev.launcher.icons.ShapeModel
+import iamrp.dev.launcher.preferences.NeoPrefs
+import org.koin.java.KoinJavaComponent.get
+
+@Composable
+fun IconShapePage(shapeOption: String = "icon") {
+    val context = LocalContext.current
+    val prefs: NeoPrefs = get(NeoPrefs::class.java)
+
+    val currentShape = if (shapeOption == "icon") {
+        remember(shapeOption) { mutableStateOf(prefs.profileIconShape.getValue()) }
+    } else {
+        remember(shapeOption) { mutableStateOf(prefs.desktopFolderIconShape.getValue()) }
+    }
+
+    ViewWithActionBar(title = stringResource(id = R.string.title_theme_customize_icons)) { paddingValues ->
+        val systemShape = IconShapeManager.getSystemIconShape(context)
+        val iconShapes = arrayListOf(
+            systemShape,
+            IconShape.Circle,
+            IconShape.Cylinder,
+            IconShape.Teardrop,
+            IconShape.Hexagon,
+            IconShape.Octagon,
+            IconShape.Egg,
+            IconShape.Sammy,
+            IconShape.Squircle,
+            IconShape.SharpSquare,
+            IconShape.Square,
+            IconShape.Cupertino,
+            IconShape.RoundedSquare,
+        )
+        val listItems = iconShapes.distinctBy { it.getMaskPath() }.map { ShapeModel(it.toString()) }
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .padding(
+                    start = 8.dp,
+                    end = 8.dp,
+                    bottom = paddingValues.calculateBottomPadding() + 8.dp
+                ),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(4),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                contentPadding = PaddingValues(8.dp)
+            ) {
+                itemsIndexed(
+                    items = listItems,
+                    span = { _, _ -> GridItemSpan(1) },
+                    key = { _: Int, item: ShapeModel -> item.shapeName }) { _, item ->
+                    IconShapeItem(
+                        item = item,
+                        checked = (currentShape.value == item.shapeName),
+                        onClick = {
+                            currentShape.value = item.shapeName
+                        }
+                    )
+                }
+            }
+        }
+    }
+
+    DisposableEffect(shapeOption) {
+        onDispose {
+            if (shapeOption == "icon") {
+                prefs.profileIconShape.setValue(currentShape.value)
+            } else {
+                prefs.desktopFolderIconShape.setValue(currentShape.value)
+            }
+        }
+    }
+}

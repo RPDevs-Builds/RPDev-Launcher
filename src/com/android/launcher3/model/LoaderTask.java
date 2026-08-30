@@ -102,7 +102,7 @@ import com.android.launcher3.util.UserIconInfo;
 import com.android.launcher3.widget.WidgetInflater;
 import com.android.launcher3.widget.util.WidgetSizeHandler;
 import androidx.core.content.ContextCompat;
-import com.neoapps.neolauncher.util.CustomActivityCachingLogic;
+import iamrp.dev.launcher.util.CustomActivityCachingLogic;
 
 import java.util.ArrayList;
 import java.util.Arrays;

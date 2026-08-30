@@ -19,7 +19,7 @@ import android.content.Context
 import com.android.launcher3.dagger.ApplicationContext
 import com.android.launcher3.icons.IconCache
 import com.android.launcher3.util.DaggerSingletonObject
-import com.neoapps.neolauncher.icons.CustomIconProvider
+import iamrp.dev.launcher.icons.CustomIconProvider
 import javax.inject.Inject
 import javax.inject.Named
 

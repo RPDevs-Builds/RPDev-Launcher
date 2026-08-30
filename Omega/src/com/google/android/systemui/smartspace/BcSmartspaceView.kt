@@ -14,9 +14,9 @@ import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.ViewPager
 import com.android.launcher3.R
-import com.neoapps.neolauncher.preferences.NeoPrefs
-import com.neoapps.neolauncher.smartspace.provider.SmartspaceProvider
-import com.neoapps.neolauncher.util.repeatOnAttached
+import iamrp.dev.launcher.preferences.NeoPrefs
+import iamrp.dev.launcher.smartspace.provider.SmartspaceProvider
+import iamrp.dev.launcher.util.repeatOnAttached
 import com.saulhdev.smartspace.SmartspaceTarget
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

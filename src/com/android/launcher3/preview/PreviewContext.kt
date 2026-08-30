@@ -51,7 +51,7 @@ import com.android.launcher3.widget.LauncherWidgetHolder.WidgetHolderFactory
 import com.android.launcher3.widget.LocalColorExtractor
 import com.android.launcher3.widget.util.WidgetSizeHandler
 import com.android.systemui.shared.Flags
-import com.neoapps.neolauncher.icons.ThemeManagerModule
+import iamrp.dev.launcher.icons.ThemeManagerModule
 import dagger.Binds
 import dagger.BindsInstance
 import dagger.Component

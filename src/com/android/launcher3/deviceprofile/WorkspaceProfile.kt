@@ -33,7 +33,7 @@ import com.android.launcher3.responsive.CalculatedResponsiveSpec
 import com.android.launcher3.testing.shared.ResourceUtils
 import com.android.launcher3.util.CellContentDimensions
 import com.android.launcher3.util.IconSizeSteps
-import com.neoapps.neolauncher.preferences.NeoPrefs
+import iamrp.dev.launcher.preferences.NeoPrefs
 import kotlin.math.max
 import kotlin.math.min
 

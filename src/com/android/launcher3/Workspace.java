@@ -150,8 +150,8 @@ import com.android.launcher3.widget.util.WidgetSizeHandler;
 import com.android.systemui.plugins.shared.LauncherOverlayManager.LauncherOverlayCallbacks;
 import com.android.systemui.plugins.shared.LauncherOverlayManager.LauncherOverlayTouchProxy;
 import com.google.android.msdl.data.model.MSDLToken;
-import com.neoapps.neolauncher.NeoLauncher;
-import com.neoapps.neolauncher.preferences.NeoPrefs;
+import iamrp.dev.launcher.RPDevLauncher;
+import iamrp.dev.launcher.preferences.NeoPrefs;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -609,8 +609,8 @@ public class Workspace<T extends View & PageIndicator> extends PagedView<T>
     }
 
     public int getDefaultPage() {
-        if (mLauncher instanceof NeoLauncher) {
-            int page = ((NeoLauncher) mLauncher).getPrefs().getDesktopDefaultPage().getValue();
+        if (mLauncher instanceof RPDevLauncher) {
+            int page = ((RPDevLauncher) mLauncher).getPrefs().getDesktopDefaultPage().getValue();
             if (page >= 0 && page < getPageCount()) {
                 return page;
             }
@@ -3289,7 +3289,7 @@ public class Workspace<T extends View & PageIndicator> extends PagedView<T>
             // This is for other drag/drop cases, like dragging from All Apps
             mLauncher.getStateManager().goToState(NORMAL, SPRING_LOADED_EXIT_DELAY);
 
-            if (info instanceof com.neoapps.neolauncher.groups.category.DrawerFolderInfo dfi) {
+            if (info instanceof iamrp.dev.launcher.groups.category.DrawerFolderInfo dfi) {
                 com.android.launcher3.model.data.FolderInfo desktopFolder = new com.android.launcher3.model.data.FolderInfo();
                 desktopFolder.setTitle(dfi.title, mLauncher.getModelWriter());
                 desktopFolder.options = dfi.options;
@@ -3316,7 +3316,7 @@ public class Workspace<T extends View & PageIndicator> extends PagedView<T>
                     }
                 }
 
-                if (desktopFolder.getContents().isEmpty() && dfi.getDrawerFolder() instanceof com.neoapps.neolauncher.groups.category.DrawerFolders.CustomFolder cf) {
+                if (desktopFolder.getContents().isEmpty() && dfi.getDrawerFolder() instanceof iamrp.dev.launcher.groups.category.DrawerFolders.CustomFolder cf) {
                     java.util.Set<com.android.launcher3.util.ComponentKey> keys = cf.getContents().getValue();
                     if (keys != null) {
                         com.android.launcher3.allapps.AllAppsStore appsStore = mLauncher.getAppsView() != null ? mLauncher.getAppsView().getAppsStore() : null;
@@ -3332,7 +3332,7 @@ public class Workspace<T extends View & PageIndicator> extends PagedView<T>
                     }
                 }
 
-                com.neoapps.neolauncher.folder.FolderSortUtil.sortFolder(desktopFolder, mLauncher, mLauncher.getModelWriter());
+                iamrp.dev.launcher.folder.FolderSortUtil.sortFolder(desktopFolder, mLauncher, mLauncher.getModelWriter());
                 desktopFolder.onIconChanged();
 
                 View folderView = mLauncher.getItemInflater().inflateItem(desktopFolder, cellLayout, container);

@@ -17,7 +17,7 @@
 package com.android.launcher3.dagger;
 
 import com.android.launcher3.compose.core.widgetpicker.NoOpWidgetPickerModule;
-import com.neoapps.neolauncher.icons.ThemeManagerModule;
+import iamrp.dev.launcher.icons.ThemeManagerModule;
 
 import dagger.Module;
 import dagger.hilt.InstallIn;

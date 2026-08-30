@@ -51,7 +51,7 @@ import com.android.launcher3.touch.ItemLongClickListener;
 import com.android.launcher3.util.HybridHotseatOrganizer;
 import com.android.launcher3.views.PredictedAppIcon;
 import com.android.launcher3.views.Snackbar;
-import com.neoapps.neolauncher.NeoLauncher;
+import iamrp.dev.launcher.RPDevLauncher;
 
 import java.io.PrintWriter;
 import java.util.function.Predicate;
@@ -61,7 +61,7 @@ import java.util.function.Predicate;
  * pinning of predicted apps and manages replacement of predicted apps with user drag.
  */
 public class HotseatPredictionController implements
-        SystemShortcut.Factory<NeoLauncher> {
+        SystemShortcut.Factory<RPDevLauncher> {
 
     private final Launcher mLauncher;
     private final HybridHotseatOrganizer mHotseatOrganizer;
@@ -71,7 +71,7 @@ public class HotseatPredictionController implements
     public static final String SETTINGS_ACTION =
             "android.settings.ACTION_CONTENT_SUGGESTIONS_SETTINGS";
 
-    public HotseatPredictionController(NeoLauncher launcher) {
+    public HotseatPredictionController(RPDevLauncher launcher) {
         mLauncher = launcher;
         mHotseatOrganizer = new HybridHotseatOrganizer(
                 launcher,
@@ -168,7 +168,7 @@ public class HotseatPredictionController implements
 
     @Nullable
     @Override
-    public SystemShortcut<NeoLauncher> getShortcut(NeoLauncher activity,
+    public SystemShortcut<RPDevLauncher> getShortcut(RPDevLauncher activity,
                                                    ItemInfo itemInfo, View originalView) {
         if (itemInfo.container != LauncherSettings.Favorites.CONTAINER_HOTSEAT_PREDICTION) {
             return null;
@@ -233,9 +233,9 @@ public class HotseatPredictionController implements
         }
     }
 
-    private class PinPrediction extends SystemShortcut<NeoLauncher> {
+    private class PinPrediction extends SystemShortcut<RPDevLauncher> {
 
-        private PinPrediction(NeoLauncher target, ItemInfo itemInfo, View originalView) {
+        private PinPrediction(RPDevLauncher target, ItemInfo itemInfo, View originalView) {
             super(getDrawableId(), R.string.pin_prediction, target,
                     itemInfo, originalView);
         }

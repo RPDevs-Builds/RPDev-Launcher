@@ -74,8 +74,8 @@ import com.android.launcher3.util.InstantAppResolver;
 import com.android.launcher3.util.PackageUserKey;
 import com.android.launcher3.widget.WidgetSections;
 import com.android.launcher3.widget.WidgetSections.WidgetSection;
-import com.neoapps.neolauncher.icons.CustomIconProvider;
-import com.neoapps.neolauncher.util.CustomActivityCachingLogic;
+import iamrp.dev.launcher.icons.CustomIconProvider;
+import iamrp.dev.launcher.util.CustomActivityCachingLogic;
 
 import java.util.Collections;
 import java.util.List;

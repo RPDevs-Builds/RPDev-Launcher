@@ -388,7 +388,7 @@ public class FolderInfo extends CollectionInfo {
 
     public com.android.launcher3.util.ComponentKey getFolderComponentKey() {
         return new com.android.launcher3.util.ComponentKey(
-                new android.content.ComponentName("com.neoapps.neolauncher.folder", "folder_" + id), user);
+                new android.content.ComponentName("iamrp.dev.launcher.folder", "folder_" + id), user);
     }
 
     /**
@@ -399,11 +399,11 @@ public class FolderInfo extends CollectionInfo {
         Launcher launcher = Launcher.getLauncher(context);
         if (isCoverMode()) {
             com.android.launcher3.util.ComponentKey folderKey = getFolderComponentKey();
-            com.neoapps.neolauncher.data.models.IconPickerItem override =
-                    com.neoapps.neolauncher.data.IconOverrideRepository.INSTANCE.get(context).getOverridesMap().get(folderKey);
+            iamrp.dev.launcher.data.models.IconPickerItem override =
+                    iamrp.dev.launcher.data.IconOverrideRepository.INSTANCE.get(context).getOverridesMap().get(folderKey);
             if (override != null) {
                 try {
-                    Drawable customDrawable = com.neoapps.neolauncher.iconpack.IconPackProvider.INSTANCE.get(context)
+                    Drawable customDrawable = iamrp.dev.launcher.iconpack.IconPackProvider.INSTANCE.get(context)
                             .getDrawable(override.toIconEntry(), 0, user);
                     if (customDrawable != null) {
                         return customDrawable;
