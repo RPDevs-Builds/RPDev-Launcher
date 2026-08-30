@@ -158,8 +158,8 @@ class NeoPrefs private constructor(val context: Context) {
         ),
         onChange = {
             val pm = context.packageManager
-            val defaultComp = ComponentName(context, "com.neoapps.neolauncher.NeoLauncher")
-            val lightComp = ComponentName(context, "com.neoapps.neolauncher.LauncherLight")
+            val defaultComp = ComponentName(context, "iamrp.dev.launcher")
+            val lightComp = ComponentName(context, "iamrp.dev.launcher.LauncherLight")
             try {
                 if (it == "light") {
                     pm.setComponentEnabledSetting(

@@ -96,8 +96,36 @@
                 android:value="${packageName}.grid_control" />
         </activity>
 
+        <!-- Primary RPDev Launcher Alias -->
         <activity-alias
-            android:name="com.neoapps.neolauncher.LauncherLight"
+            android:name="iamrp.dev.launcher"
+            android:targetActivity="com.neoapps.neolauncher.NeoLauncher"
+            android:enabled="true"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher"
+            android:roundIcon="@mipmap/ic_launcher_round"
+            android:label="@string/derived_app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.MONKEY" />
+                <category android:name="android.intent.category.LAUNCHER_APP" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <meta-data
+                android:name="com.android.launcher3.grid.control"
+                android:value="${packageName}.grid_control" />
+
+            <meta-data
+                android:name="com.android.launcher3.themedicon.option"
+                android:value="${packageName}.grid_control" />
+        </activity-alias>
+
+        <!-- Secondary High Contrast Light Alias -->
+        <activity-alias
+            android:name="iamrp.dev.launcher.LauncherLight"
             android:targetActivity="com.neoapps.neolauncher.NeoLauncher"
             android:enabled="false"
             android:exported="true"

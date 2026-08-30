@@ -290,7 +290,7 @@ androidComponents {
         variant.resValues.put(
             variant.makeResValueKey("string", "launcher_component"),
             com.android.build.api.variant.ResValue(
-                "${variant.applicationId.get()}/com.neoapps.neolauncher.NeoLauncher"
+                "${variant.applicationId.get()}/iamrp.dev.launcher"
             )
         )
     }
