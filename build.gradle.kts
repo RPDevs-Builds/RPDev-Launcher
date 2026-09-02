@@ -123,8 +123,8 @@ android {
         minSdk = 34
         targetSdk = 37
         applicationId = "iamrp.dev.launcher"
-        versionName = "1.0.0"
-        versionCode = 1000
+        versionName = "1.0.1"
+        versionCode = 1001
         buildConfigField("String", "BUILD_DATE", "\"${getBuildDate()}\"")
         buildConfigField("boolean", "ENABLE_AUTO_INSTALLS_LAYOUT", "false")
         buildConfigField("boolean", "IS_DEBUG_DEVICE", "false")
@@ -153,27 +153,6 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    buildTypes {
-        debug {
-            isMinifyEnabled = false
-            applicationIdSuffix = ".alpha"
-            versionNameSuffix = "-alpha"
-            signingConfig = signingConfigs.getByName("debug")
-        }
-
-        release {
-            isMinifyEnabled = true
-            isShrinkResources = true
-        }
-        all {
-            isCrunchPngs = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard.flags"
-            )
-        }
-    }
-
     signingConfigs {
         getByName("debug") {
             storeFile = file("debug.keystore")
@@ -186,6 +165,28 @@ android {
             storePassword = "android"
             keyAlias = "androiddebugkey"
             keyPassword = "android"
+        }
+    }
+
+    buildTypes {
+        debug {
+            isMinifyEnabled = false
+            applicationIdSuffix = ".alpha"
+            versionNameSuffix = "-alpha"
+            signingConfig = signingConfigs.getByName("debug")
+        }
+
+        release {
+            isMinifyEnabled = true
+            isShrinkResources = true
+            signingConfig = signingConfigs.getByName("primary")
+        }
+        all {
+            isCrunchPngs = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard.flags"
+            )
         }
     }
 

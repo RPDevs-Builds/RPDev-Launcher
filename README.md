@@ -48,6 +48,14 @@
 - **Themed Icons & Custom Icon Packs**: Complete icon pack masking, adaptify engine, and per-app custom icon assignment.
 - **Adaptive Blur & Corners**: Configurable background blur radius and custom window corner radius.
 
+### ⚡ Custom REST GET & Webhook Push Shortcuts
+- **One-Tap Desktop Actions**: Create and pin native desktop shortcuts to trigger custom REST GET, POST, PUT, or DELETE HTTP requests in the background.
+- **Home Assistant & IoT Automation**: Configure target URLs, JSON headers (e.g. `Authorization: Bearer`), and payloads to trigger smart home webhooks and server commands without opening a browser.
+- **Immediate Toast Feedback**: Background requests run on `Dispatchers.IO` via OkHttp with instant HTTP response status toasts.
+
+### 🌟 Modular Companion Add-on Discovery
+- **Decoupled Powerhouse Architecture**: Keeps the Launcher core fast, lean (~17 MB), and memory-efficient while enabling seamless integration with the **RPDev Feed** companion app for Privacy Weather (Open-Meteo), Calendar Agenda, Hardware Telemetry, and RSS/JSON feeds.
+
 ### ⚡ Performance & Android 16 (API 37) Modernization
 - **Security-First Architecture**: Explicit `RECEIVER_NOT_EXPORTED` flags across all dynamic BroadcastReceivers preventing Android 14+ crashes.
 - **Modern Looper & Concurrency**: Explicit `Looper.getMainLooper()` dispatching eliminating deprecated Handler constructors.

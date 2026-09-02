@@ -7,7 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [1.0.0-alpha] - 2026-08-29 (RPDev Launcher Modernization & Rebranding)
+## [1.0.1] - 2026-09-02 (Decoupled Powerhouse Hub & REST/Webhook Shortcuts)
+
+### Added
+- **⚡ Custom Homescreen REST GET & Webhook Push Shortcuts**:
+  - Implemented `WebhookShortcutCreatorActivity` with Material 3 configuration UI supporting native `Intent.ACTION_CREATE_SHORTCUT` / `ShortcutManagerCompat`.
+  - Configurable Shortcut Name, Target Endpoint URL, HTTP Method (`GET`, `POST`, `PUT`, `DELETE`), Headers (JSON), and Payload/Body.
+  - Implemented `WebhookActionActivity` background execution engine executing requests on `Dispatchers.IO` via OkHttp with instant toast notifications.
+- **🌟 Modular Companion Add-on Discovery**:
+  - Added `FeedCompanionBanner` in Search & Feed preferences providing real-time detection, one-tap installation, and direct launch for RPDev Feed.
+  - Maintains lean Launcher core footprint (~17 MB) while enabling modular powerhouse expansion.
+- **🚀 Automated CI/CD & Multi-Asset Release Pipeline**:
+  - Upgraded GitHub Actions workflow (`.github/workflows/build.yml`) to `actions/upload-artifact@v7`, `actions/checkout@v7`, and `actions/setup-java@v6` with automated release packaging and artifact publishing on version tags.
+
+## [1.0.0] - 2026-09-02 (Initial Production Release)
 
 ### Added
 - **Dual Launcher App Icon Support**:
