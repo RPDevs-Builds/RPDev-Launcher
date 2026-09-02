@@ -34,7 +34,7 @@ fun broadcastReceiverFlow(context: Context, filter: IntentFilter) = callbackFlow
             trySend(intent)
         }
     }
-    context.registerReceiver(receiver, filter)
+    context.registerReceiver(receiver, filter, Context.RECEIVER_NOT_EXPORTED)
     awaitClose { context.unregisterReceiver(receiver) }
 }
 

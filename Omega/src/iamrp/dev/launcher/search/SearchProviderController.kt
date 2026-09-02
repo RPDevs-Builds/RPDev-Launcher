@@ -22,11 +22,14 @@ import iamrp.dev.launcher.data.SearchProviderRepository
 import iamrp.dev.launcher.data.models.SearchProvider
 import iamrp.dev.launcher.search.providers.BaiduSearchProvider
 import iamrp.dev.launcher.search.providers.BingSearchProvider
+import iamrp.dev.launcher.search.providers.BraveSearchProvider
 import iamrp.dev.launcher.search.providers.DuckDuckGoSearchProvider
 import iamrp.dev.launcher.search.providers.EdgeSearchProvider
 import iamrp.dev.launcher.search.providers.FirefoxSearchProvider
 import iamrp.dev.launcher.search.providers.GoogleGoSearchProvider
 import iamrp.dev.launcher.search.providers.SFinderSearchProvider
+import iamrp.dev.launcher.search.providers.SearXNGSearchProvider
+import iamrp.dev.launcher.search.providers.StartpageSearchProvider
 import iamrp.dev.launcher.theme.ThemeManager
 import iamrp.dev.launcher.theme.ThemeOverride
 import iamrp.dev.launcher.util.SingletonHolder
@@ -54,10 +57,15 @@ class SearchProviderController(private val context: Context) {
         it.coerceIn(0, searchProvidersState.value.size)
     }
     val activeSearchProvider: SearchProvider
-        get() = searchProvidersState.value[_searchProviderSelector.value]
+        get() = searchProvidersState.value.getOrNull(_searchProviderSelector.value)
+            ?: searchProvidersState.value.firstOrNull()
+            ?: SearchProvider.offlineSearchProvider(context)
 
     fun changeSearchProvider() {
-        _searchProviderSelector.tryEmit((_searchProviderSelector.value + 1) % searchProvidersState.value.size)
+        val size = searchProvidersState.value.size
+        if (size > 0) {
+            _searchProviderSelector.tryEmit((_searchProviderSelector.value + 1) % size)
+        }
     }
 
     inner class ThemeListener : ThemeOverride.ThemeOverrideListener {
@@ -96,11 +104,14 @@ class SearchProviderController(private val context: Context) {
             val list = listOf(
                 BaiduSearchProvider(context),
                 BingSearchProvider(context),
+                BraveSearchProvider(context),
                 DuckDuckGoSearchProvider(context),
                 EdgeSearchProvider(context),
                 FirefoxSearchProvider(context),
                 GoogleGoSearchProvider(context),
-                SFinderSearchProvider(context)
+                SearXNGSearchProvider(context),
+                SFinderSearchProvider(context),
+                StartpageSearchProvider(context)
             )
             return list
         }

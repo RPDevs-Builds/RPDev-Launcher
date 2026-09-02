@@ -80,16 +80,17 @@ class OWMWeatherProvider(context: Context) : SmartspaceDataSource(
     }
 
     private fun updateWeatherData(): List<SmartspaceTarget> {
-        if (weatherData != null) {
-            Log.d("OWM", "Updating weather data " + weatherData?.getTitle())
+        val data = weatherData
+        if (data != null && data.icon != null) {
+            Log.d("OWM", "Updating weather data " + data.getTitle())
             val target = SmartspaceTarget(
                 smartspaceTargetId = "OWMWeatherMap",
                 headerAction = SmartspaceAction(
                     id = "OWMWeatherMap",
-                    icon = Icon.createWithBitmap(weatherData!!.icon),
+                    icon = Icon.createWithBitmap(data.icon),
                     title = "",
-                    subtitle = weatherData?.getTitle(Temperature.unitFromString(prefs.smartspaceWeatherUnit.getValue())),
-                    pendingIntent = weatherData?.pendingIntent
+                    subtitle = data.getTitle(Temperature.unitFromString(prefs.smartspaceWeatherUnit.getValue())),
+                    pendingIntent = data.pendingIntent
                 ),
                 score = SmartspaceScores.SCORE_WEATHER,
                 featureType = SmartspaceTarget.FEATURE_WEATHER,

@@ -627,12 +627,29 @@ class NeoPrefs private constructor(val context: Context) {
         onChange = { },
     )
 
+    val desktopSubgrid = BooleanPref(
+        dataStore = dataStore,
+        key = PrefKey.DESKTOP_SUBGRID,
+        titleId = R.string.title_subgrid,
+        summaryId = R.string.summary_subgrid,
+        defaultValue = false,
+        onChange = { reloadGrid() },
+    )
+
     // Dock
     var dockEnabled = BooleanPref(
         dataStore = dataStore,
         key = PrefKey.DOCK_ENABLED,
         titleId = R.string.title__dock_hide,
         defaultValue = true,
+        onChange = { reloadGrid() }
+    )
+    val dockSearchBarEnabled = BooleanPref(
+        dataStore = dataStore,
+        key = PrefKey.DOCK_SEARCHBAR_ENABLED,
+        titleId = R.string.title_dock_searchbar,
+        summaryId = R.string.summary_dock_searchbar,
+        defaultValue = false,
         onChange = { reloadGrid() }
     )
     var dockExpandable = BooleanPref(

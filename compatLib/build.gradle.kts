@@ -13,7 +13,7 @@ android {
     namespace = "app.lawnchair.compatlib"
 
     defaultConfig {
-        minSdk = 30
+        minSdk = 34
     }
 
     sourceSets {

@@ -53,7 +53,7 @@ public class SimpleIconCache extends BaseIconCache {
             public void onReceive(Context context, Intent intent) {
                 resetUserCache();
             }
-        }, filter, null, new Handler(bgLooper), 0);
+        }, filter, null, new Handler(bgLooper), Context.RECEIVER_NOT_EXPORTED);
     }
     @Override
     public long getSerialNumberForUser(@NonNull UserHandle user) {

@@ -73,6 +73,7 @@
         android:fullBackupContent="@xml/backupscheme"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:hardwareAccelerated="true"
+        android:enableOnBackInvokedCallback="true"
         android:icon="@drawable/ic_launcher_home"
         android:label="@string/derived_app_name"
         android:largeHeap="@bool/config_largeHeap"

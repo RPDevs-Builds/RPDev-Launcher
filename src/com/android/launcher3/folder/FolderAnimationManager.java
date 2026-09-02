@@ -168,7 +168,19 @@ public class FolderAnimationManager implements FolderAnimationCreator {
         // Match size/scale of icons in the preview
         float previewScale = rule.scaleForItem(itemsInPreview.size(), 0);
         float previewSize = rule.getIconSize() * previewScale;
-        float baseIconSize = getBubbleTextView(itemsInPreview.get(0)).getIconSize();
+        float baseIconSize = 0f;
+        View firstItem = itemsInPreview.isEmpty() ? null : itemsInPreview.get(0);
+        if (firstItem instanceof FolderIcon fi) {
+            baseIconSize = fi.getLayoutRule().getIconSize();
+        } else if (firstItem != null) {
+            BubbleTextView btv = getBubbleTextView(firstItem);
+            if (btv != null) {
+                baseIconSize = btv.getIconSize();
+            }
+        }
+        if (baseIconSize <= 0) {
+            baseIconSize = mDeviceProfile.getWorkspaceIconProfile().getIconSizePx();
+        }
         float initialScale = previewSize / baseIconSize * scaleRelativeToDragLayer;
         final float finalScale = 1f;
         float scale = mIsOpening ? initialScale : finalScale;
@@ -408,7 +420,18 @@ public class FolderAnimationManager implements FolderAnimationCreator {
             // Match scale of icons in the preview of the items on the first page.
             float previewScale = rule.scaleForItem(numItemsInFirstPagePreview, 0);
             float previewSize = rule.getIconSize() * previewScale;
-            float baseIconSize = getBubbleTextView(v).getIconSize();
+            float baseIconSize = 0f;
+            if (v instanceof FolderIcon fi) {
+                baseIconSize = fi.getLayoutRule().getIconSize();
+            } else if (v != null) {
+                BubbleTextView btv = getBubbleTextView(v);
+                if (btv != null) {
+                    baseIconSize = btv.getIconSize();
+                }
+            }
+            if (baseIconSize <= 0) {
+                baseIconSize = mDeviceProfile.getWorkspaceIconProfile().getIconSizePx();
+            }
             float iconScale = baseIconSize > 0 ? previewSize / baseIconSize : 1f;
 
             float safeFolderScale = (folderScale > 0f && !Float.isNaN(folderScale) && !Float.isInfinite(folderScale)) ? folderScale : 1f;

@@ -201,6 +201,8 @@ public abstract class FastScrollRecyclerView extends RecyclerView  {
         if (mScrollbar != null) {
             mScrollbar.reattachThumbToScroll();
         }
-        scrollToPosition(0);
+        if (getLayoutManager() != null) {
+            scrollToPosition(0);
+        }
     }
 }

@@ -12,7 +12,7 @@ android {
     testNamespace = "com.android.systemui.animationlib.test"
 
     defaultConfig {
-        minSdk = 30
+        minSdk = 34
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 

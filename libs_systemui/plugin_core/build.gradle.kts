@@ -13,7 +13,7 @@ android {
     namespace = "com.android.systemui.plugin_core"
 
     defaultConfig {
-        minSdk = 30
+        minSdk = 34
     }
 
     sourceSets {

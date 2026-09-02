@@ -13,7 +13,7 @@ android {
     namespace = "com.android.systemui.utils"
 
     defaultConfig {
-        minSdk = 30
+        minSdk = 34
     }
 
     sourceSets {

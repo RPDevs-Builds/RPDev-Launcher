@@ -177,7 +177,7 @@ fun AboutPrefPage() {
                 ActionItemPreference(
                     titleId = R.string.about_source,
                     icon = Phosphor.GithubLogo,
-                    url = "https://github.com/RPDevApplications/Neo-Launcher",
+                    url = "https://github.com/RPDevs-Builds/RPDev-Launcher",
                     index = 0,
                     groupSize = 4
                 )

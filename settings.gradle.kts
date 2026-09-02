@@ -57,4 +57,4 @@ include (":compatLib:compatLibVS")
 include (":compatLib:compatLibVT")
 include (":compatLib:compatLibVU")
 include (":compatLib:compatLibVV")
-rootProject.name = "Neo Launcher"
+rootProject.name = "RPDev Launcher"

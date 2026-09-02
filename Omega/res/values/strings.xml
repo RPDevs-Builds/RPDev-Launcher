@@ -739,4 +739,10 @@
     <string name="search_provider_search_url">Search URL</string>
     <string name="search_provider_suggestion_url">Suggestion URL</string>
     <string name="search_provider_url_hint">Use %s in place of the search term</string>
+    <string name="title_subgrid">Desktop Subgrid Positioning</string>
+    <string name="summary_subgrid">Allow placing icons and widgets at half-grid intervals for flexible alignment</string>
+    <string name="title_dock_searchbar">Dock Search Bar</string>
+    <string name="summary_dock_searchbar">Show search bar in the bottom dock for easy one-handed access</string>
+    <string name="title_icon_swipe_up">Icon Swipe Up Action</string>
+    <string name="summary_icon_swipe_up">Launch a secondary app or action when swiping up on an icon</string>
 </resources>

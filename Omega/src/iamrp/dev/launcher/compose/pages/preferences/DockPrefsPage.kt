@@ -61,6 +61,7 @@ fun DockPrefsPage() {
         mutableStateListOf(
             *listOfNotNull(
                 prefs.dockEnabled,
+                prefs.dockSearchBarEnabled,
                 prefs.dockGridSize,
                 prefs.dockCustomBackground,
                 if (prefs.dockCustomBackground.getValue()) {

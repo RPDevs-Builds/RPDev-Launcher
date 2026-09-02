@@ -51,12 +51,17 @@ constructor(
     @JvmOverloads
     fun register(
         filter: IntentFilter,
-        flags: Int = 0,
+        flags: Int = Context.RECEIVER_NOT_EXPORTED,
         permission: String? = null,
         completionCallback: Runnable? = null,
     ) = apply {
         executor.execute {
-            context.registerReceiver(this, filter, permission, callbackExecutor.handler, flags)
+            val resolvedFlags = if ((flags and (Context.RECEIVER_EXPORTED or Context.RECEIVER_NOT_EXPORTED)) == 0) {
+                flags or Context.RECEIVER_NOT_EXPORTED
+            } else {
+                flags
+            }
+            context.registerReceiver(this, filter, permission, callbackExecutor.handler, resolvedFlags)
 
             if (completionCallback != null) {
                 callbackExecutor.execute(completionCallback)

@@ -34,19 +34,21 @@ class AlarmEventProvider(context: Context) : SmartspaceDataSource(
     }
 
     private fun alarmTarget(): List<SmartspaceTarget> {
-        val alarmManager = context.getSystemService(AlarmManager::class.java)!!
+        return try {
+            val alarmManager = context.getSystemService(AlarmManager::class.java) ?: return emptyList()
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            if (!alarmManager.canScheduleExactAlarms()) {
-                return emptyList()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                if (!alarmManager.canScheduleExactAlarms()) {
+                    return emptyList()
+                }
             }
-        }
 
-        val alarmClock = alarmManager.nextAlarmClock
-        if (alarmClock != null &&
-            alarmClock.showIntent.isActivity &&
-            alarmClock.triggerTime - System.currentTimeMillis() <= TimeUnit.MINUTES.toMillis(30)
-        ) {
+            val alarmClock = alarmManager.nextAlarmClock
+            if (alarmClock != null &&
+                alarmClock.showIntent != null &&
+                alarmClock.showIntent.isActivity &&
+                alarmClock.triggerTime - System.currentTimeMillis() <= TimeUnit.MINUTES.toMillis(30)
+            ) {
             val title = context.getString(R.string.resuable_text_alarm)
             val calendarTrigerTime = Calendar.getInstance()
             calendarTrigerTime.timeInMillis = alarmClock.triggerTime
@@ -65,11 +67,14 @@ class AlarmEventProvider(context: Context) : SmartspaceDataSource(
                 featureType = SmartspaceTarget.FEATURE_UPCOMING_ALARM
             )
 
-            return listOf(target)
+            listOf(target)
+        } else {
+            emptyList()
         }
-
-        return emptyList()
+    } catch (_: Exception) {
+        emptyList()
     }
+}
 
     private fun getPendingIntent(): PendingIntent {
         val intent = Intent(AlarmClock.ACTION_SHOW_ALARMS).apply {

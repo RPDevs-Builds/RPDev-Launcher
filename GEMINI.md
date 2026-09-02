@@ -19,7 +19,7 @@ RPDev Launcher is a modern AOSP Launcher3-based custom launcher targeting Androi
 ## Code Standards
 - **Application Identifier / Package ID:** `iamrp.dev.launcher`
 - **Modern Kotlin & Java:** Kotlin 2.4.x, Java 21.
-- **SDK Target:** Target API 34-37.
+- **SDK Target:** Min SDK 34 (Android 14), Target API 37 (Android 16).
 - **Build System:** AGP 8/9/10 using `androidComponents` variant API.
 - **Android Manifest:** Ensure explicit BroadcastReceiver export flags.
 - **Code Quality:** Enforce type-safe system services and adhere to strict null-safety standards.

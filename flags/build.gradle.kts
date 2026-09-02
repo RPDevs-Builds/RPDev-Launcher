@@ -12,7 +12,7 @@ android {
     namespace = "com.android.launcher3.flags"
     compileSdk = 37
     defaultConfig {
-        minSdk = 30
+        minSdk = 34
     }
     sourceSets {
         named("main") {

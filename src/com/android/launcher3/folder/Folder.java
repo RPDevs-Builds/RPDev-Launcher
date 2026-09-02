@@ -24,6 +24,8 @@ import static com.android.launcher3.LauncherState.NORMAL;
 import static com.android.launcher3.compat.AccessibilityManagerCompat.sendCustomAccessibilityEvent;
 import static com.android.launcher3.config.FeatureFlags.ALWAYS_USE_HARDWARE_OPTIMIZATION_FOR_FOLDER_ANIMATIONS;
 import static com.android.launcher3.folder.FolderGridOrganizer.createFolderGridOrganizer;
+import static com.android.launcher3.LauncherSettings.Favorites.CONTAINER_DESKTOP;
+import static com.android.launcher3.LauncherSettings.Favorites.CONTAINER_HOTSEAT;
 import static com.android.launcher3.logging.StatsLogManager.LauncherEvent.LAUNCHER_FOLDER_LABEL_UPDATED;
 import static com.android.launcher3.logging.StatsLogManager.LauncherEvent.LAUNCHER_ITEM_DROP_COMPLETED;
 import static com.android.launcher3.model.data.FolderInfo.willAcceptItemType;
@@ -705,7 +707,7 @@ public class Folder extends AbstractFloatingView implements ClipPathView, DragSo
         reapplyItemInfo();
         // In case any children didn't come across during loading, clean up the folder accordingly
         mFolderIcon.post(() -> {
-            if (getItemCount() <= 1 && !isInAppDrawer()) {
+            if (getItemCount() <= 1 && !isInAppDrawer() && (mInfo.container == CONTAINER_DESKTOP || mInfo.container == CONTAINER_HOTSEAT)) {
                 replaceFolderWithFinalItem();
             }
         });
@@ -840,6 +842,27 @@ public class Folder extends AbstractFloatingView implements ClipPathView, DragSo
         animateOpen(items, mEmptyCellRank / mContent.itemsPerPage());
     }
 
+    public Folder mParentFolder = null;
+
+    /**
+     * Checks if this folder is a child/nested inside the specified potential parent folder.
+     */
+    public boolean isChildOf(Folder potentialParent) {
+        if (potentialParent == null || potentialParent.mInfo == null) return false;
+        if (mInfo != null && mInfo.container == potentialParent.mInfo.id) return true;
+        if (potentialParent.mInfo.getContents().contains(mInfo)) return true;
+        if (mFolderIcon != null) {
+            android.view.ViewParent p = mFolderIcon.getParent();
+            while (p != null) {
+                if (p == potentialParent || (p instanceof View && ((View) p).getTag() == potentialParent.mInfo)) {
+                    return true;
+                }
+                p = p.getParent();
+            }
+        }
+        return false;
+    }
+
     /**
      * Opens the user folder described by the specified tag. The opening of the folder
      * is animated relative to the specified View. If the View is null, no animation
@@ -863,7 +886,15 @@ public class Folder extends AbstractFloatingView implements ClipPathView, DragSo
             return;
         }
         Folder openFolder = getOpen(mActivityContext);
-        closeOpenFolder(openFolder);
+        if (openFolder != null && openFolder != this) {
+            if (isChildOf(openFolder)) {
+                this.mParentFolder = openFolder;
+                openFolder.setVisibility(View.INVISIBLE);
+                openFolder.mIsOpen = false;
+            } else {
+                closeOpenFolder(openFolder);
+            }
+        }
 
         iamrp.dev.launcher.folder.FolderSortUtil.sortFolder(mInfo, getContext(), mActivityContext.getModelWriter());
         mContent.bindItems(mInfo.getContents());
@@ -1024,8 +1055,8 @@ public class Folder extends AbstractFloatingView implements ClipPathView, DragSo
      * Determines whether we should animate the folder opening.
      */
     boolean shouldAnimateOpen(List<ItemInfo> items) {
-        if (items == null || items.size() <= 1) {
-            Log.d(TAG, "Couldn't animate folder open because items is: " + items);
+        if (items == null || items.isEmpty()) {
+            Log.d(TAG, "Couldn't animate folder open because items is empty: " + items);
             return false;
         }
         return true;
@@ -1236,7 +1267,7 @@ public class Folder extends AbstractFloatingView implements ClipPathView, DragSo
             rearrangeChildren();
             mRearrangeOnClose = false;
         }
-        if (getItemCount() <= 1) {
+        if (getItemCount() <= 1 && (mInfo.container == CONTAINER_DESKTOP || mInfo.container == CONTAINER_HOTSEAT)) {
             if (!mIsDragInProgress && !mSuppressFolderDeletion && !isInAppDrawer()) {
                 replaceFolderWithFinalItem();
             } else if (mIsDragInProgress) {
@@ -1251,6 +1282,18 @@ public class Folder extends AbstractFloatingView implements ClipPathView, DragSo
         mContent.setCurrentPage(0);
         if (mInfo instanceof DrawerFolderInfo) {
             ((DrawerFolderInfo) mInfo).onCloseComplete();
+        }
+
+        if (mParentFolder != null && !mParentFolder.isDestroyed()) {
+            mParentFolder.setVisibility(View.VISIBLE);
+            mParentFolder.mIsOpen = true;
+            mParentFolder.mItemsInvalidated = true;
+            mParentFolder.updateTextViewFocus();
+            BaseDragLayer dragLayer = mActivityContext.getDragLayer();
+            if (dragLayer != null) {
+                dragLayer.bringChildToFront(mParentFolder);
+            }
+            mParentFolder = null;
         }
     }
 
@@ -1412,7 +1455,7 @@ public class Folder extends AbstractFloatingView implements ClipPathView, DragSo
     public void onDropCompleted(final View target, final DragObject d,
             final boolean success) {
         if (success) {
-            if (getItemCount() <= 1) {
+            if (getItemCount() <= 1 && (mInfo.container == CONTAINER_DESKTOP || mInfo.container == CONTAINER_HOTSEAT)) {
                 mDeleteFolderOnDropCompleted = true;
             }
             if (mDeleteFolderOnDropCompleted && !mItemAddedBackToSelfViaIcon
@@ -1895,7 +1938,7 @@ public class Folder extends AbstractFloatingView implements ClipPathView, DragSo
             } else {
                 rearrangeChildren();
             }
-            if (getItemCount() <= 1) {
+            if (getItemCount() <= 1 && (mInfo.container == CONTAINER_DESKTOP || mInfo.container == CONTAINER_HOTSEAT)) {
                 if (mIsOpen) {
                     close(true);
                 } else {

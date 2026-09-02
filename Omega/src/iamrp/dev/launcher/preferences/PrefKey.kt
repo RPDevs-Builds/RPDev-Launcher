@@ -81,9 +81,11 @@ object PrefKey {
     val DESKTOP_STATUS_BAR_HIDE = booleanPreferencesKey("desktop_hide_status_bar")
     val DESKTOP_LOCK_CHANGES = booleanPreferencesKey("desktop_lock")
     val DESKTOP_TASK_BAR_ON_PHONE = booleanPreferencesKey("desktop_task_bar_on_phone")
+    val DESKTOP_SUBGRID = booleanPreferencesKey("desktop_subgrid")
 
     // Dock
     val DOCK_ENABLED = booleanPreferencesKey("dock_enabled")
+    val DOCK_SEARCHBAR_ENABLED = booleanPreferencesKey("dock_searchbar_enabled")
     val DOCK_EXPANDABLE = booleanPreferencesKey("dock_expandable")
     val DOCK_BG_CUSTOM = booleanPreferencesKey("dock_custom_background")
     val DOCK_BG_COLOR = stringPreferencesKey("dock_custom_background_color")

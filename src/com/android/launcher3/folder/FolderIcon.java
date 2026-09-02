@@ -601,9 +601,13 @@ public class FolderIcon extends FrameLayout implements FloatingIconViewCompanion
             if (d.dragInfo instanceof AppPairInfo) {
                 // dragged item is app pair
                 item = new AppPairInfo((AppPairInfo) d.dragInfo);
-            } else {
+            } else if (d.dragInfo instanceof FolderInfo) {
+                item = d.dragInfo;
+            } else if (d.dragInfo instanceof WorkspaceItemInfo) {
                 // dragged item is WorkspaceItemInfo
                 item = new WorkspaceItemInfo((WorkspaceItemInfo) d.dragInfo);
+            } else {
+                item = d.dragInfo;
             }
         } else {
             item = d.dragInfo;

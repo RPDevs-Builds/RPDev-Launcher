@@ -57,7 +57,7 @@ class AppGroupsManager(val prefs: NeoPrefs, val dataStore: DataStore<Preferences
     }
 
     private fun onPrefsChanged() {
-        prefs.getOnChangeCallback()!!.let {
+        prefs.getOnChangeCallback()?.let {
             drawerTabs.checkIsEnabled(it)
             flowerpotTabs.checkIsEnabled(it)
             drawerFolders.checkIsEnabled(it)

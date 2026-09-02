@@ -19,7 +19,7 @@
 -->
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <uses-sdk android:targetSdkVersion="33" android:minSdkVersion="30"/>
+    <uses-sdk android:targetSdkVersion="37" android:minSdkVersion="34"/>
     <!--
     Manifest entries specific to Launcher3. This is merged with AndroidManifest-common.xml.
     Refer comments around specific entries on how to extend individual components.
@@ -31,6 +31,7 @@
         android:fullBackupContent="@xml/backupscheme"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:hardwareAccelerated="true"
+        android:enableOnBackInvokedCallback="true"
         android:icon="@drawable/ic_launcher_home"
         android:label="@string/derived_app_name"
         android:theme="@style/AppTheme"

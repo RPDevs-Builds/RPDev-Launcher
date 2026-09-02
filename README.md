@@ -30,7 +30,7 @@
 
 ## 📖 Overview
 
-**RPDev Launcher** is an open-source, highly customizable Android launcher based on Neo Launcher, AOSP Launcher3, and WindowManager Shell. Fully upgraded and modernized to target Android 16 (API 37) with Gradle 9+ and AGP 10-ready architecture.
+**RPDev Launcher** is an open-source, highly customizable Android launcher based on Neo Launcher, AOSP Launcher3, and WindowManager Shell. Modernized for Android 14+ (Min SDK 34) and targeting Android 16 (API 37) with Gradle 9+ and AGP 10-ready architecture.
 
 ---
 

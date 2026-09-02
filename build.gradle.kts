@@ -50,7 +50,7 @@ allprojects {
             buildToolsVersion = "36.1.0"
 
             defaultConfig {
-                minSdk = 26
+                minSdk = 34
                 targetSdk = 37
                 vectorDrawables.useSupportLibrary = true
             }
@@ -69,7 +69,7 @@ allprojects {
             buildToolsVersion = "36.1.0"
 
             defaultConfig {
-                minSdk = 26
+                minSdk = 34
                 vectorDrawables.useSupportLibrary = true
             }
             compileOptions {
@@ -120,7 +120,7 @@ android {
     compileSdk = 37
 
     defaultConfig {
-        minSdk = 30
+        minSdk = 34
         targetSdk = 37
         applicationId = "iamrp.dev.launcher"
         versionName = "1.0.0"

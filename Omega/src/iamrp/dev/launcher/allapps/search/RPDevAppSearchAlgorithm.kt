@@ -14,6 +14,7 @@ import com.android.launcher3.search.SearchCallback
 import com.android.launcher3.search.StringMatcherUtility
 import iamrp.dev.launcher.launcher
 import iamrp.dev.launcher.preferences.NeoPrefs
+import iamrp.dev.launcher.search.LocalMathEngine
 import iamrp.dev.launcher.search.SearchProviderController
 import iamrp.dev.launcher.util.prefs
 import me.xdrop.fuzzywuzzy.FuzzySearch
@@ -34,108 +35,133 @@ class RPDevAppSearchAlgorithm(val context: Context, addNoResultsMessage: Boolean
 
     override fun destroy() {
         super.destroy()
-        prefs.searchHiddenApps.get().asLiveData().removeObserver {
-            searchHiddenAppsEnable = false
-        }
+        try {
+            prefs.searchHiddenApps.get().asLiveData().removeObserver {
+                searchHiddenAppsEnable = false
+            }
+        } catch (_: Exception) {}
     }
 
-    override fun doSearch(query: String, callback: SearchCallback<AdapterItem>?) {
-        Log.d("RPDevAppSearchAlgorithm", "doSearch: $query")
-        Launcher.getLauncher(context).model.enqueueModelUpdateTask { taskController: ModelTaskController?, dataModel: BgDataModel?, apps: AllAppsList? ->
-            val result = getSearchResult(apps!!.data, query)
-            var suggestions: ArrayList<String> = arrayListOf()
-            if (mAddNoResultsMessage && result.isEmpty()) {
-                result.add(getEmptyMessageAdapterItem(query))
+    override fun doSearch(query: String?, callback: SearchCallback<AdapterItem>?) {
+        if (callback == null) return
+        val safeQuery = query ?: ""
+        Log.d("RPDevAppSearchAlgorithm", "doSearch: $safeQuery")
+        Launcher.getLauncher(context).model.enqueueModelUpdateTask { _: ModelTaskController?, _: BgDataModel?, apps: AllAppsList? ->
+            val appList = apps?.data ?: try {
+                context.launcher.allApps
+            } catch (_: Exception) {
+                emptyList<AppInfo>()
             }
-            mResultHandler.post(Runnable { callback!!.onSearchResult(query, result, suggestions) })
-            if (callback!!.showWebResults()) {
-                suggestions = getSuggestions(query)
+            val result = getSearchResult(appList, safeQuery)
+            val suggestions: ArrayList<String> = arrayListOf()
+
+            // On-Device Math Calculation
+            if (safeQuery.isNotEmpty() && LocalMathEngine.isMathExpression(safeQuery)) {
+                LocalMathEngine.evaluate(safeQuery)?.let { mathResult ->
+                    suggestions.add("$safeQuery = $mathResult")
+                }
+            }
+
+            if (mAddNoResultsMessage && result.isEmpty() && suggestions.isEmpty()) {
+                result.add(getEmptyMessageAdapterItem(safeQuery))
+            }
+            mResultHandler.post { callback.onSearchResult(safeQuery, result, suggestions) }
+            if (callback.showWebResults()) {
+                val webSuggestions = getSuggestions(safeQuery)
+                suggestions.addAll(webSuggestions)
                 callback.setShowWebResults(false)
             }
-            mResultHandler.post(Runnable { callback.onSearchResult(query, result, suggestions) })
+            mResultHandler.post { callback.onSearchResult(safeQuery, result, suggestions) }
         }
     }
 
-    private fun getSearchResult(apps: MutableList<AppInfo>, query: String): ArrayList<AdapterItem> {
-        return if (prefs.searchFuzzy.getValue()) {
-            getFuzzySearchResult(apps, query)
+    private fun getSearchResult(apps: List<AppInfo>, query: String): ArrayList<AdapterItem> {
+        val targetApps = if (searchHiddenAppsEnable) {
+            try {
+                context.launcher.allApps.toMutableList()
+            } catch (_: Exception) {
+                apps.toMutableList()
+            }
         } else {
-            getTitleMatchResultKT(apps, query)
+            apps.toMutableList()
+        }
+
+        return if (prefs.searchFuzzy.getValue()) {
+            getFuzzySearchResult(targetApps, query)
+        } else {
+            getTitleMatchResultKT(targetApps, query)
         }
     }
 
     private fun getFuzzySearchResult(
-        apps: MutableList<AppInfo>,
+        apps: List<AppInfo>,
         query: String,
     ): ArrayList<AdapterItem> {
         val result = ArrayList<AdapterItem>()
-        if (searchHiddenAppsEnable) {
-            apps.clear()
-            apps.addAll(context.launcher.allApps)
-        }
+        if (query.isBlank() || apps.isEmpty()) return result
 
-        val matcher = FuzzySearch.extractSorted(
-            query.lowercase(Locale.getDefault()), apps,
-            { it!!.title.toString() }, WeightedRatio(), 65
-        )
-        var resultCount = 0
-        val total = matcher.size
-        var i = 0
-        while (i < total && resultCount < MAX_RESULTS_COUNT) {
-            val info = matcher[i].referent
-            val appItem = AdapterItem.asApp(info)
-            result.add(appItem)
-            resultCount++
-            i++
+        try {
+            val matcher = FuzzySearch.extractSorted(
+                query.lowercase(Locale.getDefault()), apps,
+                { it?.title?.toString() ?: "" }, WeightedRatio(), 65
+            )
+            var resultCount = 0
+            val total = matcher.size
+            var i = 0
+            while (i < total && resultCount < MAX_RESULTS_COUNT) {
+                val info = matcher[i].referent
+                if (info != null) {
+                    val appItem = AdapterItem.asApp(info)
+                    result.add(appItem)
+                    resultCount++
+                }
+                i++
+            }
+        } catch (e: Exception) {
+            Log.e("RPDevAppSearchAlgorithm", "Fuzzy search error", e)
         }
 
         return result
     }
 
-
     private fun getTitleMatchResultKT(
-        apps: MutableList<AppInfo>,
-        query: String?,
+        apps: List<AppInfo>,
+        query: String,
     ): ArrayList<AdapterItem> {
-
-        // Do an intersection of the words in the query and each title, and filter out all the
-        // apps that don't match all of the words in the query.
-        val queryTextLower = query!!.lowercase(Locale.getDefault())
         val result = ArrayList<AdapterItem>()
+        if (query.isBlank() || apps.isEmpty()) return result
 
+        val queryTextLower = query.lowercase(Locale.getDefault())
         val matcher = StringMatcherUtility.StringMatcher.getInstance()
 
         var resultCount = 0
-        val mApps = apps
-        if (searchHiddenAppsEnable) {
-            mApps.clear()
-            mApps.addAll(context.launcher.allApps)
-        }
-
         var i = 0
-
-        val total = mApps.size
+        val total = apps.size
         while (i < total && resultCount < MAX_RESULTS_COUNT) {
-            val info = mApps[i]
-            if (StringMatcherUtility.matches(queryTextLower, info.title.toString(), matcher)) {
+            val info = apps[i]
+            val title = info.title?.toString() ?: ""
+            if (StringMatcherUtility.matches(queryTextLower, title, matcher)) {
                 val appItem = AdapterItem.asApp(info)
                 result.add(appItem)
                 resultCount++
             }
-
             i++
         }
         return result
     }
 
     private fun getSuggestions(query: String): ArrayList<String> {
-        if (!NeoPrefs.getInstance().searchGlobal.getValue()) {
+        if (query.isBlank() || !NeoPrefs.getInstance().searchGlobal.getValue()) {
             return arrayListOf()
         }
-        val provider = SearchProviderController
-            .getInstance(context).activeSearchProvider
-        return if (!provider.suggestionUrl.isNullOrEmpty()) {
-            provider.getSuggestions(query)
-        } else arrayListOf()
+        return try {
+            val provider = SearchProviderController.getInstance(context).activeSearchProvider
+            if (!provider.suggestionUrl.isNullOrEmpty()) {
+                provider.getSuggestions(query)
+            } else arrayListOf()
+        } catch (e: Exception) {
+            Log.w("RPDevAppSearchAlgorithm", "Failed to fetch web suggestions", e)
+            arrayListOf()
+        }
     }
 }

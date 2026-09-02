@@ -11,7 +11,7 @@ android {
     namespace = "com.android.launcher3.icons"
 
     defaultConfig {
-        minSdk = 30
+        minSdk = 34
     }
 
     sourceSets {

@@ -147,7 +147,10 @@ public class ItemClickHandler {
 
         Object tag = v.getTag();
         if (tag instanceof FolderInfo) {
-            onClickAppShortcut(v, ((FolderInfo) tag).getCoverInfo(), launcher);
+            WorkspaceItemInfo coverInfo = ((FolderInfo) tag).getCoverInfo();
+            if (coverInfo != null) {
+                onClickAppShortcut(v, coverInfo, launcher);
+            }
         }
     }
 
@@ -157,12 +160,14 @@ public class ItemClickHandler {
      * @param v The view that was clicked. Must be an instance of {@link FolderIcon}.
      */
     private static void onClickFolderIcon(View v) {
-        Folder folder = ((FolderIcon) v).getFolder();
-        if (!folder.isOpen() && !folder.isDestroyed()) {
-            // Open the requested folder
-            folder.animateOpen();
-            StatsLogManager.newInstance(v.getContext()).logger().withItemInfo(folder.mInfo)
-                    .log(LAUNCHER_FOLDER_OPEN);
+        if (v instanceof FolderIcon folderIcon) {
+            Folder folder = folderIcon.getFolder();
+            if (folder != null && !folder.isOpen() && !folder.isDestroyed()) {
+                // Open the requested folder
+                folder.animateOpen();
+                StatsLogManager.newInstance(v.getContext()).logger().withItemInfo(folder.mInfo)
+                        .log(LAUNCHER_FOLDER_OPEN);
+            }
         }
     }
 
@@ -419,7 +424,9 @@ public class ItemClickHandler {
             }
         }
         if (intent == null) {
-            throw new IllegalArgumentException("Input must have a valid intent");
+            Log.w(TAG, "Cannot launch item with null intent: " + item);
+            Toast.makeText(launcher, R.string.activity_not_found, Toast.LENGTH_SHORT).show();
+            return;
         }
         boolean isProtected = false;
         RPDevLauncher myLauncher = (RPDevLauncher) launcher;

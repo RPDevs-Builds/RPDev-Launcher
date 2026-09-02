@@ -142,7 +142,13 @@ public class SettingsCache extends ContentObserver {
     }
 
     private void registerUriAsync(Uri uri) {
-        UI_HELPER_EXECUTOR.execute(() -> mResolver.registerContentObserver(uri, false, this));
+        UI_HELPER_EXECUTOR.execute(() -> {
+            try {
+                mResolver.registerContentObserver(uri, false, this);
+            } catch (SecurityException e) {
+                // Ignore if restricted to system apps
+            }
+        });
     }
 
     /**
@@ -157,12 +163,16 @@ public class SettingsCache extends ContentObserver {
     private boolean updateValue(Uri keyUri, int defaultValue) {
         String key = keyUri.getLastPathSegment();
         boolean newVal;
-        if (keyUri.toString().startsWith(SYSTEM_URI_PREFIX)) {
-            newVal = Settings.System.getInt(mResolver, key, defaultValue) == 1;
-        } else if (keyUri.toString().startsWith(GLOBAL_URI_PREFIX)) {
-            newVal = Settings.Global.getInt(mResolver, key, defaultValue) == 1;
-        } else { // SETTING_SECURE
-            newVal = Settings.Secure.getInt(mResolver, key, defaultValue) == 1;
+        try {
+            if (keyUri.toString().startsWith(SYSTEM_URI_PREFIX)) {
+                newVal = Settings.System.getInt(mResolver, key, defaultValue) == 1;
+            } else if (keyUri.toString().startsWith(GLOBAL_URI_PREFIX)) {
+                newVal = Settings.Global.getInt(mResolver, key, defaultValue) == 1;
+            } else { // SETTING_SECURE
+                newVal = Settings.Secure.getInt(mResolver, key, defaultValue) == 1;
+            }
+        } catch (SecurityException e) {
+            newVal = defaultValue == 1;
         }
 
         mKeyCache.put(keyUri, newVal);

@@ -449,7 +449,7 @@ public final class Utilities {
     public static float mapToRange(float t, float fromMin, float fromMax, float toMin, float toMax,
                                    Interpolator interpolator) {
         if (fromMin == fromMax || toMin == toMax) {
-            Log.e(TAG, "mapToRange: range has 0 length");
+            Log.d(TAG, "mapToRange: range has 0 length");
             return toMin;
         }
         float progress = getProgress(t, fromMin, fromMax);
@@ -468,7 +468,7 @@ public final class Utilities {
     public static int mapToRange(int t, int fromMin, int fromMax, int toMin, int toMax,
                                  Interpolator interpolator) {
         if (fromMin == fromMax || toMin == toMax) {
-            Log.e(TAG, "mapToRange: range has 0 length");
+            Log.d(TAG, "mapToRange: range has 0 length");
             return toMin;
         }
         float progress = getProgress(t, fromMin, fromMax);

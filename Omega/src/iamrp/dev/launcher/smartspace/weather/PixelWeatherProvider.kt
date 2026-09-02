@@ -133,8 +133,17 @@ class PixelWeatherProvider(context: Context) : SmartspaceDataSource(
             else -> null
         }
         val res = context.resources
-        val resId = res.getIdentifier(resName, "drawable", "android")
-        return Utilities.drawableToBitmap(ResourcesCompat.getDrawable(res, resId, null))!!
+        val resId = if (resName != null) res.getIdentifier(resName, "drawable", "android") else 0
+        val drawable = if (resId != 0) {
+            try {
+                ResourcesCompat.getDrawable(res, resId, null)
+            } catch (_: Exception) {
+                null
+            }
+        } else null
+        val fallback = ResourcesCompat.getDrawable(res, R.drawable.weather_none_available, null)
+        val bitmap = Utilities.drawableToBitmap(drawable ?: fallback)
+        return bitmap ?: Bitmap.createBitmap(48, 48, Bitmap.Config.ARGB_8888)
     }
 
     companion object {
