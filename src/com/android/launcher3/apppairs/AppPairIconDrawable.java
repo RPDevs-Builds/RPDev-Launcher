@@ -208,13 +208,8 @@ public class AppPairIconDrawable extends Drawable {
      *              right y, bottom right x, and so on.
      */
     private void drawCustomRoundedRect(Canvas c, RectF rect, float[] radii) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            // Canvas.drawDoubleRoundRect is supported from Q onward
-            c.drawDoubleRoundRect(rect, radii, EMPTY_RECT, ARRAY_OF_ZEROES, mBackgroundPaint);
-        } else {
-            // Fallback rectangle with uniform rounded corners
-            c.drawRoundRect(rect, mP.getBigRadius(), mP.getBigRadius(), mBackgroundPaint);
-        }
+        // Canvas.drawDoubleRoundRect is supported from Q onward (minSdk is 34)
+        c.drawDoubleRoundRect(rect, radii, EMPTY_RECT, ARRAY_OF_ZEROES, mBackgroundPaint);
     }
 
     @Override

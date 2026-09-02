@@ -36,10 +36,6 @@ object Permissions {
      * - API < 33: READ_EXTERNAL_STORAGE
      */
     fun getWallpaperPermission(): String {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            Manifest.permission.READ_MEDIA_IMAGES
-        } else {
-            Manifest.permission.READ_EXTERNAL_STORAGE
-        }
+        return Manifest.permission.READ_MEDIA_IMAGES
     }
 }

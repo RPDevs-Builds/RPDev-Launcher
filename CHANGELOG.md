@@ -7,9 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [1.0.1] - 2026-09-02 (Decoupled Powerhouse Hub & REST/Webhook Shortcuts)
+## [1.0.1] - 2026-09-02 (Nested Folders Engine, Android 14+ Baseline & REST/Webhook Shortcuts)
 
 ### Added
+- **📁 Full Nested Folders Hierarchy Engine**:
+  - Implemented recursive folder-in-folder nesting on Home Screen Workspace and App Drawer.
+  - Added real-time circular hierarchy prevention with bidirectional cycle detection (`isChildOf`) across nested content IDs and layout containers.
+  - Seamless nested navigation: opening a nested folder smoothly animates child overlay while hiding parent container; back button press seamlessly ascends to the parent folder before exiting to workspace.
+  - Container-aware dynamic icon sizing and drawable padding for nested folder views.
+  - Hardened layout parameters and animation transitions in `BaseDragLayer`, `FolderAnimationManager`, and `FolderIcon` preventing null-pointer exceptions.
+  - Full SQLite database persistence (`LauncherSettings.Favorites`) preserving nested tree structures across app restarts and device reboots.
 - **⚡ Custom Homescreen REST GET & Webhook Push Shortcuts**:
   - Implemented `WebhookShortcutCreatorActivity` with Material 3 configuration UI supporting native `Intent.ACTION_CREATE_SHORTCUT` / `ShortcutManagerCompat`.
   - Configurable Shortcut Name, Target Endpoint URL, HTTP Method (`GET`, `POST`, `PUT`, `DELETE`), Headers (JSON), and Payload/Body.
@@ -19,6 +26,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Maintains lean Launcher core footprint (~17 MB) while enabling modular powerhouse expansion.
 - **🚀 Automated CI/CD & Multi-Asset Release Pipeline**:
   - Upgraded GitHub Actions workflow (`.github/workflows/build.yml`) to `actions/upload-artifact@v7`, `actions/checkout@v7`, and `actions/setup-java@v6` with automated release packaging and artifact publishing on version tags.
+
+### Changed & Modernized
+- **🧹 Pre-Android 14 Legacy Stripping & 170+ MB Artifact Purge**:
+  - Established clean Android 14+ (API 34+) minimum platform baseline.
+  - Purged obsolete pre-Android 14 compatibility submodules (`compatLibVQ`, `compatLibVR`, `compatLibVS`, `compatLibVT`).
+  - Deleted ~170+ MB of obsolete prebuilt framework jars (`framework-10.jar`, `framework-11.jar`, `framework-12.jar`, `framework-12l.jar`, `framework-13.jar`).
+  - Decoupled and modernized `compatLibVU` (Android 14) and `compatLibVV` (Android 15) to implement `QuickstepCompatFactory`, `ActivityManagerCompat`, and `ActivityOptionsCompat` directly.
+  - Consolidated legacy runtime SDK level conditionals (`ATLEAST_Q`, `ATLEAST_R`, `ATLEAST_S`, `ATLEAST_T`, `ATLEAST_U`) into compile-time `true` constants.
+  - Purged legacy 2017 Android Support Test dependencies in favor of modern `androidx.test`.
+  - Removed deprecated CI files (`.gitlab-ci.yml`, `.forgejo/`) while strictly preserving all open-source licensing headers and attribution notices.
 
 ## [1.0.0] - 2026-09-02 (Initial Production Release)
 

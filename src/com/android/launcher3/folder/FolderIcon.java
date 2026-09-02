@@ -16,6 +16,8 @@
 
 package com.android.launcher3.folder;
 
+import static com.android.launcher3.LauncherSettings.Favorites.CONTAINER_DESKTOP;
+import static com.android.launcher3.LauncherSettings.Favorites.CONTAINER_HOTSEAT;
 import static com.android.launcher3.LauncherSettings.Favorites.DESKTOP_ICON_FLAG;
 import static com.android.launcher3.folder.ClippedFolderIconLayoutRule.ICON_OVERLAP_FACTOR;
 import static com.android.launcher3.folder.ClippedFolderIconLayoutRule.MAX_NUM_ITEMS_IN_PREVIEW;
@@ -247,6 +249,11 @@ public class FolderIcon extends FrameLayout implements FloatingIconViewCompanion
             icon.mBackground = new PreviewBackground(activity.asContext(), true);
             ((DrawerFolderInfo) folderInfo).getAppsStore().registerFolderIcon(icon);
             icon.setOnLongClickListener(activity.getAllAppsItemLongClickListener());
+        } else if (folderInfo.container != CONTAINER_DESKTOP && folderInfo.container != CONTAINER_HOTSEAT) {
+            lp.topMargin = grid.getFolderProfile().getChildIconSizePx()
+                + grid.getFolderProfile().getChildDrawablePaddingPx();
+            icon.mFolderName.setCompoundDrawablePadding(grid.getFolderProfile().getChildDrawablePaddingPx());
+            icon.mBackground = new PreviewBackground(activity.asContext());
         } else {
             lp.topMargin = grid.getWorkspaceIconProfile().getIconSizePx()
                 + grid.getWorkspaceIconProfile().getIconDrawablePaddingPx();
@@ -894,6 +901,10 @@ public class FolderIcon extends FrameLayout implements FloatingIconViewCompanion
         if (isInAppDrawer()) {
             lp.topMargin = grid.getAllAppsProfile().getIconSizePx() + grid.getAllAppsProfile().getIconDrawablePaddingPx();
             mFolderName.setCompoundDrawablePadding(grid.getAllAppsProfile().getIconDrawablePaddingPx());
+        } else if (mInfo != null && mInfo.container != CONTAINER_DESKTOP && mInfo.container != CONTAINER_HOTSEAT) {
+            lp.topMargin = grid.getFolderProfile().getChildIconSizePx()
+                    + grid.getFolderProfile().getChildDrawablePaddingPx();
+            mFolderName.setCompoundDrawablePadding(grid.getFolderProfile().getChildDrawablePaddingPx());
         } else {
             lp.topMargin = grid.getWorkspaceIconProfile().getIconSizePx()
                     + grid.getWorkspaceIconProfile().getIconDrawablePaddingPx();

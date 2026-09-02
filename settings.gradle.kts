@@ -51,10 +51,6 @@ project(":widgetpicker").projectDir = File(rootDir, "modules/widgetpicker")
 
 include (":wmshell")
 include (":compatLib")
-include (":compatLib:compatLibVQ")
-include (":compatLib:compatLibVR")
-include (":compatLib:compatLibVS")
-include (":compatLib:compatLibVT")
 include (":compatLib:compatLibVU")
 include (":compatLib:compatLibVV")
 rootProject.name = "RPDev Launcher"

@@ -100,9 +100,7 @@ public class PredictionRowView<T extends Context & ActivityContext>
     @Override
     public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
         super.onInitializeAccessibilityNodeInfo(info);
-        if (Build.VERSION.SDK_INT >= UPSIDE_DOWN_CAKE) {
-            info.setContainerTitle(mActivityContext.getString(R.string.title_app_suggestions));
-        }
+        info.setContainerTitle(mActivityContext.getString(R.string.title_app_suggestions));
     }
 
     @Override

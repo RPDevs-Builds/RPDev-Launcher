@@ -380,15 +380,11 @@ dependencies {
     androidTestImplementation(libs.dexmaker.mockito)
     androidTestImplementation(libs.junit.jupiter)
     androidTestImplementation(libs.mockito.core)
-    androidTestImplementation(libs.rules)
-    androidTestImplementation(libs.runner)
     androidTestImplementation(libs.test.junit)
     androidTestImplementation(libs.test.rules)
     androidTestImplementation(libs.test.runner)
     androidTestImplementation(libs.truth)
     androidTestImplementation(libs.uiautomator)
-    androidTestImplementation(libs.uiautomator.v18)
-
     androidTestImplementation(libs.dexmaker.lib)
 }
 

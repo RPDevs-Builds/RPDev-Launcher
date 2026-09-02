@@ -85,23 +85,21 @@ class WebhookShortcutCreatorActivity : ComponentActivity() {
 
         val shortcutId = "webhook_${UUID.randomUUID()}"
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val shortcutManager = getSystemService(ShortcutManager::class.java)
-            if (shortcutManager != null && shortcutManager.isRequestPinShortcutSupported) {
-                val pinShortcutInfo = ShortcutInfo.Builder(this, shortcutId)
-                    .setShortLabel(name)
-                    .setLongLabel("$method: $name")
-                    .setIcon(Icon.createWithResource(this, R.drawable.ic_smartspace_preferences))
-                    .setIntent(shortcutIntent)
-                    .build()
+        val shortcutManager = getSystemService(ShortcutManager::class.java)
+        if (shortcutManager != null && shortcutManager.isRequestPinShortcutSupported) {
+            val pinShortcutInfo = ShortcutInfo.Builder(this, shortcutId)
+                .setShortLabel(name)
+                .setLongLabel("$method: $name")
+                .setIcon(Icon.createWithResource(this, R.drawable.ic_smartspace_preferences))
+                .setIntent(shortcutIntent)
+                .build()
 
-                val resultIntent = shortcutManager.createShortcutResultIntent(pinShortcutInfo)
-                setResult(Activity.RESULT_OK, resultIntent)
-                shortcutManager.requestPinShortcut(pinShortcutInfo, null)
-                Toast.makeText(this, "✓ Shortcut '$name' added to Home", Toast.LENGTH_SHORT).show()
-                finish()
-                return
-            }
+            val resultIntent = shortcutManager.createShortcutResultIntent(pinShortcutInfo)
+            setResult(Activity.RESULT_OK, resultIntent)
+            shortcutManager.requestPinShortcut(pinShortcutInfo, null)
+            Toast.makeText(this, "✓ Shortcut '$name' added to Home", Toast.LENGTH_SHORT).show()
+            finish()
+            return
         }
 
         // Legacy / Standard CREATE_SHORTCUT return

@@ -136,8 +136,12 @@ public class FolderAnimationManager implements FolderAnimationCreator {
     @Override
     public AnimatorSet createAnimatorSet(boolean isOpening) {
         mIsOpening = isOpening;
-        final BaseDragLayer.LayoutParams lp =
+        BaseDragLayer.LayoutParams lp =
                 (BaseDragLayer.LayoutParams) mFolder.getLayoutParams();
+        if (lp == null) {
+            lp = new BaseDragLayer.LayoutParams(0, 0);
+            mFolder.setLayoutParams(lp);
+        }
         int folderWidth = lp.width == android.view.ViewGroup.LayoutParams.MATCH_PARENT
                 ? mFolder.getWidth() : lp.width;
         int folderHeight = lp.height == android.view.ViewGroup.LayoutParams.MATCH_PARENT

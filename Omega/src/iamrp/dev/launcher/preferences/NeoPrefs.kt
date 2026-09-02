@@ -135,7 +135,7 @@ class NeoPrefs private constructor(val context: Context) {
         dataStore = dataStore,
         key = PrefKey.PROFILE_GLOBAL_THEME,
         titleId = R.string.title__general_theme,
-        defaultValue = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) THEME_SYSTEM else THEME_WALLPAPER,
+        defaultValue = THEME_SYSTEM,
         entries = themeItems,
     )
 

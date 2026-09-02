@@ -30,13 +30,16 @@
 
 ## 📖 Overview
 
-**RPDev Launcher** is an open-source, highly customizable Android launcher based on Neo Launcher, AOSP Launcher3, and WindowManager Shell. Modernized for Android 14+ (Min SDK 34) and targeting Android 16 (API 37) with Gradle 9+ and AGP 10-ready architecture.
+**RPDev Launcher** is an open-source, highly customizable Android launcher based on Neo Launcher, AOSP Launcher3, and WindowManager Shell. Modernized with a clean **Android 14+ (Min SDK 34)** baseline and targeting **Android 16 (API 37)** with Gradle 9+ and AGP 10-ready architecture.
 
 ---
 
 ## ✨ Key Features
 
-### 🗂️ Advanced Folder Suite & Cover Mode
+### 📁 Advanced Nested Folders & Cover Mode Suite
+- **Arbitrary Nested Folders**: Place folders inside other folders on both the Workspace and App Drawer with seamless nested navigation and SQLite persistence.
+- **Intelligent Hierarchy & Cycle Detection**: Hardened cycle detection (`isChildOf`) prevents circular containment and ensures parent-child boundary safety.
+- **Smooth Back-Stack Navigation**: Tapping a nested folder smoothly opens child contents while preserving parent state; pressing Back ascends hierarchy step-by-step.
 - **Multi-Mode Previews**: 2×2 (4-Icon Standard), 3×3 (9-Icon Compact), 1-Item Big Icon (Cover Mode), Radial Arc, and Stacked Layer previews.
 - **Cover Mode Gesture Engine**: One-tap quick launch of primary cover application + swipe-up gesture to reveal full folder contents without launching.
 - **Automated Content Sorting**: Sort folder items alphabetically (A–Z / Z–A), by installation date (Newest / Oldest), launch frequency, or custom drag-and-drop.
@@ -56,7 +59,8 @@
 ### 🌟 Modular Companion Add-on Discovery
 - **Decoupled Powerhouse Architecture**: Keeps the Launcher core fast, lean (~17 MB), and memory-efficient while enabling seamless integration with the **RPDev Feed** companion app for Privacy Weather (Open-Meteo), Calendar Agenda, Hardware Telemetry, and RSS/JSON feeds.
 
-### ⚡ Performance & Android 16 (API 37) Modernization
+### ⚡ Performance, Hardening & Android 14+ Modernization
+- **Pre-Android 14 Stripping**: Purged obsolete Android 10-13 compatibility layers and 170+ MB prebuilt jars for maximum performance and minimal footprint.
 - **Security-First Architecture**: Explicit `RECEIVER_NOT_EXPORTED` flags across all dynamic BroadcastReceivers preventing Android 14+ crashes.
 - **Modern Looper & Concurrency**: Explicit `Looper.getMainLooper()` dispatching eliminating deprecated Handler constructors.
 - **Safe Type Deserialization**: Migrated to AndroidX `IntentCompat` and `BundleCompat` for type-safe parcelable handling.

@@ -56,5 +56,5 @@ val addFrameworkJar = { name: String ->
 addFrameworkJar("framework-14.jar")
 
 dependencies {
-    api(project(":compatLib:compatLibVT"))
+    api(project(":compatLib"))
 }

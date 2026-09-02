@@ -848,9 +848,13 @@ public class Folder extends AbstractFloatingView implements ClipPathView, DragSo
      * Checks if this folder is a child/nested inside the specified potential parent folder.
      */
     public boolean isChildOf(Folder potentialParent) {
-        if (potentialParent == null || potentialParent.mInfo == null) return false;
-        if (mInfo != null && mInfo.container == potentialParent.mInfo.id) return true;
-        if (potentialParent.mInfo.getContents().contains(mInfo)) return true;
+        if (potentialParent == null || potentialParent.mInfo == null || mInfo == null) return false;
+        if (mInfo.container == potentialParent.mInfo.id) return true;
+        for (ItemInfo item : potentialParent.mInfo.getContents()) {
+            if (item == mInfo || (item.id != ItemInfo.NO_ID && item.id == mInfo.id)) {
+                return true;
+            }
+        }
         if (mFolderIcon != null) {
             android.view.ViewParent p = mFolderIcon.getParent();
             while (p != null) {
@@ -1543,6 +1547,10 @@ public class Folder extends AbstractFloatingView implements ClipPathView, DragSo
 
     private void centerAboutIcon() {
         BaseDragLayer.LayoutParams lp = (BaseDragLayer.LayoutParams) getLayoutParams();
+        if (lp == null) {
+            lp = new BaseDragLayer.LayoutParams(0, 0);
+            setLayoutParams(lp);
+        }
         NeoPrefs prefs = NeoPrefs.getInstance();
         if (prefs.getDesktopFolderFullScreen().getValue()) {
             int width = mActivityContext.getDragLayer().getWidth();
@@ -1567,7 +1575,11 @@ public class Folder extends AbstractFloatingView implements ClipPathView, DragSo
         int width = getFolderWidth();
         int height = getFolderHeight();
 
-        parent.getDescendantRectRelativeToSelf(mFolderIcon, sTempRect);
+        if (mFolderIcon != null) {
+            parent.getDescendantRectRelativeToSelf(mFolderIcon, sTempRect);
+        } else {
+            sTempRect.set(0, 0, width, height);
+        }
         int centerX = sTempRect.centerX();
         int centerY = sTempRect.centerY();
         int centeredLeft = centerX - width / 2;

@@ -8,8 +8,5 @@ refers to the compatibility code for that specific Android version.
 
 | Library     | Android version |
 |-------------|-----------------|
-| compatLibVQ | 10              |
-| compatLibVR | 11              |
-| compatLibVS | 12              |
-| compatLibVT | 13              |
-| compatLibVU | 14              |
+| compatLibVU | 14 (U)          |
+| compatLibVV | 15 (V)          |

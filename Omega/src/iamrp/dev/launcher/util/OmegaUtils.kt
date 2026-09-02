@@ -392,23 +392,13 @@ fun minSDK(sdk: Int): Boolean {
 inline fun <T : Any> unsafeLazy(noinline initializer: () -> T): Lazy<T> =
     lazy(LazyThreadSafetyMode.NONE, initializer)
 
-@Suppress("DEPRECATION")
 fun getSignatureHash(context: Context, packageName: String): Long? {
     return try {
-        val packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            context.packageManager.getPackageInfo(
-                packageName,
-                PackageManager.GET_SIGNING_CERTIFICATES
-            )
-        } else {
-            context.packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNATURES)
-        }
-
-        val signatures = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            packageInfo.signingInfo?.apkContentsSigners
-        } else {
-            packageInfo.signatures
-        }
+        val packageInfo = context.packageManager.getPackageInfo(
+            packageName,
+            PackageManager.GET_SIGNING_CERTIFICATES
+        )
+        val signatures = packageInfo.signingInfo?.apkContentsSigners
         signatures?.firstOrNull()?.hashCode()?.toLong()
     } catch (_: PackageManager.NameNotFoundException) {
         null

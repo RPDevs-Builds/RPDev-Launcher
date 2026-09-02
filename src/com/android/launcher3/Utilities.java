@@ -139,19 +139,11 @@ public final class Utilities {
 
     public static final String[] EMPTY_STRING_ARRAY = new String[0];
     public static final Person[] EMPTY_PERSON_ARRAY = new Person[0];
-    @ChecksSdkIntAtLeast(api = VERSION_CODES.Q)
-    public static final boolean ATLEAST_Q = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q;
-    @ChecksSdkIntAtLeast(api = VERSION_CODES.R)
-    public static final boolean ATLEAST_R = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R;
-
-    @ChecksSdkIntAtLeast(api = VERSION_CODES.S)
-    public static final boolean ATLEAST_S = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S;
-
-    @ChecksSdkIntAtLeast(api = VERSION_CODES.TIRAMISU, codename = "T")
-    public static final boolean ATLEAST_T = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU;
-
-    @ChecksSdkIntAtLeast(api = VERSION_CODES.UPSIDE_DOWN_CAKE, codename = "U")
-    public static final boolean ATLEAST_U = Build.VERSION.SDK_INT >= VERSION_CODES.UPSIDE_DOWN_CAKE;
+    public static final boolean ATLEAST_Q = true;
+    public static final boolean ATLEAST_R = true;
+    public static final boolean ATLEAST_S = true;
+    public static final boolean ATLEAST_T = true;
+    public static final boolean ATLEAST_U = true;
 
     @ChecksSdkIntAtLeast(api = VERSION_CODES.VANILLA_ICE_CREAM, codename = "V")
     public static final boolean ATLEAST_V = Build.VERSION.SDK_INT

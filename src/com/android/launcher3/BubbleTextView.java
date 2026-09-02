@@ -1098,8 +1098,7 @@ public class BubbleTextView extends TextView implements ItemInfoUpdateReceiver,
      */
     private void setTextWithArchivingIcon(CharSequence text) {
         var drawableId = R.drawable.cloud_download_24px;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S
-                && getResources().getConfiguration().fontWeightAdjustment >= BOLD_TEXT_ADJUSTMENT) {
+        if (getResources().getConfiguration().fontWeightAdjustment >= BOLD_TEXT_ADJUSTMENT) {
             // If System bold text setting is on, then use a bolded icon
             drawableId = R.drawable.cloud_download_semibold_24px;
         }

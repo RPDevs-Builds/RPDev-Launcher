@@ -41,5 +41,5 @@ dependencies {
     implementation(libs.koin.android)
     implementation(libs.palette.ktx)
     androidTestImplementation(libs.junit)
-    androidTestImplementation(libs.rules)
+    androidTestImplementation(libs.test.rules)
 }

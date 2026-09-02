@@ -191,21 +191,13 @@ public class InstallSessionTracker extends PackageInstaller.SessionCallback impl
     }
 
     void register() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-            mInstaller.registerSessionCallback(this, MODEL_EXECUTOR.getHandler());
-        } else {
-            Objects.requireNonNull(mLauncherApps).registerPackageInstallerSessionCallback(
-                    MODEL_EXECUTOR, this);
-        }
+        Objects.requireNonNull(mLauncherApps).registerPackageInstallerSessionCallback(
+                MODEL_EXECUTOR, this);
     }
 
     @Override
     public void close() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-            mInstaller.unregisterSessionCallback(this);
-        } else {
-            Objects.requireNonNull(mLauncherApps).unregisterPackageInstallerSessionCallback(this);
-        }
+        Objects.requireNonNull(mLauncherApps).unregisterPackageInstallerSessionCallback(this);
     }
 
     public interface Callback {

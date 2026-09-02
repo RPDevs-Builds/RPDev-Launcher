@@ -106,10 +106,6 @@ dependencies{
     compileOnly(project(":flags"))
     compileOnly(project(":iconloaderlib"))
     compileOnly(project(":compatLib"))
-    compileOnly(project(":compatLib:compatLibVQ"))
-    compileOnly(project(":compatLib:compatLibVR"))
-    compileOnly(project(":compatLib:compatLibVS"))
-    compileOnly(project(":compatLib:compatLibVT"))
     compileOnly(project(":compatLib:compatLibVU"))
     compileOnly(project(":compatLib:compatLibVV"))
 }

@@ -47,15 +47,9 @@ fun Context.getLauncherOrNull(): Launcher? {
 fun Context.getIcon(): Drawable = packageManager.getApplicationIcon(applicationInfo)
 
 val Context.hasStoragePermission
-    get() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(
-            this, Manifest.permission.READ_MEDIA_IMAGES
-        )
-    } else {
-        PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(
-            this, Manifest.permission.READ_EXTERNAL_STORAGE
-        )
-    }
+    get() = PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(
+        this, Manifest.permission.READ_MEDIA_IMAGES
+    )
 
 val Context.hasWallpaperAccess
     get() = hasStoragePermission

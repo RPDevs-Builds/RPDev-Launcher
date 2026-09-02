@@ -75,7 +75,7 @@ public class DoubleShadowBubbleTextView extends BubbleTextView {
         drawable.setTint(getCurrentTextColor());
         int textSize = Math.round(getTextSize());
         ImageSpan imageSpan;
-        if (!skipDoubleShadow() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        if (!skipDoubleShadow()) {
             drawable = getDoubleShadowDrawable(drawable, textSize);
         }
         drawable.setBounds(0, 0, textSize, textSize);

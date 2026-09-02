@@ -49,6 +49,6 @@ dependencies{
     implementation(project(":flags"))
     implementation(libs.core.animation)
     implementation(libs.core.ktx)
-    androidTestImplementation (libs.junit)
-    androidTestImplementation (libs.rules)
+    androidTestImplementation(libs.junit)
+    androidTestImplementation(libs.test.rules)
 }
