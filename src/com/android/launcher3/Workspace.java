@@ -2258,14 +2258,6 @@ public class Workspace<T extends View & PageIndicator> extends PagedView<T>
     }
 
     boolean willCreateUserFolder(ItemInfo info, View dropOverView, boolean considerTimeout) {
-        if (dropOverView != null) {
-            CellLayoutLayoutParams lp = (CellLayoutLayoutParams) dropOverView.getLayoutParams();
-            if (lp.useTmpCoords && (lp.getTmpCellX() != lp.getCellX()
-                    || lp.getTmpCellY() != lp.getCellY())) {
-                return false;
-            }
-        }
-
         boolean hasntMoved = false;
         if (mDragInfo != null) {
             hasntMoved = dropOverView == mDragInfo.cell;
@@ -2292,19 +2284,8 @@ public class Workspace<T extends View & PageIndicator> extends PagedView<T>
     }
 
     boolean willAddToExistingUserFolder(ItemInfo dragInfo, View dropOverView) {
-        if (dropOverView != null) {
-            CellLayoutLayoutParams lp = (CellLayoutLayoutParams) dropOverView.getLayoutParams();
-            if (lp.useTmpCoords && (lp.getTmpCellX() != lp.getCellX()
-                    || lp.getTmpCellY() != lp.getCellY())) {
-                return false;
-            }
-        }
-
-        if (dropOverView instanceof FolderIcon) {
-            FolderIcon fi = (FolderIcon) dropOverView;
-            if (fi.acceptDrop(dragInfo)) {
-                return true;
-            }
+        if (dropOverView instanceof FolderIcon fi) {
+            return fi.acceptDrop(dragInfo);
         }
         return false;
     }
@@ -2321,7 +2302,7 @@ public class Workspace<T extends View & PageIndicator> extends PagedView<T>
                     mDragInfo.cellY == targetCell[1]) && (cellParent == target);
         }
 
-        if (v == null || hasntMoved || (!mCreateUserFolderOnDrop && mDragMode != DRAG_MODE_CREATE_FOLDER && !external)) return false;
+        if (v == null || hasntMoved) return false;
         mCreateUserFolderOnDrop = false;
         final int screenId = getCellLayoutId(target);
 
@@ -2332,8 +2313,11 @@ public class Workspace<T extends View & PageIndicator> extends PagedView<T>
             ItemInfo sourceInfo = (ItemInfo) newView.getTag();
             ItemInfo destInfo = (ItemInfo) v.getTag();
             // if the drag started here, we need to remove it from the workspace
-            if (!external) {
-                getParentCellLayoutForView(mDragInfo.cell).removeView(mDragInfo.cell);
+            if (!external && mDragInfo != null && mDragInfo.cell != null) {
+                CellLayout parent = getParentCellLayoutForView(mDragInfo.cell);
+                if (parent != null) {
+                    parent.removeView(mDragInfo.cell);
+                }
             }
 
             Rect folderLocation = new Rect();
@@ -2371,7 +2355,6 @@ public class Workspace<T extends View & PageIndicator> extends PagedView<T>
         if (distance > target.getFolderCreationRadius(targetCell)) return false;
 
         View dropOverView = target.getChildAt(targetCell[0], targetCell[1]);
-        if (!mAddToExistingFolderOnDrop && mDragMode != DRAG_MODE_ADD_TO_FOLDER && !external) return false;
         mAddToExistingFolderOnDrop = false;
 
         if (dropOverView instanceof FolderIcon) {
@@ -2381,8 +2364,11 @@ public class Workspace<T extends View & PageIndicator> extends PagedView<T>
                         .log(LauncherEvent.LAUNCHER_ITEM_DROP_COMPLETED_ON_FOLDER_ICON);
                 fi.onDrop(d, false /* itemReturnedOnFailedDrop */);
                 // if the drag started here, we need to remove it from the workspace
-                if (!external) {
-                    getParentCellLayoutForView(mDragInfo.cell).removeView(mDragInfo.cell);
+                if (!external && mDragInfo != null && mDragInfo.cell != null) {
+                    CellLayout parent = getParentCellLayoutForView(mDragInfo.cell);
+                    if (parent != null) {
+                        parent.removeView(mDragInfo.cell);
+                    }
                 }
                 return true;
             }
@@ -2915,6 +2901,17 @@ public class Workspace<T extends View & PageIndicator> extends PagedView<T>
 
         ItemInfo item = d.dragInfo;
         final View child = (mDragInfo == null) ? null : mDragInfo.cell;
+
+        if (targetCellDistance <= mDragTargetLayout.getFolderCreationRadius(mTargetCell)) {
+            View overView = mDragTargetLayout.getChildAt(mTargetCell[0], mTargetCell[1]);
+            if (overView instanceof FolderIcon fi && fi.acceptDrop(item)) {
+                return;
+            }
+            if (overView != null && willCreateUserFolder(item, overView, false)) {
+                return;
+            }
+        }
+
         if (!nearestDropOccupied) {
             int[] span = new int[2];
             mDragTargetLayout.performReorder((int) mDragViewVisualCenter[0],
