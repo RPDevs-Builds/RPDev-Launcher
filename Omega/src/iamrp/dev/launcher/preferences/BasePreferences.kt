@@ -325,6 +325,17 @@ open class StringPref(
     onChange: (String) -> Unit = {},
 ) : PrefDelegate<String>(titleId, summaryId, dataStore, key, defaultValue, onChange)
 
+class TwoStatePref(
+    @StringRes titleId: Int,
+    @StringRes summaryId: Int = -1,
+    dataStore: DataStore<Preferences>,
+    key: Preferences.Key<Boolean>,
+    val navRoute: NavRoute,
+    val defaultValue: Boolean = false,
+    val confirmAction: ((Context, Boolean, Runnable) -> Unit)? = null,
+    onChange: (Boolean) -> Unit = {}
+) : PrefDelegate<Boolean>(titleId, summaryId, dataStore, key, defaultValue, onChange)
+
 abstract class MutableMapPref<K, V>(
     context: Context,
     private val prefKey: String,

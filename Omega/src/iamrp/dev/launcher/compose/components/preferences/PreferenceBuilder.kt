@@ -37,9 +37,16 @@ import iamrp.dev.launcher.preferences.StringPref
 import iamrp.dev.launcher.preferences.StringSelectionPref
 import iamrp.dev.launcher.preferences.StringSetPref
 import iamrp.dev.launcher.preferences.StringTextPref
+import iamrp.dev.launcher.preferences.TwoStatePref
 
 @Composable
 fun PreferenceBuilder(pref: Any, onDialogPref: (Any) -> Unit, index: Int, size: Int) = when (pref) {
+    is TwoStatePref             -> TwoStatePreference(
+        pref = pref,
+        index = index,
+        groupSize = size
+    )
+
     is IntentLauncherPref       -> IntentLauncherPreference(
         pref = pref,
         index = index,

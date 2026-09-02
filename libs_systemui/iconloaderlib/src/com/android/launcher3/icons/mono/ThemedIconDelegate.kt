@@ -87,8 +87,10 @@ class ThemedIconDelegate(
         @JvmStatic
         fun getColors(context: Context): IntArray {
             val res = context.resources
+            val customAccent = iamrp.dev.launcher.icons.IconPreferences(context).accentColor()
+            val bgColor = if (customAccent != 0) customAccent else res.getColor(R.color.themed_icon_background_color)
             return intArrayOf(
-                res.getColor(R.color.themed_icon_background_color),
+                bgColor,
                 res.getColor(R.color.themed_icon_color),
                 res.getColor(R.color.themed_icon_adaptive_background_color),
             )

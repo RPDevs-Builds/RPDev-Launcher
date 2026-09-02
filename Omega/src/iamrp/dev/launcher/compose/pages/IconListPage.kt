@@ -101,7 +101,7 @@ fun IconListPage(
             }
             items(
                 items = category.items,
-                key = { it.drawableName },
+                key = { "${category.title}_${it.drawableName}" },
             ) { item ->
                 IconPreview(
                     iconPack = iconPack,
@@ -130,9 +130,11 @@ fun IconPreview(
     iconItem: IconPickerItem,
     onClick: () -> Unit,
 ) {
-    val drawable by produceState<Drawable?>(initialValue = null, iconPack, iconItem) {
+    val context = LocalContext.current
+    val bitmap by produceState<androidx.compose.ui.graphics.ImageBitmap?>(initialValue = null, iconPack, iconItem, context) {
         launch(Dispatchers.IO) {
-            value = iconPack.getIcon(iconItem.toIconEntry(), 0)
+            val drawable = iconPack.getIcon(iconItem.toIconEntry(), 0) ?: context.getIcon()
+            value = drawableToBitmap(drawable).asImageBitmap()
         }
     }
     Box(
@@ -141,10 +143,12 @@ fun IconPreview(
             .clickable(onClick = onClick)
             .padding(8.dp),
     ) {
-        Image(
-            bitmap = drawableToBitmap(drawable ?: LocalContext.current.getIcon()).asImageBitmap(),
-            contentDescription = iconItem.drawableName,
-            modifier = Modifier.aspectRatio(1f),
-        )
+        if (bitmap != null) {
+            Image(
+                bitmap = bitmap!!,
+                contentDescription = iconItem.drawableName,
+                modifier = Modifier.aspectRatio(1f),
+            )
+        }
     }
 }

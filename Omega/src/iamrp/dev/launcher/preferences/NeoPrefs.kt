@@ -145,6 +145,11 @@ class NeoPrefs private constructor(val context: Context) {
         key = PrefKey.PROFILE_ACCENT_COLOR,
         defaultValue = "system_accent",
         navRoute = NavRoute.Profile.AccentColor(),
+        onChange = {
+            val color = iamrp.dev.launcher.theme.AccentColorOption.fromString(it).accentColor
+            val lighterColor = androidx.core.graphics.ColorUtils.blendARGB(color, android.graphics.Color.WHITE, 0.75f)
+            legacyPrefs.savePreference("profile_accent_color", lighterColor)
+        }
     )
 
     var profileAppIconStyle = StringSelectionPref(
@@ -789,11 +794,13 @@ class NeoPrefs private constructor(val context: Context) {
         reloadGrid()
     }
 
-    var drawerEnableProtectedApps = BooleanPref(
+    var drawerEnableProtectedApps = TwoStatePref(
         dataStore = dataStore,
         key = PrefKey.DRAWER_PROTECTED_APPS_ENABLED,
         titleId = R.string.enable_protected_apps,
+        summaryId = R.string.protected_apps,
         defaultValue = false,
+        navRoute = NavRoute.Drawer.ProtectedApps(),
         confirmAction = { context, newValue, successRunnable ->
             if (!newValue) {
                 Config.showLockScreen(

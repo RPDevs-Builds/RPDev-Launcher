@@ -44,21 +44,21 @@ class IconPreferences(context: Context) {
         return prefs.getBoolean("profile_icon_colored_background", false)
     }
 
-    fun getWrapperBackgroundColor(icon: Drawable): Int {
-        val lightness = prefs.getFloat("pref_icon_background_lightness", 1f)
-        val palette = Palette.Builder(drawableToBitmap(icon)).generate()
-        val dominantColor = palette.getDominantColor(Color.WHITE)
-        return setLightness(dominantColor, lightness)
+    fun accentColor(): Int {
+        return prefs.getInt("profile_accent_color", 0)
     }
 
-    private fun setLightness(color: Int, lightness: Float): Int {
-        if (color == Color.WHITE) {
-            return color
+    fun getWrapperBackgroundColor(icon: Drawable): Int {
+        if (!coloredIconBackground()) {
+            return Color.WHITE
         }
-        val outHsl = floatArrayOf(0f, 0f, 0f)
-        ColorUtils.colorToHSL(color, outHsl)
-        outHsl[2] = lightness
-        return ColorUtils.HSLToColor(outHsl)
+        val bitmap = drawableToBitmap(icon)
+        val extractedColor = com.android.launcher3.icons.ColorExtractor.findDominantColorByHue(bitmap)
+        if (extractedColor != -0x1000000 && Color.alpha(extractedColor) != 0) {
+            return extractedColor
+        }
+        val palette = Palette.Builder(bitmap).generate()
+        return palette.getDominantColor(Color.WHITE)
     }
 }
 
