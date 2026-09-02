@@ -242,8 +242,15 @@ public class FolderPagedView extends PagedView<PageIndicatorDots> implements Cli
     public void addViewForRank(View view, ItemInfo item, int rank) {
         int pageNo = rank / mOrganizer.getMaxItemsPerPage();
 
-        CellLayoutLayoutParams lp = (CellLayoutLayoutParams) view.getLayoutParams();
-        lp.setCellXY(mOrganizer.getPosForRank(rank));
+        CellLayoutLayoutParams lp = view.getLayoutParams() instanceof CellLayoutLayoutParams
+                ? (CellLayoutLayoutParams) view.getLayoutParams() : null;
+        if (lp == null) {
+            Point pos = mOrganizer.getPosForRank(rank);
+            lp = new CellLayoutLayoutParams(pos.x, pos.y, 1, 1);
+            view.setLayoutParams(lp);
+        } else {
+            lp.setCellXY(mOrganizer.getPosForRank(rank));
+        }
         getPageAt(pageNo).addViewToCellLayout(view, -1, item.getViewId(), lp, true);
     }
 
@@ -277,10 +284,12 @@ public class FolderPagedView extends PagedView<PageIndicatorDots> implements Cli
         icon.setOnLongClickListener(mFolder);
         icon.setOnFocusChangeListener(mFocusIndicatorHelper);
 
-        CellLayoutLayoutParams lp = (CellLayoutLayoutParams) icon.getLayoutParams();
+        CellLayoutLayoutParams lp = icon.getLayoutParams() instanceof CellLayoutLayoutParams
+                ? (CellLayoutLayoutParams) icon.getLayoutParams() : null;
         Point pos = mOrganizer.getPosForRank(item.rank);
         if (lp == null) {
-            icon.setLayoutParams(new CellLayoutLayoutParams(pos.x, pos.y, 1, 1));
+            lp = new CellLayoutLayoutParams(pos.x, pos.y, 1, 1);
+            icon.setLayoutParams(lp);
         } else {
             lp.setCellXY(pos);
             lp.cellHSpan = lp.cellVSpan = 1;
@@ -378,9 +387,16 @@ public class FolderPagedView extends PagedView<PageIndicatorDots> implements Cli
             }
 
             if (v != null) {
-                CellLayoutLayoutParams lp = (CellLayoutLayoutParams) v.getLayoutParams();
+                CellLayoutLayoutParams lp = v.getLayoutParams() instanceof CellLayoutLayoutParams
+                        ? (CellLayoutLayoutParams) v.getLayoutParams() : null;
+                if (lp == null) {
+                    Point pos = mOrganizer.getPosForRank(rank);
+                    lp = new CellLayoutLayoutParams(pos.x, pos.y, 1, 1);
+                    v.setLayoutParams(lp);
+                } else {
+                    lp.setCellXY(mOrganizer.getPosForRank(rank));
+                }
                 ItemInfo info = (ItemInfo) v.getTag();
-                lp.setCellXY(mOrganizer.getPosForRank(rank));
                 currentPage.addViewToCellLayout(v, -1, info.getViewId(), lp, true);
 
                 if (mOrganizer.isItemInPreview(rank)) {

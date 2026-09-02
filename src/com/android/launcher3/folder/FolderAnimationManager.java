@@ -415,11 +415,12 @@ public class FolderAnimationManager implements FolderAnimationCreator {
         ShortcutAndWidgetContainer cwc = mContent.getPageAt(0).getShortcutsAndWidgets();
         for (int i = 0; i < numItemsInPreview; ++i) {
             final View v = itemsInPreview.get(i);
-            CellLayoutLayoutParams vLp = (CellLayoutLayoutParams) v.getLayoutParams();
-
-            // Calculate the final values in the LayoutParams.
-            vLp.isLockedToGrid = true;
-            cwc.setupLp(v);
+            CellLayoutLayoutParams vLp = v != null && v.getLayoutParams() instanceof CellLayoutLayoutParams
+                    ? (CellLayoutLayoutParams) v.getLayoutParams() : null;
+            if (vLp != null) {
+                vLp.isLockedToGrid = true;
+                cwc.setupLp(v);
+            }
 
             // Match scale of icons in the preview of the items on the first page.
             float previewScale = rule.scaleForItem(numItemsInFirstPagePreview, 0);
