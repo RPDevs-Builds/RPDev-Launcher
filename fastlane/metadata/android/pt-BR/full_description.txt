@@ -1,4 +1,4 @@
-Neo Launcher é um fork do lançador do aosp para usuários avançados.  é altamente configurável e oferece muitas funcionalidades.  alguns são:
+RPDev Launcher é um fork do lançador do aosp para usuários avançados.  é altamente configurável e oferece muitas funcionalidades.  alguns são:
 
  - Painel.
  - Suporte a temas ricos.

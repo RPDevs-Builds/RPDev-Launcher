@@ -2321,7 +2321,7 @@ public class Workspace<T extends View & PageIndicator> extends PagedView<T>
                     mDragInfo.cellY == targetCell[1]) && (cellParent == target);
         }
 
-        if (v == null || hasntMoved || !mCreateUserFolderOnDrop) return false;
+        if (v == null || hasntMoved || (!mCreateUserFolderOnDrop && mDragMode != DRAG_MODE_CREATE_FOLDER && !external)) return false;
         mCreateUserFolderOnDrop = false;
         final int screenId = getCellLayoutId(target);
 
@@ -2371,7 +2371,7 @@ public class Workspace<T extends View & PageIndicator> extends PagedView<T>
         if (distance > target.getFolderCreationRadius(targetCell)) return false;
 
         View dropOverView = target.getChildAt(targetCell[0], targetCell[1]);
-        if (!mAddToExistingFolderOnDrop) return false;
+        if (!mAddToExistingFolderOnDrop && mDragMode != DRAG_MODE_ADD_TO_FOLDER && !external) return false;
         mAddToExistingFolderOnDrop = false;
 
         if (dropOverView instanceof FolderIcon) {

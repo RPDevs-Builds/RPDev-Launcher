@@ -1,4 +1,4 @@
-Neo Launcher adalah fork dari launcher AOSP untuk power-user.
+RPDev Launcher adalah fork dari launcher AOSP untuk power-user.
 Sangat dapat dikonfigurasi, dan menawarkan banyak fungsi kepada Anda. Diantaranya:
 
 - The _Dash_.

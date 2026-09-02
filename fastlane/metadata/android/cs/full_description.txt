@@ -1,4 +1,4 @@
-Neo Launcher je odnož launcheru z AOSP pro náročné uživatele. Je vysoce konfigurovatelný a nabízí mnoho funkcí. Některé z nich jsou:
+RPDev Launcher je odnož launcheru z AOSP pro náročné uživatele. Je vysoce konfigurovatelný a nabízí mnoho funkcí. Některé z nich jsou:
 
 - _Dash_.
 - Bohatá podpora témat.

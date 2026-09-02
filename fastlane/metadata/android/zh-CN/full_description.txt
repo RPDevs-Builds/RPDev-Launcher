@@ -1,4 +1,4 @@
-Neo Launcher 是一个针对高级用户的 AOSP Launcher 分支。
+RPDev Launcher 是一个针对高级用户的 AOSP Launcher 分支。
 它的可配置性很高，并且包含许多功能。例如：
 
 - _Dash_。

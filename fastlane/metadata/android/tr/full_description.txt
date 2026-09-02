@@ -1,4 +1,4 @@
-Neo Launcher, güç kullanıcıları için Aosp'nin başlatıcısının bir çatalıdır.
+RPDev Launcher, güç kullanıcıları için Aosp'nin başlatıcısının bir çatalıdır.
 kSon derece yapılandırılabilir ve size çok fazla işlevsellik sunar. Bazıları şunlardır:
 
 - _Çizgi_.

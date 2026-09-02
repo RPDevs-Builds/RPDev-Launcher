@@ -387,7 +387,8 @@ public class FolderIcon extends FrameLayout implements FloatingIconViewCompanion
     }
 
     private boolean willAcceptItem(ItemInfo item) {
-        if (item == mInfo || mFolder.isOpen()) return false;
+        if (item == mInfo) return false;
+        if (mFolder.isOpen() && !mFolder.isExternalDrag()) return false;
         if (item instanceof FolderInfo fi && (fi.id == mInfo.id || mInfo.wouldCreateCycle(fi))) {
             return false;
         }

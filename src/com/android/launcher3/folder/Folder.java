@@ -2258,6 +2258,14 @@ public class Folder extends AbstractFloatingView implements ClipPathView, DragSo
         mItemsInvalidated = value;
     }
 
+    public boolean isExternalDrag() {
+        return mIsExternalDrag;
+    }
+
+    public boolean isDragInProgress() {
+        return mIsDragInProgress;
+    }
+
     @VisibleForTesting
     boolean getIsExternalDrag() {
         return mIsExternalDrag;

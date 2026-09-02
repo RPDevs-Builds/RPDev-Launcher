@@ -1,4 +1,4 @@
-Neo Launcher is een project gebaseerd op de AOSP launcher voor de veeleisende gebruiker.
+RPDev Launcher is een project gebaseerd op de AOSP launcher voor de veeleisende gebruiker.
 Het is zeer configureerbaar en biedt veel functionaliteit, waaronder:
 
 - De _Dash_.
