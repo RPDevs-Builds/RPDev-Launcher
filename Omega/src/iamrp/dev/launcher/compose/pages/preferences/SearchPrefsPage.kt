@@ -93,6 +93,9 @@ fun SearchPrefsPage() {
                 )
             }*/
             item {
+                iamrp.dev.launcher.compose.components.preferences.FeedCompanionBanner()
+            }
+            item {
                 PreferenceGroup(
                     stringResource(id = R.string.title_feed_provider),
                     prefs = feedPrefs,

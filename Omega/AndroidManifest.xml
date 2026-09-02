@@ -226,5 +226,26 @@
                 android:resource="@xml/smartspace_appwidget_info" />
         </receiver>
 
+        <!-- REST GET & Webhook Push Action Runner -->
+        <activity
+            android:name="iamrp.dev.launcher.actions.WebhookActionActivity"
+            android:exported="true"
+            android:excludeFromRecents="true"
+            android:noHistory="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <!-- REST GET & Webhook Push Shortcut Creator -->
+        <activity
+            android:name="iamrp.dev.launcher.actions.WebhookShortcutCreatorActivity"
+            android:exported="true"
+            android:label="Webhook / REST Action"
+            android:icon="@drawable/ic_smartspace_preferences"
+            android:theme="@style/SettingsTheme.Light">
+            <intent-filter>
+                <action android:name="android.intent.action.CREATE_SHORTCUT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
     </application>
 </manifest>
