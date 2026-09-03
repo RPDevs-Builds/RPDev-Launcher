@@ -104,18 +104,48 @@ val Context.drawerCategorizationOptions: Map<String, String>
 
 fun Context.availableFeedProviders(): List<ApplicationInfo> {
     val packageManager = packageManager
+    val feedList: MutableList<ApplicationInfo> = ArrayList()
+    val seenPackages = mutableSetOf<String>()
+
     val intent = Intent(OSEManager.OVERLAY_ACTION)
         .setData(Uri.parse("app://$packageName"))
-    val feedList: MutableList<ApplicationInfo> = ArrayList()
     for (resolveInfo in packageManager.queryIntentServices(
         intent,
         PackageManager.GET_RESOLVED_FILTER
     )) {
         if (resolveInfo.serviceInfo != null) {
             val applicationInfo = resolveInfo.serviceInfo.applicationInfo
-            feedList.add(applicationInfo)
+            if (seenPackages.add(applicationInfo.packageName)) {
+                feedList.add(applicationInfo)
+            }
         }
     }
+
+    val intentPlain = Intent(OSEManager.OVERLAY_ACTION)
+    for (resolveInfo in packageManager.queryIntentServices(
+        intentPlain,
+        PackageManager.GET_RESOLVED_FILTER
+    )) {
+        if (resolveInfo.serviceInfo != null) {
+            val applicationInfo = resolveInfo.serviceInfo.applicationInfo
+            if (seenPackages.add(applicationInfo.packageName)) {
+                feedList.add(applicationInfo)
+            }
+        }
+    }
+
+    val knownCandidates = listOf("iamrp.dev.feed", "com.saulhdev.neofeed", "com.google.android.googlequicksearchbox")
+    for (pkg in knownCandidates) {
+        if (!seenPackages.contains(pkg)) {
+            try {
+                val appInfo = packageManager.getApplicationInfo(pkg, 0)
+                feedList.add(appInfo)
+                seenPackages.add(pkg)
+            } catch (_: PackageManager.NameNotFoundException) {
+            }
+        }
+    }
+
     return feedList
 }
 

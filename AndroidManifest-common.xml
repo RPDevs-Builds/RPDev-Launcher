@@ -46,6 +46,23 @@
     <uses-permission android:name="android.permission.WAKEUP_SURFACE_FLINGER" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
+    <queries>
+        <intent>
+            <action android:name="com.android.launcher3.WINDOW_OVERLAY" />
+            <data android:scheme="app" />
+        </intent>
+        <intent>
+            <action android:name="com.android.launcher3.WINDOW_OVERLAY" />
+        </intent>
+        <intent>
+            <action android:name="com.google.android.apps.gsa.sidekick.SidekickService" />
+        </intent>
+        <package android:name="com.saulhdev.neofeed" />
+        <package android:name="iamrp.dev.feed" />
+        <package android:name="com.google.android.googlequicksearchbox" />
+        <package android:name="com.teslacoilsw.launcherclientproxy" />
+    </queries>
+
     <!--
     Permissions required for read/write access to the workspace data. These permission name
     should not conflict with that defined in other apps, as such an app should embed its package

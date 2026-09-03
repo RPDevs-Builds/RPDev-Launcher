@@ -30,6 +30,7 @@ import com.google.android.libraries.launcherclient.IScrollCallback
 import com.google.android.libraries.launcherclient.LauncherClient
 import com.google.android.libraries.launcherclient.LauncherClientCallbacks
 import com.google.android.libraries.launcherclient.StaticInteger
+import iamrp.dev.launcher.compose.components.preferences.isFeedCompanionInstalled
 import iamrp.dev.launcher.preferences.NeoPrefs
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
@@ -49,17 +50,24 @@ class OverlayCallbackImpl(val launcher: Launcher) : LauncherOverlayTouchProxy,
     private var job: Job? = null
 
     init {
-        job = prefs.feedProvider.get()
-            .onEach { provider ->
-                setEnableFeed(provider.isNotEmpty())
-            }
-            .launchIn(launcher.lifecycleScope)
+        var currentProvider = prefs.feedProvider.getValue()
+        if ((currentProvider.isEmpty() || currentProvider == "com.saulhdev.neofeed") && isFeedCompanionInstalled(launcher)) {
+            currentProvider = "iamrp.dev.feed"
+            prefs.feedProvider.setValue("iamrp.dev.feed")
+        }
+        feedEnabled = currentProvider.isNotEmpty()
 
         launcherClient = LauncherClient(
             launcher, this, StaticInteger(
                 (if (feedEnabled) 1 else 0) or 2 or 4 or 8
             )
         )
+
+        job = prefs.feedProvider.get()
+            .onEach { provider ->
+                setEnableFeed(provider.isNotEmpty())
+            }
+            .launchIn(launcher.lifecycleScope)
     }
 
     fun reconnect() {

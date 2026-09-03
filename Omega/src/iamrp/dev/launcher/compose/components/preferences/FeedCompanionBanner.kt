@@ -37,7 +37,7 @@ import iamrp.dev.launcher.actions.WebhookShortcutCreatorActivity
 
 fun isFeedCompanionInstalled(context: Context): Boolean {
     val pm = context.packageManager
-    val targetPackages = listOf("com.saulhdev.neofeed", "iamrp.dev.feed", "com.saulhdev.neofeed.dev")
+    val targetPackages = listOf("iamrp.dev.feed", "iamrp.dev.feed.dev", "com.saulhdev.neofeed")
     return targetPackages.any { pkg ->
         try {
             pm.getPackageInfo(pkg, 0)
@@ -114,8 +114,8 @@ fun FeedCompanionBanner(
                 if (installed) {
                     Button(
                         onClick = {
-                            val intent = context.packageManager.getLaunchIntentForPackage("com.saulhdev.neofeed")
-                                ?: context.packageManager.getLaunchIntentForPackage("iamrp.dev.feed")
+                            val intent = context.packageManager.getLaunchIntentForPackage("iamrp.dev.feed")
+                                ?: context.packageManager.getLaunchIntentForPackage("com.saulhdev.neofeed")
                             if (intent != null) context.startActivity(intent)
                         },
                         modifier = Modifier.weight(1f)
