@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [1.0.2] - 2026-09-03 (Search Engine Hardening, Folder Outline Customization & Single Home Activity Fix)
+## [1.1.0] - 2026-09-03 (Search Engine Hardening, Folder Outline Customization & Single Home Activity Fix)
 
 ### Fixed
 - **🔍 Search Engine Robustness & Crash Resolution**:

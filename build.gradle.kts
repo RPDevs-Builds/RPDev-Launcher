@@ -123,8 +123,8 @@ android {
         minSdk = 34
         targetSdk = 37
         applicationId = "iamrp.dev.launcher"
-        versionName = "1.0.1"
-        versionCode = 1001
+        versionName = "1.1.0"
+        versionCode = 1100
         buildConfigField("String", "BUILD_DATE", "\"${getBuildDate()}\"")
         buildConfigField("boolean", "ENABLE_AUTO_INSTALLS_LAYOUT", "false")
         buildConfigField("boolean", "IS_DEBUG_DEVICE", "false")
