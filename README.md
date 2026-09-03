@@ -45,11 +45,17 @@
 - **Automated Content Sorting**: Sort folder items alphabetically (A–Z / Z–A), by installation date (Newest / Oldest), launch frequency, or custom drag-and-drop.
 - **Bidirectional Drawer-to-Desktop Sync**: 1-to-1 live synchronization between App Drawer folders and Home Screen workspace folders.
 
-### 🎨 Theming & Dynamic App Icon Styles
+### 🎨 Theming, Dynamic Outlines & App Icon Styles
+- **Folder Outline & Geometry Controls**: Configurable folder outline stroke toggle, dynamic outline thickness slider (1–10 dp), custom outline color picker, corner radius, and opacity.
 - **Dual Launcher Icon Options**: Choose between **Dark Neon (Default)** and **High Contrast (Light)** launcher icons directly in Theme settings via dynamic activity aliases.
 - **Material You Dynamic Theming**: Adaptive color extraction matching system wallpapers.
 - **Themed Icons & Custom Icon Packs**: Complete icon pack masking, adaptify engine, and per-app custom icon assignment.
 - **Adaptive Blur & Corners**: Configurable background blur radius and custom window corner radius.
+
+### 🔍 Unified On-Device Search & Math Engine
+- **Fuzzy & Instant App Search**: High-performance local search with fuzzy matching and category-aware result caching.
+- **On-Device Instant Calculator**: Inline mathematical evaluations directly from the search bar without leaving the app drawer.
+- **Multi-Provider Web Suggestions**: Integrated web autocomplete and search suggestions with timeout safety and privacy options.
 
 ### ⚡ Custom REST GET & Webhook Push Shortcuts
 - **One-Tap Desktop Actions**: Create and pin native desktop shortcuts to trigger custom REST GET, POST, PUT, or DELETE HTTP requests in the background.

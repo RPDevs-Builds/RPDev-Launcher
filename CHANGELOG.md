@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.2] - 2026-09-03 (Search Engine Hardening, Folder Outline Customization & Single Home Activity Fix)
+
+### Fixed
+- **🔍 Search Engine Robustness & Crash Resolution**:
+  - Resolved fatal `NullPointerException` triggered when typing 3+ characters or queries with no exact app matches (`AlphabeticalAppsList$MyDiffCallback` -> `BaseAllAppsAdapter.AdapterItem.isSameAs`).
+  - Updated `AppInfo.toComponentKey()` to safely return `null` if `componentName` or `user` is missing, preventing crashes during `ComponentKey` instantiation.
+  - Hardened `BaseAllAppsAdapter.AdapterItem.isSameAs` with specialized handling for `VIEW_TYPE_EMPTY_SEARCH` (comparing query title strings) and null-safe key comparisons.
+  - Modernized `SearchProvider.getSuggestions` with 1.5-second network connection/read timeouts and safe JSON array parsing to prevent background model thread blockage and `ClassCastException`.
+  - Refactored `LocalMathEngine.isMathExpression` requiring numeric digits to eliminate false-positive evaluations of plain-text search queries.
+  - Implemented thread-safe application list snapshot copying in `RPDevAppSearchAlgorithm`.
+- **🏠 Single Default Home App Chooser Entry**:
+  - Removed redundant `iamrp.dev.launcher` and `LauncherLight` activity aliases from `AndroidManifest.xml` ensuring only a single, unified entry appears in Android's default home app selector.
+
+### Added & Improved
+- **🎨 Folder Outline Customization Suite**:
+  - Removed duplicate "Folder Icon Opacity" setting from General preferences, consolidating opacity controls exclusively under the Folder Icons section.
+  - Renamed "Draw Folder Stroke" to **Folder Outline** and "Folder stroke color" to **Folder Outline Color**.
+  - Added new **Outline size** slider setting (`desktopFolderStrokeWidth`, 1 dp to 10 dp) in Customize Folders preferences.
+  - Linked dynamic outline thickness to both `Folder.java` (expanded folder window) and `PreviewBackground.java` (desktop and drawer folder icon previews).
+
 ## [1.0.1] - 2026-09-02 (Nested Folders Engine, Android 14+ Baseline & REST/Webhook Shortcuts)
 
 ### Added
