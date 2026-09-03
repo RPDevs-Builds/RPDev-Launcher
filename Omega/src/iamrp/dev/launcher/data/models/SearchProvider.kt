@@ -26,21 +26,27 @@ data class SearchProvider(
 ) {
 
     fun getSuggestions(query: String): ArrayList<String> {
-        val client = OkHttpClient()
-        if (suggestionUrl == null) return arrayListOf()
-        if (query.isEmpty()) return arrayListOf()
+        if (suggestionUrl.isNullOrEmpty() || query.isBlank()) return arrayListOf()
+        val client = OkHttpClient.Builder()
+            .connectTimeout(java.time.Duration.ofMillis(1500))
+            .readTimeout(java.time.Duration.ofMillis(1500))
+            .build()
         val request = Request.Builder()
             .url(suggestionUrl.format(query))
             .build()
         try {
             val response = client.newCall(request).execute()
-            val result = JSONArray(response.body.string())
-                .getJSONArray(1)
-                .toArrayList<String>()
-                .take(MAX_SUGGESTIONS)
+            val body = response.body?.string() ?: ""
             response.close()
-            Log.d("WebSearchProvider", "Websearch Query: $query")
-            return result as ArrayList
+            if (body.isEmpty()) return arrayListOf()
+            val json = JSONArray(body)
+            if (json.length() > 1) {
+                val array = json.optJSONArray(1)
+                if (array != null) {
+                    val result = array.toArrayList<String>().take(MAX_SUGGESTIONS)
+                    return ArrayList(result)
+                }
+            }
         } catch (ex: Exception) {
             Log.e("WebSearchProvider", ex.message ?: "", ex)
         }

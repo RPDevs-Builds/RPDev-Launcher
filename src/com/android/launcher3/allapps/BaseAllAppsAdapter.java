@@ -44,6 +44,7 @@ import com.android.launcher3.allapps.search.SearchAdapterProvider;
 import com.android.launcher3.folder.FolderIcon;
 import com.android.launcher3.model.data.AppInfo;
 import com.android.launcher3.popup.PopupContainerWithArrow;
+import com.android.launcher3.util.ComponentKey;
 import com.android.launcher3.views.ActivityContext;
 import iamrp.dev.launcher.groups.DrawerFolderItem;
 import iamrp.dev.launcher.groups.category.DrawerFolderInfo;
@@ -152,7 +153,15 @@ public abstract class BaseAllAppsAdapter
                 return false;
             }
             if (itemInfo != null && other.itemInfo != null) {
-                return java.util.Objects.equals(itemInfo.toComponentKey(), other.itemInfo.toComponentKey());
+                if (viewType == VIEW_TYPE_EMPTY_SEARCH) {
+                    return java.util.Objects.equals(itemInfo.title, other.itemInfo.title);
+                }
+                ComponentKey k1 = itemInfo.toComponentKey();
+                ComponentKey k2 = other.itemInfo.toComponentKey();
+                if (k1 != null && k2 != null) {
+                    return java.util.Objects.equals(k1, k2);
+                }
+                return java.util.Objects.equals(itemInfo.title, other.itemInfo.title);
             }
             if (folderItem != null && other.folderItem != null) {
                 return folderItem.getInfo().id == other.folderItem.getInfo().id;

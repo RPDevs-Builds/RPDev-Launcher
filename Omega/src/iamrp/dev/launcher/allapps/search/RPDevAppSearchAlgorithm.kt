@@ -46,9 +46,9 @@ class RPDevAppSearchAlgorithm(val context: Context, addNoResultsMessage: Boolean
         if (callback == null) return
         val safeQuery = query ?: ""
         Log.d("RPDevAppSearchAlgorithm", "doSearch: $safeQuery")
-        Launcher.getLauncher(context).model.enqueueModelUpdateTask { _: ModelTaskController?, _: BgDataModel?, apps: AllAppsList? ->
-            val appList = apps?.data ?: try {
-                context.launcher.allApps
+        mAppState.model.enqueueModelUpdateTask { _: ModelTaskController?, _: BgDataModel?, apps: AllAppsList? ->
+            val appList = try {
+                apps?.data?.toList() ?: context.launcher.allApps.toList()
             } catch (_: Exception) {
                 emptyList<AppInfo>()
             }
@@ -68,10 +68,12 @@ class RPDevAppSearchAlgorithm(val context: Context, addNoResultsMessage: Boolean
             mResultHandler.post { callback.onSearchResult(safeQuery, result, suggestions) }
             if (callback.showWebResults()) {
                 val webSuggestions = getSuggestions(safeQuery)
-                suggestions.addAll(webSuggestions)
+                if (webSuggestions.isNotEmpty()) {
+                    suggestions.addAll(webSuggestions)
+                    mResultHandler.post { callback.onSearchResult(safeQuery, result, suggestions) }
+                }
                 callback.setShowWebResults(false)
             }
-            mResultHandler.post { callback.onSearchResult(safeQuery, result, suggestions) }
         }
     }
 

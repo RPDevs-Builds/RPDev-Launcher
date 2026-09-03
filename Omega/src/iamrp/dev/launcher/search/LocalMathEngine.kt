@@ -17,8 +17,11 @@ object LocalMathEngine {
     fun isMathExpression(input: String): Boolean {
         val trimmed = input.trim()
         if (trimmed.length < 2) return false
+        // Must contain at least one digit
+        if (!trimmed.any { it.isDigit() }) return false
+
         // Must contain at least one math operator or known function
-        val hasOperator = trimmed.any { it in "+-*/xX÷^%" }
+        val hasOperator = trimmed.any { it in "+-*/÷^%" }
         val hasFunction = listOf("sqrt", "cbrt", "sin", "cos", "tan", "log", "ln", "abs", "pi", "e").any {
             trimmed.contains(it, ignoreCase = true)
         }

@@ -182,6 +182,9 @@ public class AppInfo extends ItemInfoWithIcon implements WorkspaceItemFactory {
     }
 
     public ComponentKey toComponentKey() {
+        if (componentName == null || user == null) {
+            return null;
+        }
         return new ComponentKey(componentName, user);
     }
 
