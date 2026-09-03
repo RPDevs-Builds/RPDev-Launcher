@@ -196,8 +196,13 @@ public class PreviewBackground extends DelegatedCellDrawing {
         basePreviewOffsetY = topPadding + (isInDrawer ? grid.allAppsFolderIconOffsetYPx : grid.folderIconOffsetYPx);
 
 
-        // Stroke width is 1dp
-        mStrokeWidth = context.getResources().getDisplayMetrics().density;
+        if (prefs.getDesktopFolderStroke().getValue()) {
+            mStrokeColor = prefs.getDesktopFolderStrokeColor().getColor();
+            mStrokeWidth = context.getResources().getDisplayMetrics().density * prefs.getDesktopFolderStrokeWidth().getValue();
+        } else {
+            // Default Stroke width is 1dp
+            mStrokeWidth = context.getResources().getDisplayMetrics().density;
+        }
 
         if (DRAW_SHADOW) {
             float radius = getScaledRadius();

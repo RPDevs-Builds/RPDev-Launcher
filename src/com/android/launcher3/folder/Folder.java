@@ -386,7 +386,8 @@ public class Folder extends AbstractFloatingView implements ClipPathView, DragSo
             mBackground.setShape(GradientDrawable.RECTANGLE);
             mBackground.setColor(bgColor);
             if (prefs.getDesktopFolderStroke().getValue()) {
-                int strokeWidth = Math.round(pxFromDp(2, getResources().getDisplayMetrics()));
+                float strokeDp = prefs.getDesktopFolderStrokeWidth().getValue();
+                int strokeWidth = Math.round(pxFromDp(strokeDp, getResources().getDisplayMetrics()));
                 mBackground.setStroke(strokeWidth, prefs.getDesktopFolderStrokeColor().getColor());
             }
         } else {
@@ -394,7 +395,8 @@ public class Folder extends AbstractFloatingView implements ClipPathView, DragSo
                     ResourcesCompat.getDrawable(getResources(),
                             R.drawable.round_rect_folder, getContext().getTheme())).mutate();
             if (prefs.getDesktopFolderStroke().getValue()) {
-                int strokeWidth = Math.round(pxFromDp(2, getResources().getDisplayMetrics()));
+                float strokeDp = prefs.getDesktopFolderStrokeWidth().getValue();
+                int strokeWidth = Math.round(pxFromDp(strokeDp, getResources().getDisplayMetrics()));
                 mBackground.setStroke(strokeWidth, prefs.getDesktopFolderStrokeColor().getColor());
             }
         }

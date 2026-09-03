@@ -531,6 +531,21 @@ class NeoPrefs private constructor(val context: Context) {
         },
     )
 
+    val desktopFolderStrokeWidth = FloatPref(
+        dataStore = dataStore,
+        key = PrefKey.DESKTOP_FOLDER_STROKE_WIDTH,
+        titleId = R.string.folder_stroke_width,
+        defaultValue = 2f,
+        minValue = 1f,
+        maxValue = 10f,
+        steps = 9,
+        specialOutputs = { "${it.roundToInt()} dp" },
+        onChange = {
+            reloadGrid()
+            pokeChange()
+        },
+    )
+
     val desktopFolderStrokeColor = ColorIntPref(
         titleId = R.string.folder_stroke_color,
         dataStore = dataStore,

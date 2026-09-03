@@ -78,6 +78,7 @@ object PrefKey {
     val DESKTOP_FOLDER_STROKE_COLOR = stringPreferencesKey("desktop_folder_stroke_color")
     val DESKTOP_FOLDER_BG_OPACITY = floatPreferencesKey("desktop_folder_custom_background_opacity")
     val DESKTOP_FOLDER_STROKE = booleanPreferencesKey("desktop_folder_draw_stroke")
+    val DESKTOP_FOLDER_STROKE_WIDTH = floatPreferencesKey("desktop_folder_stroke_width")
     val DESKTOP_STATUS_BAR_HIDE = booleanPreferencesKey("desktop_hide_status_bar")
     val DESKTOP_LOCK_CHANGES = booleanPreferencesKey("desktop_lock")
     val DESKTOP_TASK_BAR_ON_PHONE = booleanPreferencesKey("desktop_task_bar_on_phone")
