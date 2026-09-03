@@ -181,6 +181,7 @@ fun NavigationPreference(
 ) {
     val scope = rememberCoroutineScope()
     val paneNavigator = LocalPaneNavigator.current
+    val value = pref.get().collectAsState(initial = pref.getValue())
     BasePreference(
         modifier = modifier,
         titleId = pref.titleId,
@@ -189,7 +190,7 @@ fun NavigationPreference(
         groupSize = groupSize,
         isEnabled = isEnabled,
         endWidget = {
-            pref.endIcon(pref.getValue())
+            pref.endIcon(value.value)
         },
         onClick = {
             scope.launch {
@@ -209,9 +210,8 @@ fun ColorIntPreference(
     isEnabled: Boolean = true,
 ) {
     val paneNavigator = LocalPaneNavigator.current
-    val currentColor by remember(pref) {
-        mutableIntStateOf(AccentColorOption.fromString(pref.getValue()).accentColor)
-    }
+    val colorValue = pref.get().collectAsState(initial = pref.getValue())
+    val currentColor = AccentColorOption.fromString(colorValue.value).accentColor
     val scope = rememberCoroutineScope()
 
     BasePreference(
@@ -250,7 +250,8 @@ fun SeekBarPreference(
     isEnabled: Boolean = true,
     onValueChange: ((Float) -> Unit) = {},
 ) {
-    var currentValue by remember(pref) { mutableFloatStateOf(pref.getValue()) }
+    val prefValue = pref.get().collectAsState(initial = pref.getValue())
+    var currentValue by remember(prefValue.value) { mutableFloatStateOf(prefValue.value) }
 
     BasePreference(
         modifier = modifier,
@@ -343,14 +344,14 @@ fun SwitchPreference(
     isEnabled: Boolean = true,
     onCheckedChange: ((Boolean) -> Unit) = {},
 ) {
-    val (checked, check) = remember(pref) { mutableStateOf(pref.getValue()) }
+    val checkedState = pref.get().collectAsState(initial = pref.getValue())
+    val checked = checkedState.value
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
 
     val onToggle = { newValue: Boolean ->
         val update = {
             onCheckedChange(newValue)
-            check(newValue)
             coroutineScope.launch { pref.setValue(newValue) }
             Unit
         }
@@ -405,7 +406,7 @@ fun IntSelectionPreference(
     isEnabled: Boolean = true,
     onClick: (() -> Unit) = {},
 ) {
-    val value = pref.get().collectAsState(initial = pref.defaultValue)
+    val value = pref.get().collectAsState(initial = pref.getValue())
     BasePreference(
         modifier = modifier,
         titleId = pref.titleId,
@@ -427,7 +428,7 @@ fun LongSelectionPreference(
     isEnabled: Boolean = true,
     onClick: (() -> Unit) = {},
 ) {
-    val value = pref.get().collectAsState(initial = pref.defaultValue)
+    val value = pref.get().collectAsState(initial = pref.getValue())
     val entries = pref.entries()
     BasePreference(
         modifier = modifier,
@@ -450,11 +451,12 @@ fun StringSelectionPreference(
     isEnabled: Boolean = true,
     onClick: (() -> Unit) = {},
 ) {
+    val value = pref.get().collectAsState(initial = pref.getValue())
     BasePreference(
         modifier = modifier,
         titleId = pref.titleId,
         summaryId = pref.summaryId,
-        summary = pref.entries[pref.getValue()],
+        summary = pref.entries[value.value],
         index = index,
         groupSize = groupSize,
         isEnabled = isEnabled,
@@ -471,10 +473,11 @@ fun GridSizePreference(
     isEnabled: Boolean = true,
     onClick: (() -> Unit) = {},
 ) {
+    val columns = pref.numColumnsPref.get().collectAsState(initial = pref.numColumnsPref.getValue())
     BasePreference(
         modifier = modifier,
         titleId = pref.titleId,
-        summary = pref.numColumnsPref.getValue().toString(),
+        summary = columns.value.toString(),
         index = index,
         groupSize = groupSize,
         isEnabled = isEnabled,
@@ -491,9 +494,9 @@ fun GridSize2DPreference(
     isEnabled: Boolean = true,
     onClick: (() -> Unit) = {},
 ) {
-    val rows = pref.numRowsPref.get().collectAsState(initial = pref.numRowsPref.defaultValue)
+    val rows = pref.numRowsPref.get().collectAsState(initial = pref.numRowsPref.getValue())
     val columns =
-        pref.numColumnsPref.get().collectAsState(initial = pref.numColumnsPref.defaultValue)
+        pref.numColumnsPref.get().collectAsState(initial = pref.numColumnsPref.getValue())
     BasePreference(
         modifier = modifier,
         titleId = pref.titleId,
@@ -514,12 +517,13 @@ fun StringMultiSelectionPreference(
     isEnabled: Boolean = true,
     onClick: (() -> Unit) = {},
 ) {
+    val value = pref.get().collectAsState(initial = pref.getValue())
     BasePreference(
         modifier = modifier,
         titleId = pref.titleId,
         summaryId = pref.summaryId,
         summary = pref.entries
-            .filter { pref.getValue().contains(it.key) }
+            .filter { value.value.contains(it.key) }
             .values.let {
                 it.map { stringResource(id = it) }.joinToString(separator = ", ")
             },
@@ -559,11 +563,12 @@ fun StringTextPreference(
     isEnabled: Boolean = true,
     onClick: (() -> Unit) = {},
 ) {
+    val value = pref.get().collectAsState(initial = pref.getValue())
     BasePreference(
         modifier = modifier,
         titleId = pref.titleId,
         summaryId = pref.summaryId,
-        summary = pref.getValue(),
+        summary = value.value,
         index = index,
         groupSize = groupSize,
         isEnabled = isEnabled,

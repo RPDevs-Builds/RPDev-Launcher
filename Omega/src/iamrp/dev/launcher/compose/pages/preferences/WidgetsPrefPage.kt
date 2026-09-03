@@ -62,39 +62,32 @@ fun WidgetsPrefsPage() {
         dialogPref = pref
         openDialog.value = true
     }
-    val smartspacePrefs = remember(prefs.changePoker.collectAsState(initial = 1).value) {
-        val isOwm =
-            prefs.smartspaceWeatherProvider.getValue() == OWMWeatherProvider::class.java.name
-        mutableStateListOf(
-            *listOfNotNull(
-                prefs.smartspaceEnable,
-                prefs.smartspaceBackground,
-                prefs.smartspaceDate,
-                prefs.smartspaceTime,
-                prefs.smartspaceTime24H,
-                prefs.smartspaceWeatherProvider,
-                if (isOwm) prefs.smartspaceWeatherApiKey else null,
-                if (isOwm) prefs.smartspaceWeatherCity else null,
-                prefs.smartspaceWeatherUnit,
-                prefs.smartspaceEventProviders
-            ).toTypedArray()
-        )
-    }
+    val weatherProvider = prefs.smartspaceWeatherProvider.get().collectAsState(initial = prefs.smartspaceWeatherProvider.getValue())
+    val isOwm = weatherProvider.value == OWMWeatherProvider::class.java.name
+    val smartspacePrefs = listOfNotNull(
+        prefs.smartspaceEnable,
+        prefs.smartspaceBackground,
+        prefs.smartspaceDate,
+        prefs.smartspaceTime,
+        prefs.smartspaceTime24H,
+        prefs.smartspaceWeatherProvider,
+        if (isOwm) prefs.smartspaceWeatherApiKey else null,
+        if (isOwm) prefs.smartspaceWeatherCity else null,
+        prefs.smartspaceWeatherUnit,
+        prefs.smartspaceEventProviders
+    )
 
-    val notificationsPrefs = remember(prefs.changePoker.collectAsState(initial = 1).value) {
-        mutableStateListOf(
-            *listOfNotNull(
-                prefs.notificationDots,
-                prefs.notificationCustomColor,
-                if (prefs.notificationCustomColor.getValue()) {
-                    prefs.notificationBackground
-                } else {
-                    null
-                },
-                prefs.notificationCount
-            ).toTypedArray()
-        )
-    }
+    val notificationCustomColor = prefs.notificationCustomColor.get().collectAsState(initial = prefs.notificationCustomColor.getValue())
+    val notificationsPrefs = listOfNotNull(
+        prefs.notificationDots,
+        prefs.notificationCustomColor,
+        if (notificationCustomColor.value) {
+            prefs.notificationBackground
+        } else {
+            null
+        },
+        prefs.notificationCount
+    )
 
     ViewWithActionBar(
         title = stringResource(R.string.title__general_widgets_notifications)

@@ -84,22 +84,19 @@ fun ProfilePrefsPage() {
         }
     )
 
-    val others = remember(prefs.changePoker.collectAsState(initial = 1).value) {
-        mutableStateListOf(
-            *listOfNotNull(
-                prefs.profileBlurEnable,
-                if (prefs.profileBlurEnable.getValue()) {
-                    prefs.profileBlurRadius
-                } else {
-                    null
-                },
-                prefs.profileWindowCornerRadius,
-                prefs.profileAllowRotation,
-                prefs.profilePopupMenu
-                //prefs.profileShowTopShadow
-            ).toTypedArray()
-        )
-    }
+    val blurEnabled = prefs.profileBlurEnable.get().collectAsState(initial = prefs.profileBlurEnable.getValue())
+    val others = listOfNotNull(
+        prefs.profileBlurEnable,
+        if (blurEnabled.value) {
+            prefs.profileBlurRadius
+        } else {
+            null
+        },
+        prefs.profileWindowCornerRadius,
+        prefs.profileAllowRotation,
+        prefs.profilePopupMenu
+        //prefs.profileShowTopShadow
+    )
 
     ViewWithActionBar(
         title = stringResource(R.string.title__general_profile)

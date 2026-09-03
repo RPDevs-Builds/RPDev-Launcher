@@ -57,25 +57,22 @@ fun DockPrefsPage() {
         dialogPref = pref
         openDialog.value = true
     }
-    val dockPrefs = remember(prefs.changePoker.collectAsState(initial = 1).value) {
-        mutableStateListOf(
-            *listOfNotNull(
-                prefs.dockEnabled,
-                prefs.dockSearchBarEnabled,
-                prefs.dockGridSize,
-                prefs.dockCustomBackground,
-                if (prefs.dockCustomBackground.getValue()) {
-                    prefs.dockBackgroundColor
-                } else {
-                    null
-                },
-                /*prefs.dockShowPageIndicator,
-                prefs.dockDotsPageIndicator,
-                prefs.dockScale*/
-                prefs.dockBottomPadding
-            ).toTypedArray()
-        )
-    }
+    val dockCustomBg = prefs.dockCustomBackground.get().collectAsState(initial = prefs.dockCustomBackground.getValue())
+    val dockPrefs = listOfNotNull(
+        prefs.dockEnabled,
+        prefs.dockSearchBarEnabled,
+        prefs.dockGridSize,
+        prefs.dockCustomBackground,
+        if (dockCustomBg.value) {
+            prefs.dockBackgroundColor
+        } else {
+            null
+        },
+        /*prefs.dockShowPageIndicator,
+        prefs.dockDotsPageIndicator,
+        prefs.dockScale*/
+        prefs.dockBottomPadding
+    )
 
     ViewWithActionBar(
         title = stringResource(R.string.title__general_dock)

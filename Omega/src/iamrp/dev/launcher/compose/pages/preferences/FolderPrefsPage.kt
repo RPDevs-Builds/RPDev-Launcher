@@ -49,38 +49,33 @@ fun FolderPrefsPage() {
         openDialog.value = true
     }
 
-    val folderIconPref = remember(prefs.changePoker.collectAsState(initial = 1).value) {
-        mutableStateListOf(
-            prefs.desktopFolderIconShape,
-            prefs.desktopFolderOpacity
-        )
-    }
+    val folderIconPref = listOf(
+        prefs.desktopFolderIconShape,
+        prefs.desktopFolderOpacity
+    )
 
-    val folderGeneralPref = remember(prefs.changePoker.collectAsState(initial = 1).value) {
-        mutableStateListOf(
-            *listOfNotNull(
-                //prefs.desktopFolderFullScreen,
-                prefs.desktopCustomFolderBackground,
-                if (prefs.desktopCustomFolderBackground.getValue()) {
-                    prefs.desktopFolderBackgroundColor
-                } else null,
-                prefs.desktopFolderStroke,
-                if (prefs.desktopFolderStroke.getValue()) {
-                    prefs.desktopFolderStrokeWidth
-                } else null,
-                if (prefs.desktopFolderStroke.getValue()) {
-                    prefs.desktopFolderStrokeColor
-                } else null,
-            ).toTypedArray()
-        )
-    }
+    val customFolderBg = prefs.desktopCustomFolderBackground.get().collectAsState(initial = prefs.desktopCustomFolderBackground.getValue())
+    val folderStroke = prefs.desktopFolderStroke.get().collectAsState(initial = prefs.desktopFolderStroke.getValue())
 
-    val folderGridPrefs = remember(prefs.changePoker.collectAsState(initial = 1).value) {
-        mutableStateListOf(
-            prefs.desktopFolderColumns,
-            prefs.desktopFolderRows
-        )
-    }
+    val folderGeneralPref = listOfNotNull(
+        //prefs.desktopFolderFullScreen,
+        prefs.desktopCustomFolderBackground,
+        if (customFolderBg.value) {
+            prefs.desktopFolderBackgroundColor
+        } else null,
+        prefs.desktopFolderStroke,
+        if (folderStroke.value) {
+            prefs.desktopFolderStrokeWidth
+        } else null,
+        if (folderStroke.value) {
+            prefs.desktopFolderStrokeColor
+        } else null,
+    )
+
+    val folderGridPrefs = listOf(
+        prefs.desktopFolderColumns,
+        prefs.desktopFolderRows
+    )
 
     ViewWithActionBar(
         title = stringResource(R.string.pref_title_folder)

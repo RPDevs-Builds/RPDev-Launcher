@@ -235,6 +235,7 @@ fun StringSelectionPrefDialogUI(
     val prefs = NeoPrefs.getInstance()
     var selected by remember { mutableStateOf(pref.getValue()) }
     val entryPairs = pref.entries.toList()
+    val coroutineScope = rememberCoroutineScope()
 
     var radius = 16.dp
     if (prefs.profileWindowCornerRadius.getValue() > -1) {
@@ -265,12 +266,9 @@ fun StringSelectionPrefDialogUI(
                     Spacer(modifier = Modifier.height(8.dp))
                 }
                 items(items = entryPairs) {
-                    val isSelected = rememberSaveable(selected) {
-                        mutableStateOf(selected == it.first)
-                    }
                     SingleSelectionListItem(
                         title = it.second,
-                        isSelected = isSelected.value,
+                        isSelected = selected == it.first,
                         index = entryPairs.indexOf(it),
                         groupSize = groupSize
                     ) {
@@ -295,7 +293,7 @@ fun StringSelectionPrefDialogUI(
                 DialogPositiveButton(
                     cornerRadius = cornerRadius,
                     onClick = {
-                        pref.setValue(selected)
+                        coroutineScope.launch { pref.setValue(selected) }
                         openDialogCustom.value = false
                     }
                 )
@@ -312,6 +310,7 @@ fun StringMultiSelectionPrefDialogUI(
     val prefs = NeoPrefs.getInstance()
     var selected by remember { mutableStateOf(pref.getValue()) }
     val entryPairs = pref.entries.toList()
+    val coroutineScope = rememberCoroutineScope()
 
     var radius = 16.dp
     if (prefs.profileWindowCornerRadius.getValue() > -1) {
@@ -343,20 +342,21 @@ fun StringMultiSelectionPrefDialogUI(
                 }
                 val groupSize = entryPairs.size
                 itemsIndexed(items = entryPairs) { index, item ->
-                    val isSelected = rememberSaveable(selected) {
-                        mutableStateOf(selected.contains(item.first))
-                    }
-
                     MultiSelectionListItem(
                         text = stringResource(id = item.second),
+                        isChecked = selected.contains(item.first),
                         index = index,
                         groupSize = groupSize,
-                        isChecked = isSelected.value,
                         withIcon = pref.withIcons,
                         iconId = item.first
                     ) {
-                        selected = if (it) selected.plus(item.first)
-                        else selected.minus(item.first)
+                        val set = selected.toMutableSet()
+                        if (set.contains(item.first)) {
+                            set.remove(item.first)
+                        } else {
+                            set.add(item.first)
+                        }
+                        selected = set
                     }
                 }
 
@@ -378,7 +378,7 @@ fun StringMultiSelectionPrefDialogUI(
                 DialogPositiveButton(
                     cornerRadius = cornerRadius,
                     onClick = {
-                        pref.setValue(selected)
+                        coroutineScope.launch { pref.setValue(selected) }
                         openDialogCustom.value = false
                     }
                 )

@@ -71,48 +71,42 @@ fun DrawerPrefsPage() {
         //prefs.drawerLabelScale,
         prefs.drawerPopup,
     )
-    val gridPrefs = remember(prefs.changePoker.collectAsState(initial = 1).value) {
-        mutableStateListOf(
-            *listOfNotNull(
-                prefs.drawerGridSize,
-                prefs.drawerAppSuggestions,
-                prefs.drawerSortMode,
-                prefs.drawerLayout,
-                if (prefs.drawerLayout.getValue() == LAYOUT_CATEGORIES) {
-                    prefs.categoriesLayout
-                } else {
-                    null
-                },
-                if (prefs.drawerLayout.getValue() == LAYOUT_TABS) {
-                    prefs.drawerTabManager
-                } else {
-                    null
-                },
-                /*
-                prefs.drawerAppGroups,
-                prefs.drawerCellHeightMultiplier,*/
-                prefs.drawerFolderManager,
-                prefs.drawerSaveScrollPosition,
-                prefs.drawerHideScrollbar
-            ).toTypedArray()
-        )
-    }
+    val drawerLayout = prefs.drawerLayout.get().collectAsState(initial = prefs.drawerLayout.getValue())
+    val gridPrefs = listOfNotNull(
+        prefs.drawerGridSize,
+        prefs.drawerAppSuggestions,
+        prefs.drawerSortMode,
+        prefs.drawerLayout,
+        if (drawerLayout.value == LAYOUT_CATEGORIES) {
+            prefs.categoriesLayout
+        } else {
+            null
+        },
+        if (drawerLayout.value == LAYOUT_TABS) {
+            prefs.drawerTabManager
+        } else {
+            null
+        },
+        /*
+        prefs.drawerAppGroups,
+        prefs.drawerCellHeightMultiplier,*/
+        prefs.drawerFolderManager,
+        prefs.drawerSaveScrollPosition,
+        prefs.drawerHideScrollbar
+    )
 
-    val otherPrefs = remember(prefs.changePoker.collectAsState(initial = 1).value) {
-        mutableStateListOf(
-            *listOfNotNull(
-                prefs.drawerHiddenAppSet,
-                prefs.drawerEnableProtectedApps,
-                prefs.drawerCustomBackground,
-                if (prefs.drawerCustomBackground.getValue()) {
-                    prefs.drawerBackgroundColor
-                } else {
-                    null
-                },
-                prefs.drawerBackgroundOpacity
-            ).toTypedArray()
-        )
-    }
+    val customBackground = prefs.drawerCustomBackground.get().collectAsState(initial = prefs.drawerCustomBackground.getValue())
+    val otherPrefs = listOfNotNull(
+        prefs.drawerHiddenAppSet,
+        prefs.drawerEnableProtectedApps,
+        prefs.drawerCustomBackground,
+        if (customBackground.value) {
+            prefs.drawerBackgroundColor
+        } else {
+            null
+        },
+        prefs.drawerBackgroundOpacity
+    )
 
     ViewWithActionBar(
         title = stringResource(R.string.title__general_drawer)
