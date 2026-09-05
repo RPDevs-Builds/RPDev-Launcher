@@ -9,6 +9,12 @@
 </p>
 
 <p align="center">
+  <a href="https://wiki.iamrp.dev/projects/rpdev-launcher">
+    <img src="https://img.shields.io/badge/Wiki-wiki.iamrp.dev-6366f1?style=flat&logo=bookstack&logoColor=white" alt="Project Wiki" />
+  </a>
+  <a href="https://launcher.iamrp.dev">
+    <img src="https://img.shields.io/badge/Docs-launcher.iamrp.dev-0ea5e9?style=flat&logo=gitbook&logoColor=white" alt="Documentation Site" />
+  </a>
   <a href="https://github.com/RPDevs-Builds/RPDev-Launcher/releases/latest">
     <img src="https://img.shields.io/github/v/release/RPDevs-Builds/RPDev-Launcher?style=flat&labelColor=1a1a2e&color=4e54c8" alt="Latest stable release version"/>
   </a>
@@ -74,15 +80,15 @@
 
 ---
 
-## 📱 Screenshots
+## 📱 Screenshots (Android 16 - DevPixel16)
 
-| <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/desktop_icons.png" alt="Desktop" width="300"/> | <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/desktop_dash.png" alt="Dash" width="300"/> | <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/settings.png" alt="Settings" width="300"/> |
+| <img src="docs/screenshots/launcher_home_devpixel16.png" alt="Desktop Workspace" width="280"/> | <img src="docs/screenshots/launcher_drawer_devpixel16.png" alt="App Drawer" width="280"/> | <img src="docs/screenshots/feed_overlay_devpixel16.png" alt="RPDev Feed Overlay" width="280"/> |
 |:---:|:---:|:---:|
-| **Desktop Workspace** | **The Dash** | **Preferences** |
+| **Desktop Workspace** | **App Drawer** | **Live -1 Feed Overlay** |
 
-| <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/profile.png" alt="Theme" width="300"/> | <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/gestures.png" alt="Gestures" width="300"/> | <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/dash.png" alt="Control Center" width="300"/> |
+| <img src="docs/screenshots/launcher_search_feed_settings_devpixel16.png" alt="Search & Feed Hub" width="280"/> | <img src="docs/screenshots/feed_provider_dialog_devpixel16.png" alt="Disambiguated Provider" width="280"/> | <img src="docs/screenshots/launcher_folder_settings_devpixel16.png" alt="Folder Geometry" width="280"/> |
 |:---:|:---:|:---:|
-| **Theme &amp; Profile** | **Gestures** | **Quick Controls** |
+| **Companion Hub Integration** | **Feed Provider Selection** | **Folder Styling &amp; Geometry** |
 
 ---
 

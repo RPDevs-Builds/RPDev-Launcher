@@ -24,3 +24,5 @@ gradlew*
 /.vscode/settings.json
 /aospOmega/neo/
 /aospOmega/release/
+reference/
+

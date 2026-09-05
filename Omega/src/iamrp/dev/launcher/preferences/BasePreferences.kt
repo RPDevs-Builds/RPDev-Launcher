@@ -252,9 +252,33 @@ open class StringSelectionPref(
     dataStore: DataStore<Preferences>,
     key: Preferences.Key<String>,
     val defaultValue: String = "",
-    val entries: Map<String, String>,
+    private val _entries: Map<String, String> = emptyMap(),
+    private val entriesProvider: (() -> Map<String, String>)? = null,
     onChange: (String) -> Unit = { }
-) : PrefDelegate<String>(titleId, summaryId, dataStore, key, defaultValue, onChange)
+) : PrefDelegate<String>(titleId, summaryId, dataStore, key, defaultValue, onChange) {
+
+    constructor(
+        @StringRes titleId: Int,
+        @StringRes summaryId: Int = -1,
+        dataStore: DataStore<Preferences>,
+        key: Preferences.Key<String>,
+        defaultValue: String = "",
+        entries: Map<String, String>,
+        onChange: (String) -> Unit = { }
+    ) : this(
+        titleId = titleId,
+        summaryId = summaryId,
+        dataStore = dataStore,
+        key = key,
+        defaultValue = defaultValue,
+        _entries = entries,
+        entriesProvider = null,
+        onChange = onChange
+    )
+
+    val entries: Map<String, String>
+        get() = entriesProvider?.invoke() ?: _entries
+}
 
 open class StringSetPref(
     @StringRes titleId: Int,

@@ -80,18 +80,36 @@ private fun summarizeLocale(locale: Locale, localeAndroidCode: String): String {
 }
 
 fun Context.getFeedProviders(): Map<String, String> {
+    val rawProviders = availableFeedProviders()
+    val hasRpDevFeed = rawProviders.any { it.packageName == "iamrp.dev.feed" }
+    val filtered = rawProviders.filter {
+        !(hasRpDevFeed && it.packageName.startsWith("com.saulhdev.neofeed"))
+    }
+
     val feeds = listOf(
         ProviderInfo(getString(R.string.none), "", getIcon())
-    ) + availableFeedProviders().map {
+    ) + filtered.map {
+        val label = it.loadLabel(packageManager)?.toString()
+            ?.takeIf { l -> l.isNotBlank() && l != "null" }
+            ?: it.packageName
         ProviderInfo(
-            it.loadLabel(packageManager).toString(),
+            label,
             it.packageName,
             it.loadIcon(packageManager)
         )
     }
 
-    val entries = feeds.map { it.displayName }.toTypedArray()
-    val entryValues = feeds.map { it.packageName }.toTypedArray()
+    val counts = feeds.groupingBy { it.displayName }.eachCount()
+    val disambiguatedFeeds = feeds.map {
+        if ((counts[it.displayName] ?: 0) > 1 && it.packageName.isNotEmpty()) {
+            ProviderInfo("${it.displayName} (${it.packageName})", it.packageName, it.icon)
+        } else {
+            it
+        }
+    }
+
+    val entries = disambiguatedFeeds.map { it.displayName }.toTypedArray()
+    val entryValues = disambiguatedFeeds.map { it.packageName }.toTypedArray()
     return entryValues.zip(entries).toMap()
 }
 

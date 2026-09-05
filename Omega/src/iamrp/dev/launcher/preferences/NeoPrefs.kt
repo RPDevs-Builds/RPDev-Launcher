@@ -1334,7 +1334,7 @@ class NeoPrefs private constructor(val context: Context) {
         key = PrefKey.FEED_PROVIDER,
         titleId = R.string.title_feed_provider,
         defaultValue = "",
-        entries = context.getFeedProviders(),
+        entriesProvider = { context.getFeedProviders() },
         onChange = { reloadModel() }
     )
 
