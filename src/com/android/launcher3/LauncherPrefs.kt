@@ -166,12 +166,15 @@ constructor(@ApplicationContext private val encryptedContext: Context) {
                 )
         }
 
+    private val mListeners = ConcurrentHashMap.newKeySet<LauncherPrefChangeListener>()
+
     /**
      * After calling this method, the listener will be notified of any future updates to the
      * `SharedPreferences` files associated with the provided list of items. The listener will need
      * to filter update notifications so they don't activate for non-relevant updates.
      */
     fun addListener(listener: LauncherPrefChangeListener, vararg items: Item) {
+        mListeners.add(listener)
         items
             .map { getSharedPrefs(it) }
             .distinct()
@@ -183,6 +186,7 @@ constructor(@ApplicationContext private val encryptedContext: Context) {
      * `SharedPreferences` files associated with any of the provided list of [Item].
      */
     fun removeListener(listener: LauncherPrefChangeListener, vararg items: Item) {
+        mListeners.remove(listener)
         // If a listener is not registered to a SharedPreference, unregistering it does nothing
         items
             .map { getSharedPrefs(it) }
