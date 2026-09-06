@@ -5,6 +5,19 @@ All notable changes to **RPDev-Launcher** are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2026-09-06 (GA Graduation, Deadlock Elimination & Lifecycle Hardening)
+
+### Fixed
+- **🔒 Concurrency & Deadlock Elimination**:
+  - Resolved critical potential AB-BA lock inversion in `LauncherModel.java` between `mCallbacksList` and `mModelLock` by decoupling callback iteration from internal model state synchronization.
+  - Implemented lock-free atomic snapshotting for callback listener dispatches across main and background executor threads.
+- **🛡️ Lifecycle & Memory Retention**:
+  - Hardened `LauncherPrefs` SharedPreferences change listener lifecycle with strong instance caching in `LauncherAppState`, preventing premature garbage collection and dropped preference updates.
+  - Enforced clean CoroutineScope lifecycle scoping tied to Activity and Window attachment states, preventing background coroutine leaks.
+- **📦 Platform Baseline & Production Release**:
+  - Established Android 14+ (`minSdk = 34`, `targetSdk = 37`, `compileSdk = 37`) sovereign baseline with zero pre-Android 14 legacy bloat.
+  - Verified R8 ProGuard code shrinking and obfuscation rules for clean production release packaging.
+
 ---
 
 ## [1.1.0] - 2026-09-03 (Search Engine Hardening, Folder Outline Customization & Single Home Activity Fix)

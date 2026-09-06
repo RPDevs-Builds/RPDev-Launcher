@@ -31,11 +31,8 @@ android {
             signingConfig = signingConfigs.getByName("debug")
         }
         register("neo") {
-            isMinifyEnabled = true
         }
         release {
-            isMinifyEnabled = true
-            setProguardFiles(listOf("proguard-android-optimize.txt", "proguard.flags"))
         }
     }
     
