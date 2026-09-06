@@ -220,7 +220,7 @@ constructor(
 
     /** Removes an existing callback */
     fun removeCallbacks(callbacks: BgDataModel.Callbacks) {
-        synchronized(mCallbacksList) {
+        synchronized(mLock) {
             if (mCallbacksList.remove(callbacks)) {
                 if (stopLoader()) {
                     // Rebind existing callbacks
@@ -237,14 +237,14 @@ constructor(
      */
     fun addCallbacksAndLoad(callbacks: BgDataModel.Callbacks): Boolean {
         synchronized(mLock) {
-            addCallbacks(callbacks)
+            mCallbacksList.add(callbacks)
             return startLoader(arrayOf(callbacks))
         }
     }
 
     /** Adds a callbacks to receive model updates */
     fun addCallbacks(callbacks: BgDataModel.Callbacks) {
-        synchronized(mCallbacksList) { mCallbacksList.add(callbacks) }
+        synchronized(mLock) { mCallbacksList.add(callbacks) }
     }
 
     /**
@@ -462,12 +462,12 @@ constructor(
     }
 
     /** Returns true if there are any callbacks attached to the model */
-    fun hasCallbacks() = synchronized(mCallbacksList) { mCallbacksList.isNotEmpty() }
+    fun hasCallbacks() = synchronized(mLock) { mCallbacksList.isNotEmpty() }
 
     /** Returns an array of currently attached callbacks */
     val callbacks: Array<BgDataModel.Callbacks>
         get() {
-            synchronized(mCallbacksList) {
+            synchronized(mLock) {
                 return mCallbacksList.toTypedArray<BgDataModel.Callbacks>()
             }
         }
